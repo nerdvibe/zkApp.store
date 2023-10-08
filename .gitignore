@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+node_modules
+.env
+.env.*
+coverage
+dist/**/*
+
+yarn.lock
+*.swp
+.idea
+.vscode
