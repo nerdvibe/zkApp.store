@@ -1,0 +1,17 @@
+.footer-link {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+  opacity: .7;
+}
+
+.footer-link:hover {
+  opacity: 1;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+}
