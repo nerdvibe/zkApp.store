@@ -1,5 +1,5 @@
 import { Avatar, Button, Image, Tab, Tabs } from "@nextui-org/react";
-import Description from "../components/Product/ProductTabs/Description";
+import Description from "../components/Product/ProductTabs/Description/Description";
 import Reviews from "../components/Product/ProductTabs/Reviews";
 import Stats from "../components/Product/ProductTabs/Stats";
 import Audits from "../components/Product/ProductTabs/Audits";
@@ -11,6 +11,7 @@ import { selectIsProductFavorite } from "../store/favourites";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { toggleFavorite } from "../store/favourites";
+import mock from "@/mocks/product.json";
 
 const tabs = [
   { key: "description", title: "Description", component: <Description /> },
@@ -23,6 +24,7 @@ export default function Product() {
   const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const isFavourite = selectIsProductFavorite("123")(state);
+  const { title, creator, shortDescription, link, social } = mock;
 
   const toggleFavouriteProduct = () => {
     dispatch(toggleFavorite("123"));
@@ -45,7 +47,7 @@ export default function Product() {
           />
           <div className="h-full flex flex-col justify-center">
             <h1 className="text-white text-3xl font-bold">
-              CyberpunKYC
+              {title}
               <FontAwesomeIcon
                 className="text-sm px-4 text-red-600 cursor-pointer mb-1"
                 icon={isFavourite ? faHeartFull : faHeart}
@@ -53,14 +55,16 @@ export default function Product() {
               />
             </h1>
             <p className="text-white text-lg">
-              cyberpnk.mina - Decentralized KYC identity - @dappDeveloper
+              {shortDescription} - @{creator}
             </p>
           </div>
         </div>
         <div className="flex flex-col items-center gap-4 my-4">
-          <Button className="w-full" color="primary">
-            Use now
-          </Button>
+          {link && (
+            <Button className="w-full" color="primary">
+              Use now
+            </Button>
+          )}
           <SocialButtonsShare />
         </div>
       </div>
@@ -71,6 +75,7 @@ export default function Product() {
           radius="full"
           aria-label="Tabs variants"
           color="primary"
+          variant="light"
         >
           {tabs.map(({ key, component, title }) => (
             <Tab key={key} title={title}>

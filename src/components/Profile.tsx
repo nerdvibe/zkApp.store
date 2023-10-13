@@ -2,6 +2,10 @@ import { Avatar, Button, Image, Tab, Tabs } from "@nextui-org/react";
 import SocialButtonsShare from "./SocialButtonsShare";
 import UserApps from "./User/UserApps";
 import UserUpdates from "./User/UserUpdates";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { useParams } from "react-router-dom";
+import mock from "@/mocks/user-profile.json";
 
 const tabs = [
   { key: "zkapps", title: "zkApps", component: <UserApps /> },
@@ -9,11 +13,15 @@ const tabs = [
 ];
 
 export default function Profile() {
+  const currentUser = useSelector((state: RootState) => state.session.user);
+  const { id: urlId } = useParams();
+  const isCurrentUser = currentUser?.id === urlId;
+
   return (
     <div className="w-full flex flex-col gap-8">
       <div className="w-full object-cover flex">
         <Image
-          src="/images/banner.png"
+          src={mock.banner}
           className="w-full max-h-[200px] object-cover"
           removeWrapper
         />
@@ -21,27 +29,31 @@ export default function Profile() {
       <div className="flex flex-row gap-4 justify-between px-8">
         <div className="flex flex-row gap-4">
           <Avatar
-            src="/images/banner.png"
+            src={mock?.avatar || "/images/banner.png"}
             className="w-[100px] h-[100px] object-cover"
           />
           <div className="h-full flex flex-col justify-center">
             <div className="flex flex-row gap-2 items-center">
               <h1 className="text-white text-3xl font-bold inline">
-                @dappDeveloper
+                @{mock?.username}
               </h1>
               <Image
                 src="/icons/verified.png"
                 className="inline min-w-[18px]"
               />
             </div>
-            <p className="text-white text-lg">3234 Followers</p>
+            <p className="text-white text-lg">{mock.followers} Followers</p>
           </div>
         </div>
         <div className="flex flex-col items-center gap-4 my-4">
-          <Button className="ml-5 w-full" color="primary">
+          <Button
+            className="ml-5 w-full"
+            color="primary"
+            disabled={isCurrentUser}
+          >
             Follow
           </Button>
-          <SocialButtonsShare />
+          <SocialButtonsShare {...mock.social} />
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -51,6 +63,7 @@ export default function Profile() {
           radius="full"
           aria-label="Tabs variants"
           color="primary"
+          variant="light"
         >
           {tabs.map(({ key, component, title }) => (
             <Tab key={key} title={title}>

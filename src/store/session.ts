@@ -14,6 +14,7 @@ interface SessionState {
   error: null;
   success: false; // for monitoring the registration process.
   authToken: string | null;
+  refreshToken: string | null;
   logged: boolean;
   user: IUser | null;
 }
@@ -21,6 +22,7 @@ interface SessionState {
 // Define the initial state using that type
 const initialState: SessionState = {
   authToken: null,
+  refreshToken: null,
   logged: false,
   user: null,
   error: null,
@@ -35,11 +37,13 @@ export const sessionSlice = createSlice({
     login: (state, { payload }) => {
       state.logged = true;
       state.authToken = payload.token;
+      state.refreshToken = `refresh-${payload.token}`;
       state.user = payload.user;
     },
     logout: (state) => {
       state.logged = false;
       state.authToken = null;
+      state.refreshToken = null;
       state.user = null;
     },
   },

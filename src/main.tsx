@@ -6,7 +6,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
-import { apolloClient } from "./api.ts";
+import { apolloClient } from "./api/api.ts";
 import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 

@@ -7,27 +7,51 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthenticationForm from "../components/Registration/AuthenticationForm";
 import AuthenticationImage from "../components/AuthenticationImage";
 import { useDispatch } from "react-redux";
-import { login } from "../store/session";
 import routes from "../routes";
 import SocialButtons from "../components/SocialButtons";
+import { useMutation } from "@apollo/client";
+import { LOGIN, SIGNUP } from "../api/queries";
+import { login } from "../store/session";
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginMutation] = useMutation(SIGNUP);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const loginHandler = () => {
+    loginMutation({
+      variables: {
+        email: "123",
+        password: "234",
+      },
+    });
     dispatch(
       login({
+        // TODO: Update with gql
         user: {
-          username: "Test user",
+          username: "dappDeveloper",
           email: "test@gmail.com",
           avatar: "https://i.pravatar.cc/300",
+          id:123
         },
-        token: "1234",
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2IwMzMzNDAzNjAwYmJlNTU3OThkNSIsImlhdCI6MTY5ODM2NjI1OSwiZXhwIjoxNjk4MzY5ODU5fQ.GMwK6Vw8aFigr05pRUukZ-T2kWF-7RbsbUUbT_dLbJw",
       })
     );
+    // dispatch(
+    //   login({
+    //     user: {
+    //       username: "Test user",
+    //       email: "test@gmail.com",
+    //       avatar: "https://i.pravatar.cc/300",
+    //     },
+    //     token: "1234",
+    //   })
+    // );
     navigate(routes.LANDING);
   };
 
@@ -51,12 +75,11 @@ export default function Login() {
             </div>
             <div className="flex flex-col items-center justify-stretch gap-8">
               <DarkInput
-                isReadOnly
+                value={email}
+                onChange={(e) => setEmail(e.currentTarget.value)}
                 type="email"
                 label="Email"
                 variant="bordered"
-                defaultValue="junior@nextui.org"
-                className=""
               />
               <DarkInput
                 label="Password"

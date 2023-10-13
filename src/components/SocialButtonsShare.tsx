@@ -5,27 +5,46 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function SocialButtonsShare() {
+interface IProps {
+  github?: string;
+  discord?: string;
+  twitter?: string;
+}
+
+export default function SocialButtonsShare({
+  discord,
+  github,
+  twitter,
+}: IProps) {
+  const openLink = (link: string) => {
+    window.open(link, "_newtab");
+  };
   return (
     <div className="flex gap-4">
-      <FontAwesomeIcon
-        onClick={() => null}
-        className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
-        size="2xl"
-        icon={faTwitter}
-      />
-      <FontAwesomeIcon
-        onClick={() => null}
-        className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
-        size="2xl"
-        icon={faDiscord}
-      />
-      <FontAwesomeIcon
-        onClick={() => null}
-        className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
-        size="2xl"
-        icon={faGithub}
-      />
+      {twitter && (
+        <FontAwesomeIcon
+          onClick={() => openLink(twitter)}
+          className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
+          size="2xl"
+          icon={faTwitter}
+        />
+      )}
+      {discord && (
+        <FontAwesomeIcon
+          onClick={() => openLink(discord)}
+          className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
+          size="2xl"
+          icon={faDiscord}
+        />
+      )}
+      {github && (
+        <FontAwesomeIcon
+          onClick={() => openLink(github)}
+          className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
+          size="2xl"
+          icon={faGithub}
+        />
+      )}
     </div>
   );
 }

@@ -22,6 +22,7 @@ interface CustomCardProps {
     | "secondary"
     | "warning"
     | "danger";
+  image?: string;
 }
 
 export default function CustomCard({
@@ -32,14 +33,19 @@ export default function CustomCard({
   key,
   buttonColor,
   onClick,
+  image,
 }: CustomCardProps) {
   return (
     <Card className="py-4 min-w-[250px] max-w-[350px]" key={key}>
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start w-full">
         <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src="https://nextui.org/images/hero-card.jpeg"
+          src={image || "https://nextui.org/images/hero-card.jpeg"}
+          style={{
+            maxHeight: "250px",
+            width: "250px",
+          }}
         />
       </CardHeader>
       <CardBody className="overflow-visible py-2 gap-2">

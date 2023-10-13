@@ -29,9 +29,14 @@ export default function Dashboard() {
       </p>
       {!nApps ? (
         <EmptyState />
-    ) : (
+      ) : (
         <div className="flex w-full flex-col items-center">
-          <Tabs key={"primary"} color={"primary"} aria-label="Tabs colors">
+          <Tabs
+            key={"primary"}
+            color={"primary"}
+            aria-label="Tabs colors"
+            variant="light"
+          >
             {tabs.map(({ label, component }) => (
               <Tab className="w-full" key={label} title={label}>
                 <div className="w-full flex items-center justify-center">

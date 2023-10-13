@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 const tabs = [
   { key: "Trending", title: "Trending", component: <Trending /> },
-  { key: "MostUsed", title: "MostUsed", component: <MostUsed /> },
+  { key: "MostUsed", title: "Most used", component: <MostUsed /> },
   { key: "News", title: "News", component: <MostUsed /> },
 ];
 
@@ -31,6 +31,7 @@ export default function Category() {
           key={"underlined"}
           radius="full"
           aria-label="Tabs variants"
+          variant="light"
         >
           {tabs.map(({ key, component, title }) => (
             <Tab key={key} title={title}>
