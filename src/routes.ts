@@ -9,4 +9,7 @@ export default {
   DASHBOARD: "/dashboard",
   FORGOT_PASSWORD: "/forgot",
   PROFILE: "/profile",
+  RESET_ACCOUNT: "/reset-account",
+  SETTINGS: "/settings",
+  VERIFY_EMAIL: "/verify-email",
 };

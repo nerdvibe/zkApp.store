@@ -10,22 +10,39 @@ import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
 import { logout } from "../../store/session";
+import { useLogoutMutation } from "../../gql/generated";
+import { toast } from "react-hot-toast";
 
 export default function User() {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.session.logged
+  );
   const user = useSelector((state: RootState) => state.session.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [logoutSession] = useLogoutMutation();
 
-  const logoutHandler = () => {
-    dispatch(logout());
-    navigate(routes.LANDING);
+  const logoutHandler = async () => {
+    try {
+      await logoutSession();
+      toast.success("Successfully logged out");
+    } catch (error) {
+      toast.error("There was an error while logging out");
+    } finally {
+      dispatch(logout());
+      navigate(routes.LANDING);
+    }
   };
 
   const goToProfile = () => {
     navigate(`${routes.PROFILE}/${user?.username}`);
   };
 
-  return user ? (
+  const goToSettings = () => {
+    navigate(routes.SETTINGS);
+  };
+
+  return isAuthenticated ? (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
         <Avatar
@@ -47,7 +64,9 @@ export default function User() {
           <p className="font-semibold">Signed in as</p>
           <p className="font-semibold">{user?.username}</p>
         </DropdownItem>
-        <DropdownItem key="settings">My Settings</DropdownItem>
+        <DropdownItem key="settings" onClick={goToSettings}>
+          My Settings
+        </DropdownItem>
         <DropdownItem key="analytics">Analytics</DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
         <DropdownItem key="logout" color="danger" onClick={logoutHandler}>

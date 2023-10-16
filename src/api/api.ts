@@ -11,23 +11,31 @@ import { REFRESH } from "./queries";
 import { isTokenExpired, parseJwt } from "../util/jwt";
 import { login } from "../store/session";
 
-const renewTokenApiClient = new ApolloClient({
-  link: createHttpLink({ uri: process.env.REACT_APP_GQL_SERVER }) as any,
-  credentials: "include",
-  cache: new InMemoryCache(),
-});
+const renewTokenApiClient = (oldToken: string) =>
+  new ApolloClient({
+    link: createHttpLink({
+      uri: import.meta.env.VITE_REACT_APP_GQL_SERVER,
+      headers: {
+        authorization: oldToken ? `Bearer ${oldToken}` : "",
+      },
+    }) as any,
+    credentials: "include",
+    cache: new InMemoryCache(),
+  });
 
 const authLink = new ApolloLink((operation, forward) => {
   let token = store.getState().session.authToken;
-  const decodedToken = parseJwt(token!);
-  if (isTokenExpired(decodedToken)) {
-    renewToken();
-    token = store.getState().session.authToken;
+  if (token) {
+    const decodedToken = parseJwt(token!);
+    if (isTokenExpired(decodedToken)) {
+      renewToken();
+      token = store.getState().session.authToken;
+    }
   }
   operation.setContext(({ headers }: { headers: Headers }) => ({
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : undefined,
     },
   }));
   return forward(operation);
@@ -45,7 +53,7 @@ const httpLink = ApolloLink.from([
     if (networkError) console.log(`[Network error]: ${networkError}`);
   }),
   new HttpLink({
-    uri: process.env.REACT_APP_GQL_SERVER,
+    uri: import.meta.env.VITE_REACT_APP_GQL_SERVER,
     credentials: "same-origin",
     fetchOptions: {
       reconnect: true,
@@ -62,30 +70,21 @@ const httpLink = ApolloLink.from([
 
 const renewToken = async () => {
   const oldRefreshToken = store.getState().session.refreshToken;
-  // const {
-  //   data: { accessToken, refreshToken },
-  // } =
-
-  // store.dispatch(
-  //   login({
-  //     token: "XYZ",
-  //   })
-  // );
-  // const token = store.getState().session.authToken;
-  // console.log("🚀 ~ file: api.ts:81 ~ .finally ~ token:", token);
-  await renewTokenApiClient
+  const oldToken = store.getState().session.authToken!;
+  await renewTokenApiClient(oldToken)
     .mutate({
       mutation: REFRESH,
-      variables: { input: { renewalToken: oldRefreshToken } },
+      variables: { refreshToken: oldRefreshToken },
     })!
     .then(({ data }) => {
-      const { accessToken, refreshToken } = data;
+      const { refreshToken } = data;
       store.dispatch(
         login({
-          token: accessToken,
+          authToken: refreshToken.accessToken,
+          refreshToken: refreshToken.refreshToken,
         })
       );
-      return accessToken;
+      return refreshToken.accessToken;
     });
 };
 

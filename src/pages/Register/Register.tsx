@@ -8,8 +8,10 @@ import { useState } from "react";
 import WhoamiForm, {
   IWhoamiForm,
 } from "../../components/Registration/WhoamiForm";
+import { useSignupMutation } from "../../gql/generated";
 
 export default function Register() {
+  const [signup] = useSignupMutation();
   const [registrationStep, setRegistrationStep] = useState<
     "REGISTRATION" | "WHOAMI"
   >("REGISTRATION");
@@ -18,10 +20,11 @@ export default function Register() {
     username: "",
     password: "",
     confirmPassword: "",
+    isDeveloper: false,
     bio: "",
-    twitter: "",
-    github: "",
-    discord: "",
+    discordUrl: "",
+    githubUsername: "",
+    xUsername: "",
   });
 
   const onRegistrationSubmit = (values: IRegistrationForm) => {
@@ -29,16 +32,26 @@ export default function Register() {
     setRegistrationStep("WHOAMI");
   };
 
-  const onWhoamiSubmit = (values: IWhoamiForm) => {
+  const onWhoamiSubmit = async (values: IWhoamiForm) => {
     setRegistrationForm({ ...registrationForm, ...values });
+    const { email, password, isDeveloper, username } = registrationForm;
+    const result = await signup({
+      variables: {
+        email,
+        password,
+        isDeveloper,
+        username,
+      },
+    });
+    console.log("🚀 ~ file: Register.tsx:46 ~ onWhoamiSubmit ~ result:", result)
     // FEEDBACK
   };
 
   return (
-    <AuthenticationForm title={"> Let’s be friends"}>
+    <AuthenticationForm title={"> Let’s be friends"} minHeight={800}>
       <>
-        <Card className="w-full bg-[#1D1932] flex-1 max-w-[500px] ">
-          <CardBody className="flex gap-10 min-w-[350px]">
+        <Card className="w-full bg-[#1D1932] flex-1 max-w-[500px]  min-w-[350px]">
+          <CardBody className="flex gap-10">
             {registrationStep === "WHOAMI" && (
               <WhoamiForm onSubmit={onWhoamiSubmit} />
             )}

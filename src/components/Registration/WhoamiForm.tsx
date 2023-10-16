@@ -66,35 +66,35 @@ export default function WhoamiForm({ onSubmit }: IWhoamiFormProps) {
               <DarkInput
                 startContent={<FontAwesomeIcon icon={faUser} />}
                 type="text"
-                label="Twitter"
+                label="X username"
                 variant="bordered"
-                placeholder="Twitter username"
+                placeholder="x username"
                 name="twitter"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.twitter}
+                value={values.xUsername}
               />
               <DarkInput
                 startContent={<FontAwesomeIcon icon={faUser} />}
-                label="Github"
+                label="Github username"
                 variant="bordered"
                 placeholder="Github username"
                 type={"text"}
                 name="github"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.github}
+                value={values.githubUsername}
               />
               <DarkInput
                 startContent={<FontAwesomeIcon icon={faUser} />}
-                label="Discord"
+                label="Discord link"
                 variant="bordered"
                 placeholder="Do you have a Discord server?"
                 type={"text"}
                 name="discord"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.discord}
+                value={values.discordUrl}
               />
               <FileUploader
                 handleChange={handleChange}

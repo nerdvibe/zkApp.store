@@ -40,11 +40,14 @@ export default function CustomCard({
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start w-full">
         <Image
           alt="Card background"
+          isBlurred
           className="object-cover rounded-xl"
           src={image || "https://nextui.org/images/hero-card.jpeg"}
+          width={250}
+          height={250}
           style={{
-            maxHeight: "250px",
-            width: "250px",
+            height: "250px",
+            width: "220px",
           }}
         />
       </CardHeader>

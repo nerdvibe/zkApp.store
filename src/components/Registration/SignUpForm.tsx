@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import { initialRegistrationForm, validateRegistration } from "./util";
 import DarkInput from "../DarkInput";
 import { EyeSlashFilledIcon } from "../../assets/icons/EyeSlashed";
 import { EyeFilledIcon } from "../../assets/icons/EyeFilled";
-import { Button } from "@nextui-org/react";
+import { Button, Checkbox } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
@@ -15,6 +15,7 @@ export interface IRegistrationForm {
   username: string;
   password: string;
   confirmPassword: string;
+  isDeveloper: boolean;
 }
 
 interface ISignUpFormProps {
@@ -56,6 +57,9 @@ export default function SignUpForm({ onSubmit }: ISignUpFormProps) {
             handleBlur,
             values,
             handleSubmit,
+            isValid,
+            dirty,
+            setValues,
           }) => (
             <form
               className="flex flex-col items-center justify-stretch gap-6 w-full"
@@ -122,7 +126,7 @@ export default function SignUpForm({ onSubmit }: ISignUpFormProps) {
                   <button
                     className="focus:outline-none"
                     type="button"
-                    onClick={() => setShowConfirmPassword(!showPassword)}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
                     {showConfirmPassword ? (
                       <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
@@ -143,13 +147,23 @@ export default function SignUpForm({ onSubmit }: ISignUpFormProps) {
                 }
                 startContent={<FontAwesomeIcon icon={faLock} />}
               />
+              <div className="w-full">
+                <Checkbox
+                  isSelected={values.isDeveloper}
+                  onValueChange={(e) => {
+                    setValues({ ...values, isDeveloper: e });
+                  }}
+                >
+                  I am a zkApp Publisher
+                </Checkbox>
+              </div>
               <Button
                 color="primary"
                 className="w-full"
                 type="submit"
-                disabled={isSubmitting}
+                isDisabled={!isValid || isSubmitting || !dirty}
               >
-                Register
+                Next
               </Button>
             </form>
           )}

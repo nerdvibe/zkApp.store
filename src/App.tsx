@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import { AppRoutes } from "./Router";
 import { useDispatch } from "react-redux";
 import { toggleLoader } from "./store/config";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,19 @@ function App() {
           <AppRoutes />
         </div>
       </main>
+      <div>
+        <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+          toastOptions={{
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }
