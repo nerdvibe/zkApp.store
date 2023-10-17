@@ -10,9 +10,9 @@ import { useState } from "react";
 
 export interface IWhoamiForm {
   bio: string;
-  twitter: string;
-  github: string;
-  discord: string;
+  xUsername: string;
+  githubUsername: string;
+  discordUrl: string;
   file: any;
 }
 
@@ -68,8 +68,8 @@ export default function WhoamiForm({ onSubmit }: IWhoamiFormProps) {
                 type="text"
                 label="X username"
                 variant="bordered"
-                placeholder="x username"
-                name="twitter"
+                placeholder="X username"
+                name="xUsername"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.xUsername}
@@ -80,7 +80,7 @@ export default function WhoamiForm({ onSubmit }: IWhoamiFormProps) {
                 variant="bordered"
                 placeholder="Github username"
                 type={"text"}
-                name="github"
+                name="githubUsername"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.githubUsername}
@@ -91,7 +91,7 @@ export default function WhoamiForm({ onSubmit }: IWhoamiFormProps) {
                 variant="bordered"
                 placeholder="Do you have a Discord server?"
                 type={"text"}
-                name="discord"
+                name="discordUrl"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.discordUrl}

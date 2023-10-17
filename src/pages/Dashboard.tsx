@@ -2,15 +2,27 @@ import { Tab, Tabs } from "@nextui-org/react";
 import UserApps from "../components/UserApps";
 import PublishUpdate from "../components/PublishUpdate";
 import EmptyState from "../components/Dashboard/EmptyState";
+import mock from "@/mocks/user-apps.json";
+import Analytics from "@/components/Dashboard/Analytics/Analytics";
+
+export interface UserApps {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  version: string;
+  score: string;
+  image: string;
+}
 
 const tabs = [
   {
     label: "zkApps",
-    component: <UserApps />,
+    component: <UserApps apps={mock.apps} />,
   },
   {
     label: "Analytics",
-    component: null,
+    component: <Analytics apps={mock.apps} />,
   },
   {
     label: "Publish update",
@@ -19,7 +31,7 @@ const tabs = [
 ];
 
 export default function Dashboard() {
-  const nApps = 0;
+  const nApps = mock.apps.length;
   return (
     <div className="flex flex-col gap-4 my-11 mx-8">
       <h1 className="text-4xl text-white font-bold">{"> Dashboard"}</h1>

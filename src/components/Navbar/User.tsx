@@ -12,6 +12,7 @@ import routes from "../../routes";
 import { logout } from "../../store/session";
 import { useLogoutMutation } from "../../gql/generated";
 import { toast } from "react-hot-toast";
+import UserIcon from "../User/UserIcon";
 
 export default function User() {
   const isAuthenticated = useSelector(
@@ -49,10 +50,12 @@ export default function User() {
           isBordered
           as="button"
           className="transition-transform"
-          color="secondary"
+          color="default"
           name={user?.username}
           size="sm"
-          src={user?.avatar}
+          fallback={
+            <UserIcon value={user?.username || user?.email || ""} size={30} />
+          }
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -62,7 +65,7 @@ export default function User() {
           onClick={goToProfile}
         >
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{user?.username}</p>
+          <p className="font-semibold">{user?.email || user?.username}</p>
         </DropdownItem>
         <DropdownItem key="settings" onClick={goToSettings}>
           My Settings

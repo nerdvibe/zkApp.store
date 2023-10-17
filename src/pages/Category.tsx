@@ -2,6 +2,7 @@ import { Button, Tab, Tabs } from "@nextui-org/react";
 import Trending from "../components/Category/CategoryTabs/Trending";
 import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
+import FollowButton from "../components/FollowButton";
 
 const tabs = [
   { key: "Trending", title: "Trending", component: <Trending /> },
@@ -21,9 +22,10 @@ export default function Category() {
       <h1 className="text-4xl text-white font-bold">#{id}</h1>
       <div className="flex text-white justify-between">
         <p className="text-xl">{appsNumber} zkApps</p>
-        <Button color="primary" onClick={onFollowClick}>
+        <FollowButton />
+        {/* <Button color="primary" onClick={onFollowClick}>
           Follow
-        </Button>
+        </Button> */}
       </div>
       <div className="flex flex-col gap-4">
         <Tabs

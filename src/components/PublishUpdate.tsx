@@ -1,20 +1,38 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import UpdateCard from "./PublishUpdate/UpdateCard";
 import AddUpdateCard from "./PublishUpdate/AddUpdateCard";
-
-const userApps = [
-  {
-    label: "CyberpunKYC",
-    value: "CyberpunKYC",
-  },
-];
+import { useState } from "react";
+import UpdateModal from "./PublishUpdate/UpdateModal";
+import mock from "@/mocks/user-updates";
 
 export default function PublishUpdate() {
+  const [selectedApp, setSelectedApp] = useState("");
+  const [updateData, setUpdateData] = useState();
+  const [addUpdateCard, setAddUpdateCard] = useState(false);
+  const { apps, updates } = mock;
+  const updateEdit = (data: unknown) => {
+    setAddUpdateCard(false);
+    setUpdateData(data);
+  };
+
+  const updateAdd = () => {
+    setAddUpdateCard(true);
+    setUpdateData({ title: "", description: "" });
+  };
+
   return (
     <div className="w-full flex flex-col gap-4 max-w-[2000px] items-center">
       <div className="w-full flex justify-end">
-        <Select size={"md"} label="Select an app" className="max-w-xs">
-          {userApps.map((app) => (
+        <Select
+          size={"md"}
+          label="Select an app"
+          className="max-w-xs text-white"
+          onChange={(e) => setSelectedApp(e.target.value)}
+        >
+          <SelectItem className="text-white" key={""} value={""}>
+            None
+          </SelectItem>
+          {apps.map((app) => (
             <SelectItem
               className="text-white"
               key={app.value}
@@ -27,10 +45,22 @@ export default function PublishUpdate() {
       </div>
       <div className="flex w-full justify-center">
         <div className="flex w-full flex-wrap gap-5 justify-center">
-          <AddUpdateCard />
-          <UpdateCard />
-          <UpdateCard />
-          <UpdateCard />
+          <AddUpdateCard setShowModal={updateAdd} />
+          <UpdateModal
+            toggleModal={() => setUpdateData(undefined)}
+            show={!!updateData}
+            data={updateData}
+            availableApps={apps}
+            initialSelectedApp={updateData?.app?.value || selectedApp}
+            add={addUpdateCard}
+          />
+          {updates
+            .filter((update) =>
+              selectedApp ? update.app.value === selectedApp : true
+            )
+            .map((update) => (
+              <UpdateCard update={update} onEdit={updateEdit} />
+            ))}
         </div>
       </div>
     </div>

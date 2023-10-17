@@ -7,7 +7,7 @@ export default function GlobalLoader() {
   return active ? (
     <div
       className={`w-full h-full flex justify-center fixed left-0 items-center overflow-x-hidden bg-[#00000099] transition-all duration-200 ${
-        active ? "opacity-100 z-10" : "opacity-0 -z-2"
+        active ? "opacity-100 z-50" : "opacity-0 -z-2"
       }`}
     >
       <Spinner size="lg" label="Loading" />

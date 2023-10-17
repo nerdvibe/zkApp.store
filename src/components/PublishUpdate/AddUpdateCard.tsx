@@ -5,34 +5,43 @@ import {
   CardFooter,
   CardHeader,
   Divider,
+  Skeleton,
 } from "@nextui-org/react";
 import { useState } from "react";
 import UpdateModal from "./UpdateModal";
 
-export default function AddUpdateCard() {
-  const [showModal, setShowModal] = useState(false);
+export default function AddUpdateCard({
+  setShowModal,
+}: {
+  setShowModal: () => void;
+}) {
   return (
-    <Card className="w-[600px] bg-[#1D1932] min-w-[400px]">
-      <UpdateModal
-        add
-        show={showModal}
-        toggleModal={() => setShowModal(!showModal)}
-      />
+    <Card className=" bg-[none] w-[400px] border-dashed border-2 border-gray-600">
       <CardHeader className="flex gap-3 flex-col items-start">
-        <div className="h-6 w-full rounded-lg bg-slate-500 opacity-50" />
-        <div className="w-3/4 h-4 rounded-lg bg-slate-500 opacity-50" />
+        <Skeleton isLoaded className="w-4/5 rounded-lg">
+          <div className="h-4 w-4/5 rounded-lg bg-default-200"></div>
+        </Skeleton>
+        <Skeleton isLoaded className="w-1/5 rounded-lg">
+          <div className="h-4 w-3/5 rounded-lg bg-default-200"></div>
+        </Skeleton>
       </CardHeader>
       <Divider />
       <CardBody className="flex gap-3 flex-col items-start justify-center">
-        <div className="h-4 w-full rounded-lg bg-slate-500 opacity-50" />
-        <div className="h-4 w-full rounded-lg bg-slate-500 opacity-50" />
-        <div className="h-4 w-full rounded-lg bg-slate-500 opacity-50" />
+        <Skeleton isLoaded className="w-full rounded-lg">
+          <div className="h-4 w-4/5 rounded-lg bg-default-300"></div>
+        </Skeleton>
+        <Skeleton isLoaded className="w-full rounded-lg">
+          <div className="h-4 w-2/5 rounded-lg bg-default-300"></div>
+        </Skeleton>
+        <Skeleton isLoaded className="w-full rounded-lg">
+          <div className="h-4 w-3/5 rounded-lg bg-default-300"></div>
+        </Skeleton>
       </CardBody>
       <CardFooter>
         <Button
           color="success"
           className="w-full mx-10 text-white"
-          onClick={() => setShowModal(true)}
+          onClick={setShowModal}
         >
           Add update
         </Button>

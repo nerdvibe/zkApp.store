@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+}
+
+#container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 900px;
+  height: 260px;
+  background-color: #fff;
+}
+
+.label {
+  font-family: sans-serif
+}
+
+.container {
+  border: 1px solid #f4f4f4;
+  width: 400px;
+  height: 400px;
+}

@@ -1,4 +1,4 @@
-query private {
+query userDetails {
   userDetails {
     email
     id
@@ -64,6 +64,12 @@ mutation updateResetPassword($resetToken: String!, $newPassword: String!) {
 
 mutation verifyEmail($emailVerificationToken: String!) {
   verifyEmail(emailVerificationToken: $emailVerificationToken) {
+    message
+  }
+}
+
+mutation updatePassword($newPassword: String!, $oldPassword: String!) {
+  updatePassword(newPassword: $newPassword, oldPassword: $oldPassword) {
     message
   }
 }

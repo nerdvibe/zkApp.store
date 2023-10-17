@@ -7,9 +7,11 @@ import { AppRoutes } from "./Router";
 import { useDispatch } from "react-redux";
 import { toggleLoader } from "./store/config";
 import { Toaster } from "react-hot-toast";
+import useTokenExpirationChecker from "./hooks/refreshToken";
 
 function App() {
   const dispatch = useDispatch();
+  useTokenExpirationChecker(1);
   useEffect(() => {
     dispatch(toggleLoader({ show: true }));
     setTimeout(() => {
@@ -17,20 +19,6 @@ function App() {
     }, 1500);
   }, []);
   return (
-    // <div className="">
-    //   <div>HEADER</div>
-    //   <div className="flex flex-row">
-    //     <div className="basis-1/4">
-    //       <div>SIDEBAR</div>
-    //     </div>
-    //     <div className="basis-3/4">
-    //       MAIN CONTENT
-    //       <div>HERO BANNER</div>
-    //       <div>CAROUSEL</div>
-    //       <div>FOOTER</div>
-    //     </div>
-    //   </div>
-    // </div>
     <div
       style={{
         display: "flex",

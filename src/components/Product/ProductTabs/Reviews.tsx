@@ -1,4 +1,3 @@
-import { Card, CardBody } from "@nextui-org/react";
 import Comment from "./Comment";
 
 interface IReviewsProps {

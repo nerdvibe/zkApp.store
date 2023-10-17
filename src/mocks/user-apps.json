@@ -1,0 +1,27 @@
+{
+  "apps": [{
+    "id": "123",
+    "title": "Daily Mix",
+    "description": "12 Tracks",
+    "category": "Authentication",
+    "version": "V1.0.1",
+    "score": "3",
+    "image": "https://nextui.org/images/hero-card.jpeg"
+  }, {
+    "id": "234",
+    "title": "EduSecuro",
+    "description": "Blockchain Academic Certifications",
+    "category": "Digital certification",
+    "version": "edusecuro.mina",
+    "score": "5",
+    "image": "https://nextui-docs-v2.vercel.app/images/album-cover.png"
+  }, {
+    "id": "345",
+    "title": "ArtChainX",
+    "description": "Immutable Art Authentication",
+    "category": "Authentication",
+    "version": "artchainx.mina",
+    "score": "4",
+    "image": "https://images.unsplash.com/photo-1698298160339-015dbdc387a0?auto=format&fit=crop&q=60&w=900&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDF8cVBZc0R6dkpPWWN8fGVufDB8fHx8fA%3D%3D"
+  }]
+}

@@ -11,7 +11,7 @@ export const initialWhoamiForm = {
   discordUrl: "",
   githubUsername: "",
   xUsername: "",
-  file: null,
+  file: undefined,
 };
 
 export const validateRegistration = (values: any) => {

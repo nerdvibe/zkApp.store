@@ -8,34 +8,35 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import { useState } from "react";
-import UpdateModal from "./UpdateModal";
+import UpdateModal, { IUpdateData } from "./UpdateModal";
 
-const mock = {
-  title: "CyberpunKYC v4.0: Simplified Inte...",
-  version: "v4.0.1",
-  description: `We are thrilled to announce the release of CyberpunKYC version 4.0,
-  designed to simplify integration and enhance scalability for
-  businesses of all sizes. With streamlined APIs and robust
-  infrastructure, this update empowers organizations to seamlessly
-  integrate CyberpunKYC into their existing systems and handle
-  high-volume verification requests with ease`,
-  key: 1,
-};
+export interface app {
+  value: string;
+  label: string;
+  key: number;
+}
 
-export default function UpdateCard() {
-  const { title, version, description } = mock;
-  const [showModal, setShowModal] = useState(false);
+interface IUpdateData {
+  update: {
+    title: string;
+    version: string;
+    description: string;
+    key: string;
+    app: app;
+  };
+  onEdit: (data: unknown) => void;
+}
+
+export default function UpdateCard({ update, onEdit }: IUpdateData) {
+  const { title, version, description, app } = update;
   return (
-    <Card className="max-w-[600px] bg-[#1D1932] min-w-[400px]">
-      <UpdateModal
-        toggleModal={() => setShowModal(!showModal)}
-        show={showModal}
-        data={mock}
-      />
+    <Card className=" bg-[#1D1932] max-w-[400px]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col gap-1 px-2">
           <h1 className="font-bold text-xl">{title}</h1>
-          <p className="text-small text-default-500">{version}</p>
+          <p className="text-small text-default-500">
+            {app.label} - {version}
+          </p>
         </div>
       </CardHeader>
       <Divider />
@@ -50,7 +51,7 @@ export default function UpdateCard() {
         <Button
           color="primary"
           className="min-w-[100px]"
-          onClick={() => setShowModal(true)}
+          onClick={() => onEdit(update)}
         >
           Edit
         </Button>

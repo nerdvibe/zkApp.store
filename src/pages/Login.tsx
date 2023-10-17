@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, Checkbox } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EyeFilledIcon } from "../assets/icons/EyeFilled";
 import { EyeSlashFilledIcon } from "../assets/icons/EyeSlashed";
 import DarkInput from "../components/DarkInput";
@@ -10,8 +10,9 @@ import { useDispatch } from "react-redux";
 import routes from "../routes";
 import SocialButtons from "../components/SocialButtons";
 import { login } from "../store/session";
-import { useLoginMutation } from "../gql/generated";
+import { useLoginMutation, useUserDetailsLazyQuery } from "../gql/generated";
 import { toast } from "react-hot-toast";
+import { toggleLoader } from "@/store/config";
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
@@ -38,11 +39,15 @@ export default function Login() {
           })
         );
         toast.success("Logged-in");
-        navigate(routes.LANDING);
+        dispatch(toggleLoader({ show: true }));
+        setTimeout(() => {
+          navigate(routes.LANDING);
+          dispatch(toggleLoader({ show: false }));
+        }, 500);
         return;
       }
     } catch (error) {
-      toast.error("Please check the email or password");
+      toast.error(error.message || "Wrong email or password");
     }
   };
 
@@ -75,7 +80,6 @@ export default function Login() {
               <DarkInput
                 label="Password"
                 variant="bordered"
-                placeholder="Enter your password"
                 onChange={(e) => setPassword(e.currentTarget.value)}
                 endContent={
                   <button

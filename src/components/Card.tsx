@@ -37,11 +37,11 @@ export default function CustomCard({
 }: CustomCardProps) {
   return (
     <Card className="py-4 min-w-[250px] max-w-[350px]" key={key}>
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start w-full">
+      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start w-full z-0">
         <Image
           alt="Card background"
           isBlurred
-          className="object-cover rounded-xl"
+          className="object-cover rounded-xl z-0"
           src={image || "https://nextui.org/images/hero-card.jpeg"}
           width={250}
           height={250}

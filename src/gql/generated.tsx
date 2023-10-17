@@ -103,10 +103,10 @@ export type User = {
   id: Scalars['String']['output'];
 };
 
-export type PrivateQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PrivateQuery = { __typename?: 'Query', userDetails?: { __typename?: 'User', email: string, id: string } | null };
+export type UserDetailsQuery = { __typename?: 'Query', userDetails?: { __typename?: 'User', email: string, id: string } | null };
 
 export type SignupMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -163,9 +163,17 @@ export type VerifyEmailMutationVariables = Exact<{
 
 export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail?: { __typename?: 'Message', message: string } | null };
 
+export type UpdatePasswordMutationVariables = Exact<{
+  newPassword: Scalars['String']['input'];
+  oldPassword: Scalars['String']['input'];
+}>;
 
-export const PrivateDocument = gql`
-    query private {
+
+export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword?: { __typename?: 'Message', message: string } | null };
+
+
+export const UserDetailsDocument = gql`
+    query userDetails {
   userDetails {
     email
     id
@@ -174,36 +182,36 @@ export const PrivateDocument = gql`
     `;
 
 /**
- * __usePrivateQuery__
+ * __useUserDetailsQuery__
  *
- * To run a query within a React component, call `usePrivateQuery` and pass it any options that fit your needs.
- * When your component renders, `usePrivateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePrivateQuery({
+ * const { data, loading, error } = useUserDetailsQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePrivateQuery(baseOptions?: Apollo.QueryHookOptions<PrivateQuery, PrivateQueryVariables>) {
+export function useUserDetailsQuery(baseOptions?: Apollo.QueryHookOptions<UserDetailsQuery, UserDetailsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PrivateQuery, PrivateQueryVariables>(PrivateDocument, options);
+        return Apollo.useQuery<UserDetailsQuery, UserDetailsQueryVariables>(UserDetailsDocument, options);
       }
-export function usePrivateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrivateQuery, PrivateQueryVariables>) {
+export function useUserDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserDetailsQuery, UserDetailsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PrivateQuery, PrivateQueryVariables>(PrivateDocument, options);
+          return Apollo.useLazyQuery<UserDetailsQuery, UserDetailsQueryVariables>(UserDetailsDocument, options);
         }
-export function usePrivateSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PrivateQuery, PrivateQueryVariables>) {
+export function useUserDetailsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserDetailsQuery, UserDetailsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PrivateQuery, PrivateQueryVariables>(PrivateDocument, options);
+          return Apollo.useSuspenseQuery<UserDetailsQuery, UserDetailsQueryVariables>(UserDetailsDocument, options);
         }
-export type PrivateQueryHookResult = ReturnType<typeof usePrivateQuery>;
-export type PrivateLazyQueryHookResult = ReturnType<typeof usePrivateLazyQuery>;
-export type PrivateSuspenseQueryHookResult = ReturnType<typeof usePrivateSuspenseQuery>;
-export type PrivateQueryResult = Apollo.QueryResult<PrivateQuery, PrivateQueryVariables>;
+export type UserDetailsQueryHookResult = ReturnType<typeof useUserDetailsQuery>;
+export type UserDetailsLazyQueryHookResult = ReturnType<typeof useUserDetailsLazyQuery>;
+export type UserDetailsSuspenseQueryHookResult = ReturnType<typeof useUserDetailsSuspenseQuery>;
+export type UserDetailsQueryResult = Apollo.QueryResult<UserDetailsQuery, UserDetailsQueryVariables>;
 export const SignupDocument = gql`
     mutation signup($email: String!, $password: String!, $username: String!, $isDeveloper: Boolean!, $discordUrl: String, $githubUsername: String, $xUsername: String) {
   signup(
@@ -447,6 +455,40 @@ export function useVerifyEmailMutation(baseOptions?: Apollo.MutationHookOptions<
 export type VerifyEmailMutationHookResult = ReturnType<typeof useVerifyEmailMutation>;
 export type VerifyEmailMutationResult = Apollo.MutationResult<VerifyEmailMutation>;
 export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<VerifyEmailMutation, VerifyEmailMutationVariables>;
+export const UpdatePasswordDocument = gql`
+    mutation updatePassword($newPassword: String!, $oldPassword: String!) {
+  updatePassword(newPassword: $newPassword, oldPassword: $oldPassword) {
+    message
+  }
+}
+    `;
+export type UpdatePasswordMutationFn = Apollo.MutationFunction<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
+
+/**
+ * __useUpdatePasswordMutation__
+ *
+ * To run a mutation, you first call `useUpdatePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePasswordMutation, { data, loading, error }] = useUpdatePasswordMutation({
+ *   variables: {
+ *      newPassword: // value for 'newPassword'
+ *      oldPassword: // value for 'oldPassword'
+ *   },
+ * });
+ */
+export function useUpdatePasswordMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePasswordMutation, UpdatePasswordMutationVariables>(UpdatePasswordDocument, options);
+      }
+export type UpdatePasswordMutationHookResult = ReturnType<typeof useUpdatePasswordMutation>;
+export type UpdatePasswordMutationResult = Apollo.MutationResult<UpdatePasswordMutation>;
+export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

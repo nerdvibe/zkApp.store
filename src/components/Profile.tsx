@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useParams } from "react-router-dom";
 import mock from "@/mocks/user-profile.json";
+import UserIcon from "./User/UserIcon";
 
 const tabs = [
   { key: "zkapps", title: "zkApps", component: <UserApps /> },
@@ -29,8 +30,11 @@ export default function Profile() {
       <div className="flex flex-row gap-4 justify-between px-8">
         <div className="flex flex-row gap-4">
           <Avatar
-            src={mock?.avatar || "/images/banner.png"}
+            // src={mock?.avatar || "/images/banner.png"}
             className="w-[100px] h-[100px] object-cover"
+            fallback={
+              <UserIcon value={mock?.username || mock?.email || ""} size={100} />
+            }
           />
           <div className="h-full flex flex-col justify-center">
             <div className="flex flex-row gap-2 items-center">

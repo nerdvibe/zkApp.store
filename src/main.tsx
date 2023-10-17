@@ -11,17 +11,17 @@ import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <NextUIProvider>
-            {/* <NextThemesProvider attribute="class" defaultTheme="purple-dark"> */}
-            <App />
-            {/* </NextThemesProvider> */}
-          </NextUIProvider>
-        </BrowserRouter>
-      </Provider>
-    </ApolloProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ApolloProvider client={apolloClient}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <NextUIProvider>
+          {/* <NextThemesProvider attribute="class" defaultTheme="purple-dark"> */}
+          <App />
+          {/* </NextThemesProvider> */}
+        </NextUIProvider>
+      </BrowserRouter>
+    </Provider>
+  </ApolloProvider>
+  // </React.StrictMode>
 );

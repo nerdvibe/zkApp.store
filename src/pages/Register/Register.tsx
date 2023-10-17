@@ -9,9 +9,17 @@ import WhoamiForm, {
   IWhoamiForm,
 } from "../../components/Registration/WhoamiForm";
 import { useSignupMutation } from "../../gql/generated";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import routes from "../../routes";
+import { useDispatch } from "react-redux";
+import { showEmailVerification } from "../../store/registration";
+import { login } from "../../store/session";
 
 export default function Register() {
   const [signup] = useSignupMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [registrationStep, setRegistrationStep] = useState<
     "REGISTRATION" | "WHOAMI"
   >("REGISTRATION");
@@ -33,18 +41,40 @@ export default function Register() {
   };
 
   const onWhoamiSubmit = async (values: IWhoamiForm) => {
-    setRegistrationForm({ ...registrationForm, ...values });
-    const { email, password, isDeveloper, username } = registrationForm;
-    const result = await signup({
-      variables: {
-        email,
-        password,
-        isDeveloper,
-        username,
-      },
-    });
-    console.log("🚀 ~ file: Register.tsx:46 ~ onWhoamiSubmit ~ result:", result)
-    // FEEDBACK
+    try {
+      const { discordUrl, githubUsername, xUsername } = values;
+      setRegistrationForm({ ...registrationForm, ...values });
+      const { email, password, isDeveloper, username } = registrationForm;
+      const result = await signup({
+        variables: {
+          email,
+          password,
+          isDeveloper,
+          username,
+          discordUrl: discordUrl || undefined,
+          githubUsername: githubUsername || undefined,
+          xUsername: xUsername || undefined,
+        },
+      });
+      if (result.data) {
+        dispatch(showEmailVerification());
+        navigate("/email-sent");
+        dispatch(
+          login({
+            authToken: result.data.signup?.accessToken,
+            refreshToken: result.data.signup?.refreshToken,
+          })
+        );
+        toast(`An email has been sent to ${email}!`, {
+          icon: "📨",
+        });
+        return;
+      }
+    } catch (error) {
+      toast.error(
+        error.message || "There was an error, please again retry later."
+      );
+    }
   };
 
   return (

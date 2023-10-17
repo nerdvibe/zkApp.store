@@ -15,6 +15,7 @@ import Profile from "./components/Profile";
 import ResetAccount from "./pages/ResetAccount";
 import Settings from "./pages/Settings";
 import VerifyEmail from "./pages/VerifyEmail";
+import PendingVerification from "./pages/PendingVerification";
 
 export const AppRoutes = () => {
   const isAuthenticated = useSelector((state: RootState) => {
@@ -82,6 +83,7 @@ export const AppRoutes = () => {
         path={`${ROUTES.VERIFY_EMAIL}/:verifyEmailToken`}
         element={<VerifyEmail />}
       />
+      <Route path={`${ROUTES.EMAIL_SENT}`} element={<PendingVerification />} />
       <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
     </Routes>
   );
