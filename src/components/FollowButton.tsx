@@ -5,24 +5,24 @@ import { useState } from "react";
 
 interface IProps {
   following?: boolean;
+  onClick: () => void;
 }
 
-export default function FollowButton({ following }: IProps) {
+export default function FollowButton({ following, onClick }: IProps) {
   const [playAnimation, setPlayAnimation] = useState(false);
-  return following ? (
-    <div>FollowButton</div>
-  ) : (
+  return (
     <Button
-      color="primary"
-      className="pr-0"
+      color={following ? "primary" : "default"}
+      className={`pr-0 w-[120px] delay-150 ${following ? "scale-[110%] w-[140px]" : "" } transion-all ease-in-out transition-width duration-300`}
       onClick={() => {
+        onClick();
         setPlayAnimation(true);
       }}
     >
-      Follow
+      {following ? "Following" : "Follow"}
       <Lottie
         animationData={bell}
-        style={{ width: 75 }}
+        style={{ width: 55 }}
         loop={false}
         play={playAnimation}
         // onLoopComplete={}

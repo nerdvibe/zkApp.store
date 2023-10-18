@@ -20,9 +20,13 @@ export interface IRegistrationForm {
 
 interface ISignUpFormProps {
   onSubmit: (form: IRegistrationForm) => void;
+  initialState: IRegistrationForm;
 }
 
-export default function SignUpForm({ onSubmit }: ISignUpFormProps) {
+export default function SignUpForm({
+  onSubmit,
+  initialState,
+}: ISignUpFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
@@ -42,7 +46,7 @@ export default function SignUpForm({ onSubmit }: ISignUpFormProps) {
       </div>
       <div className="flex flex-col items-center justify-stretch gap-8">
         <Formik
-          initialValues={initialRegistrationForm}
+          initialValues={initialState || initialRegistrationForm}
           validate={validateRegistration}
           onSubmit={(values, { setSubmitting }) => {
             onSubmit(values);
@@ -161,7 +165,7 @@ export default function SignUpForm({ onSubmit }: ISignUpFormProps) {
                 color="primary"
                 className="w-full"
                 type="submit"
-                isDisabled={!isValid || isSubmitting || !dirty}
+                isDisabled={!isValid || isSubmitting}
               >
                 Next
               </Button>

@@ -1,15 +1,15 @@
 import { Image } from "@nextui-org/react";
 import { Menu, MenuItem, Sidebar, sidebarClasses } from "react-pro-sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
 import Logo from "../../assets/logo.svg";
-import { useState } from "react";
 import { SIDEBAR_TABS } from "./util";
+import { toggleBroken, toggle } from "@/store/sidebar";
 
 export default function CustomSidebar() {
   const state = useSelector((state: RootState) => state.sidebar);
-  const [broken, setBroken] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <Sidebar
@@ -25,7 +25,8 @@ export default function CustomSidebar() {
       }}
       toggled={state.active}
       breakPoint="sm"
-      onBreakPoint={setBroken}
+      onBreakPoint={() => dispatch(toggleBroken())}
+      onBackdropClick={() => dispatch(toggle())}
       collapsed={state.collapsed}
     >
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>

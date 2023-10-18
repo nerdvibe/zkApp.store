@@ -13,7 +13,7 @@ export default function UserApp({ apps }: IUserApps) {
     navigate(`${routes.PRODUCT}/${appId}`);
   };
   return (
-    <div className="flex justify-center w-full gap-4">
+    <div className="flex justify-center w-full gap-4 flex-wrap">
       {apps.map((app) => (
         <CustomCard {...app} onClick={() => onClick(app.id)} />
       ))}

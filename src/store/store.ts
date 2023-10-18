@@ -9,6 +9,7 @@ import configReducer from "./config";
 import publishAppReducer from "./publishApp";
 import favoriteProductsReducer from "./favourites";
 import registrationReducer from "./registration";
+import searchReducer from "./search";
 
 const persistConfig = {
   key: "root",
@@ -23,6 +24,7 @@ export const store = configureStore({
     config: persistReducer(persistConfig, configReducer),
     favoriteProducts: persistReducer(persistConfig, favoriteProductsReducer),
     publishApp: publishAppReducer,
+    search: searchReducer,
     registration: registrationReducer,
   },
   devTools: process.env.NODE_ENV !== "production",

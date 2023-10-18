@@ -12,5 +12,5 @@ export default {
   RESET_ACCOUNT: "/reset-account",
   SETTINGS: "/settings",
   VERIFY_EMAIL: "/verify-email",
-  EMAIL_SENT: "/email-sent",
+  PENDING_VERIFICATION: "/pending-verification",
 };

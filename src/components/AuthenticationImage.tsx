@@ -8,7 +8,7 @@ export default function AuthenticationImage({
   login,
 }: IAuthenticationImageProps) {
   return (
-    <div className="flex flex-1 flex-col justify-end gap-10 items-center max-w-[500px] px-10 min-w-[350px]">
+    <div className="flex-1 flex-col justify-end gap-10 items-center max-w-[500px] px-10 min-w-[350px] hidden lg:flex">
       <Image
         removeWrapper
         className="object-cover"

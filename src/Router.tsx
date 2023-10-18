@@ -83,7 +83,7 @@ export const AppRoutes = () => {
         path={`${ROUTES.VERIFY_EMAIL}/:verifyEmailToken`}
         element={<VerifyEmail />}
       />
-      <Route path={`${ROUTES.EMAIL_SENT}`} element={<PendingVerification />} />
+      <Route path={`${ROUTES.PENDING_VERIFICATION}`} element={<PendingVerification />} />
       <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
     </Routes>
   );

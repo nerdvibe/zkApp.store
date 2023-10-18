@@ -58,16 +58,18 @@ export default function Register() {
       });
       if (result.data) {
         dispatch(showEmailVerification());
-        navigate("/email-sent");
-        dispatch(
-          login({
-            authToken: result.data.signup?.accessToken,
-            refreshToken: result.data.signup?.refreshToken,
-          })
-        );
+        navigate(routes.PENDING_VERIFICATION);
         toast(`An email has been sent to ${email}!`, {
           icon: "📨",
         });
+        setTimeout(() => {
+          dispatch(
+            login({
+              authToken: result?.data?.signup?.accessToken,
+              refreshToken: result?.data?.signup?.refreshToken,
+            })
+          );
+        }, 500);
         return;
       }
     } catch (error) {
@@ -77,16 +79,23 @@ export default function Register() {
     }
   };
 
+  const goBack = () => {
+    setRegistrationStep("REGISTRATION");
+  };
+
   return (
     <AuthenticationForm title={"> Let’s be friends"} minHeight={800}>
       <>
         <Card className="w-full bg-[#1D1932] flex-1 max-w-[500px]  min-w-[350px]">
           <CardBody className="flex gap-10">
             {registrationStep === "WHOAMI" && (
-              <WhoamiForm onSubmit={onWhoamiSubmit} />
+              <WhoamiForm onSubmit={onWhoamiSubmit} goBack={goBack} />
             )}
             {registrationStep === "REGISTRATION" && (
-              <SignUpForm onSubmit={onRegistrationSubmit} />
+              <SignUpForm
+                onSubmit={onRegistrationSubmit}
+                initialState={registrationForm}
+              />
             )}
           </CardBody>
         </Card>

@@ -21,6 +21,9 @@ export default {
   },
   theme: {
     extend: {
+      transitionProperty: {
+        'width': 'width'
+      },
       animation: {
         fadeOut: 'fadeOut 2s ease-in-out',
         fadeIn: 'fadeIn 2s ease-in-out',

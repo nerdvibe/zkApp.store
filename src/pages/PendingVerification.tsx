@@ -3,7 +3,7 @@ import Lottie from "react-lottie-player";
 import emailSent from "@/assets/animations/email-sent.json";
 import { useDispatch, useSelector } from "react-redux";
 import { disableEmailVerification } from "../store/registration";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
 import routes from "../routes";
@@ -14,13 +14,16 @@ export default function PendingVerification() {
   const { showEmailVerification } = useSelector((state: RootState) => {
     return state.registration;
   });
-  console.log("🚀 ~ file: PendingVerification.tsx:17 ~ const{showEmailVerification}=useSelector ~ showEmailVerification:", showEmailVerification)
+
+  const disablePage = () => {
+    dispatch(disableEmailVerification());
+  };
+
   useEffect(() => {
-    if (showEmailVerification) {
-      dispatch(disableEmailVerification());
-    } else {
+    if (!showEmailVerification) {
       navigate(routes.DASHBOARD);
     }
+    return disablePage;
   }, []);
 
   return (

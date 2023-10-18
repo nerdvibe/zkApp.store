@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import CustomCard from "../components/Card";
+import EmptyState from "@/components/Favourites/EmptyState";
 
 export default function Favourites() {
   const products = useSelector(
@@ -12,11 +13,7 @@ export default function Favourites() {
         {products.map((el) => (
           <CustomCard />
         ))}
-        {!products.length && (
-          <div>
-            <h1>There are no favourites zkApps</h1>
-          </div>
-        )}
+        {!products.length && <EmptyState />}
       </div>
     </div>
   );

@@ -18,11 +18,12 @@ export interface IWhoamiForm {
 
 interface IWhoamiFormProps {
   onSubmit: (form: IWhoamiForm) => void;
+  goBack: () => void;
 }
 
 export const fileTypes = ["JPG", "PNG", "GIF"];
 
-export default function WhoamiForm({ onSubmit }: IWhoamiFormProps) {
+export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
   const [file, setFile] = useState(null);
   const handleFileUpload = (file) => {
     setFile(file);
@@ -103,14 +104,19 @@ export default function WhoamiForm({ onSubmit }: IWhoamiFormProps) {
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
               />
-              <Button
-                color="primary"
-                className="w-full"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Register
-              </Button>
+              <div className="flex flex-row w-full gap-4">
+                <Button color="default" variant="bordered" className="w-full" onClick={goBack}>
+                  Go back
+                </Button>
+                <Button
+                  color="primary"
+                  className="w-full"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Register
+                </Button>
+              </div>
             </form>
           )}
         </Formik>

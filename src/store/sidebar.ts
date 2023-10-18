@@ -5,12 +5,14 @@ import type { RootState } from "./store";
 interface SidebarState {
   active: boolean;
   collapsed: boolean;
+  broken: boolean;
 }
 
 // Define the initial state using that type
 const initialState: SidebarState = {
   active: true,
   collapsed: false,
+  broken: false,
 };
 
 export const sidebarSlice = createSlice({
@@ -20,14 +22,18 @@ export const sidebarSlice = createSlice({
   reducers: {
     toggle: (state) => {
       state.active = !state.active;
+      state.collapsed = !state.active;
     },
     collapse: (state) => {
       state.collapsed = !state.collapsed;
     },
+    toggleBroken: (state) => {
+      state.broken = !state.broken;
+    },
   },
 });
 
-export const { toggle, collapse } = sidebarSlice.actions;
+export const { toggle, collapse, toggleBroken } = sidebarSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.sidebar.active;

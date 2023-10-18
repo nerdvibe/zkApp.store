@@ -3,6 +3,7 @@ import Trending from "../components/Category/CategoryTabs/Trending";
 import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
 import FollowButton from "../components/FollowButton";
+import { useState } from "react";
 
 const tabs = [
   { key: "Trending", title: "Trending", component: <Trending /> },
@@ -13,8 +14,10 @@ const tabs = [
 export default function Category() {
   const appsNumber = 123;
   const { id } = useParams();
+  const [following, setFollowing] = useState(false);
   const onFollowClick = () => {
-    alert("Follow");
+    // alert("Follow");
+    setFollowing(!following);
   };
 
   return (
@@ -22,7 +25,7 @@ export default function Category() {
       <h1 className="text-4xl text-white font-bold">#{id}</h1>
       <div className="flex text-white justify-between">
         <p className="text-xl">{appsNumber} zkApps</p>
-        <FollowButton />
+        <FollowButton onClick={onFollowClick} following={following} />
         {/* <Button color="primary" onClick={onFollowClick}>
           Follow
         </Button> */}

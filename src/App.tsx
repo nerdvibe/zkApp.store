@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { toggleLoader } from "./store/config";
 import { Toaster } from "react-hot-toast";
 import useTokenExpirationChecker from "./hooks/refreshToken";
+import SearchModal from "./components/SearchModal/SearchModal";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
       <main className="w-full overflow-auto">
         <GlobalLoader />
         <CustomNavbar />
+        <SearchModal />
         <div style={{ padding: "16px 24px", color: "#44596e" }}>
           <AppRoutes />
         </div>
