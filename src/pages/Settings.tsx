@@ -93,41 +93,43 @@ export default function Settings() {
   );
 
   return (
-    <div className="w-full flex flex-col gap-8">
-      <div className="flex flex-row gap-4 justify-between px-8">
-        <div className="flex flex-row gap-4">
-          <Avatar
-            src={mock?.avatar || "/images/banner.png"}
-            className="w-[100px] h-[100px] object-cover"
-          />
-          <div className="h-full flex flex-col justify-center">
-            <div className="flex flex-row gap-2 items-center">
-              <h1 className="text-white text-3xl font-bold inline">
-                @{mock?.username}
-              </h1>
-              <Image
-                src="/icons/verified.png"
-                className="inline min-w-[18px]"
-              />
+    <div className="flex w-full justify-center">
+      <div className="w-full flex flex-col gap-8 max-w-[1200px]">
+        <div className="flex flex-row gap-4 justify-between px-8">
+          <div className="flex flex-row gap-4">
+            <Avatar
+              src={mock?.avatar || "/images/banner.png"}
+              className="w-[100px] h-[100px] object-cover"
+            />
+            <div className="h-full flex flex-col justify-center">
+              <div className="flex flex-row gap-2 items-center">
+                <h1 className="text-white text-3xl font-bold inline">
+                  @{mock?.username}
+                </h1>
+                <Image
+                  src="/icons/verified.png"
+                  className="inline min-w-[18px]"
+                />
+              </div>
+              <p className="text-white text-lg">Your personal account</p>
             </div>
-            <p className="text-white text-lg">Your personal account</p>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col md:flex-row">
-        <div className="hidden md:flex min-w-[200px] md:border-r-1 border-gray-700">
-          {Buttons}
-        </div>
-        <div className="flex md:hidden min-w-[200px] md:border-r-1 border-gray-700">
-          <Accordion variant="splitted">
-            <AccordionItem key="1" title={TABS_LABELS[selectedValue]}>
-              {Buttons}
-            </AccordionItem>
-          </Accordion>
-        </div>
-        <div className="flex p-4 w-full">
-          {selectedValue === TABS.PROFILE && <Profile />}
-          {selectedValue === TABS.SETTING && <Security />}
+        <div className="flex flex-col md:flex-row">
+          <div className="hidden md:flex min-w-[200px] md:border-r-1 border-gray-700">
+            {Buttons}
+          </div>
+          <div className="flex md:hidden min-w-[200px] md:border-r-1 border-gray-700">
+            <Accordion variant="splitted">
+              <AccordionItem key="1" title={TABS_LABELS[selectedValue]}>
+                {Buttons}
+              </AccordionItem>
+            </Accordion>
+          </div>
+          <div className="flex p-4 w-full">
+            {selectedValue === TABS.PROFILE && <Profile />}
+            {selectedValue === TABS.SETTING && <Security />}
+          </div>
         </div>
       </div>
     </div>

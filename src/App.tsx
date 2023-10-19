@@ -33,8 +33,13 @@ function App() {
         <GlobalLoader />
         <CustomNavbar />
         <SearchModal />
-        <div style={{ padding: "16px 24px", color: "#44596e" }}>
-          <AppRoutes />
+        <div className="flex justify-center w-full items-stretch">
+          <div
+            style={{ padding: "16px 24px", color: "#44596e" }}
+            className="max-w-[1400px] w-full"
+          >
+            <AppRoutes />
+          </div>
         </div>
       </main>
       <div>

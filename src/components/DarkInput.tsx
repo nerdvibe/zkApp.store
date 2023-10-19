@@ -4,10 +4,10 @@ export default function DarkInput(props: any) {
   return (
     <Input
       classNames={{
-        label: "text-black/50 dark:text-white/90",
+        label: "text-black/50 dark:text-white/90 purple-dark:text-white/90",
         input: [
           "bg-transparent",
-          "text-black/90 dark:text-white/90",
+          "text-white dark:text-white/90",
           "placeholder:text-default-700/50 dark:placeholder:text-white/60",
         ],
         innerWrapper: "bg-transparent",

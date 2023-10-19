@@ -28,7 +28,7 @@ export default function Categories() {
       <div className="mx-auto max-w-[100%]">
         <ScrollShadow
           orientation="horizontal"
-          className="w-full flex gap-4 left-0 py-5"
+          className="w-full flex gap-4 left-0 p-4 min-h-[240px] items-end"
         >
           {mockCategories.map(({ id, alt }) => (
             <CategoryCard alt={alt} id={id} key={id} />

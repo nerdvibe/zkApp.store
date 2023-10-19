@@ -12,16 +12,16 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-  <ApolloProvider client={apolloClient}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <NextUIProvider>
-          {/* <NextThemesProvider attribute="class" defaultTheme="purple-dark"> */}
-          <App />
-          {/* </NextThemesProvider> */}
-        </NextUIProvider>
-      </BrowserRouter>
-    </Provider>
-  </ApolloProvider>
+  <NextUIProvider>
+    <NextThemesProvider attribute="class" themes={['purple-dark','light']} defaultTheme="purple-dark">
+      <ApolloProvider client={apolloClient}>
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </ApolloProvider>
+    </NextThemesProvider>
+  </NextUIProvider>
   // </React.StrictMode>
 );

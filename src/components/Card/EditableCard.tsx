@@ -15,7 +15,7 @@ export default function EditableCard({ initialValue }: IProps) {
 
   const toggleEdit = () => setEditMode(!editMode);
   return (
-    <Card className="w-full  bg-[#1D1932]">
+    <Card className="w-full auth-card">
       <CardBody className="py-8">
         <div className="flex w-full justify-end pb-8">
           {editMode ? (

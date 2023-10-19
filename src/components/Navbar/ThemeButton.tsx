@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function ThemeButton() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  console.log("🚀 ~ file: ThemeButton.tsx:11 ~ ThemeButton ~ theme:", theme)
 
   useEffect(() => {
     setMounted(true);

@@ -54,7 +54,7 @@ export default function Login() {
   return (
     <AuthenticationForm title={"> Login"} minHeight={800}>
       <>
-        <Card className="w-full bg-[#1D1932] flex-1 max-w-[500px] min-w-[350px]">
+        <Card className="w-full flex-1 max-w-[500px] min-w-[350px] auth-card">
           <CardBody className="flex gap-10">
             <h1 className="text-4xl ">Sign in</h1>
             <div>

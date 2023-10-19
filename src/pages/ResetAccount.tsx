@@ -76,7 +76,7 @@ export default function ResetAccount() {
 
   return (
     <AuthenticationForm title={"> Recover account"}>
-      <Card className="w-full bg-[#1D1932] flex-1 max-w-[500px] min-w-[350px]">
+      <Card className="w-full auth-card flex-1 max-w-[500px] min-w-[350px]">
         <CardBody className="flex gap-10">
           <h1 className="text-4xl ">Reset password</h1>
           <div className="flex flex-col items-center justify-stretch gap-8">

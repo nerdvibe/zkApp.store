@@ -24,7 +24,7 @@ export default function TrendingAppsSlider() {
           <Tab key="today" title="Today" className="mx-auto max-w-[100%]">
             <ScrollShadow
               orientation="horizontal"
-              className="w-full flex gap-4 left-0"
+              className="w-full flex gap-4 left-0 p-4"
             >
               {mock.map((element) => (
                 <CustomCard {...element} onClick={onClick} />

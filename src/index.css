@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 html.dark,
+html.purple-dark,
+html.light,
 body,
 #root,
 #root>div {

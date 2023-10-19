@@ -4,7 +4,7 @@ export default function Comment({ index }) {
   return (
     <div className="flex flex-row ">
       {index % 2 === 1 && <div className="w-[50px]" />}
-      <Card className="w-full bg-[#1D1932]">
+      <Card className="w-full auth-card">
         <CardBody>
           <div className="flex gap-4">
             <div className="w-full">

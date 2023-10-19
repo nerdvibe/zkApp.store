@@ -86,7 +86,7 @@ export default function Register() {
   return (
     <AuthenticationForm title={"> Let’s be friends"} minHeight={800}>
       <>
-        <Card className="w-full bg-[#1D1932] flex-1 max-w-[500px]  min-w-[350px]">
+        <Card className="w-full auth-card flex-1 max-w-[500px]  min-w-[350px]">
           <CardBody className="flex gap-10">
             {registrationStep === "WHOAMI" && (
               <WhoamiForm onSubmit={onWhoamiSubmit} goBack={goBack} />

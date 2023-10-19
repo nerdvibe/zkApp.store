@@ -9,6 +9,10 @@
   opacity: .7;
 }
 
+.light .footer-link {
+  color: #000000aa;
+}
+
 .footer-link:hover {
   opacity: 1;
   transition-property: opacity;

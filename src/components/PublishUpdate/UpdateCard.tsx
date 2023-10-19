@@ -30,7 +30,7 @@ interface IUpdateData {
 export default function UpdateCard({ update, onEdit }: IUpdateData) {
   const { title, version, description, app } = update;
   return (
-    <Card className=" bg-[#1D1932] max-w-[400px]">
+    <Card className="auth-card max-w-[400px]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col gap-1 px-2">
           <h1 className="font-bold text-xl">{title}</h1>

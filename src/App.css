@@ -3,3 +3,28 @@
 button {
   transition: .3s;
 }
+
+.auth-card{
+  background-color: #1D1932;
+}
+
+.light .auth-card{
+  background-color: #f7f5fe;
+}
+
+.text-white-f , .light .text-white-f{
+  color: #f7f5fe;
+}
+
+.text-white-60-f , .light .text-white-60-f{
+  color: #f7f5fe;
+  opacity: .6;
+}
+
+label{
+  color: #fff !important;
+}
+
+.light label{
+color: #000 !important;
+}
