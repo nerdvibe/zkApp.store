@@ -5,6 +5,7 @@ import type { RootState } from "./store";
 interface ProdutSlice {
   active: boolean;
   newProduct: boolean;
+  editProduct: boolean;
   productId?: string;
 }
 
@@ -12,6 +13,7 @@ interface ProdutSlice {
 const initialState: ProdutSlice = {
   active: true,
   newProduct: true,
+  editProduct: false,
   productId: "",
 };
 
@@ -26,11 +28,17 @@ export const productSlice = createSlice({
     toggleNewProductModal: (state, { payload }) => {
       state.newProduct = payload.active;
     },
+    toggleEditProductModal: (state, { payload }) => {
+      state.editProduct = payload.active;
+    },
   },
 });
 
-export const { toggleProductModal, toggleNewProductModal } =
-  productSlice.actions;
+export const {
+  toggleProductModal,
+  toggleNewProductModal,
+  toggleEditProductModal,
+} = productSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.sidebar.active;

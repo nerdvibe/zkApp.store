@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -78,13 +79,18 @@ export default function User() {
       </DropdownMenu>
     </Dropdown>
   ) : (
-    <Avatar
-      isBordered
-      as="button"
-      className="transition-transform"
-      color="secondary"
-      size="md"
-      onClick={() => navigate(routes.LOGIN)}
-    />
+    <div className="flex flex-row gap-4">
+      <Button
+        onClick={() => navigate(routes.LOGIN)}
+        variant="light"
+        color="default"
+        className="hidden md:block"
+      >
+        Login
+      </Button>
+      <Button onClick={() => navigate(routes.REGISTER)} color="primary">
+        Sign up
+      </Button>
+    </div>
   );
 }

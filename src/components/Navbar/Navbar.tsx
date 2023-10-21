@@ -53,14 +53,14 @@ export default function CustomNavbar() {
     <Navbar shouldHideOnScroll maxWidth="full">
       <NavbarBrand className="max-w-[50px]">
         <div
-          className="w-[50px] data-[menu-open=true]:border-none sticky top-0 inset-x-0flex items-center pl-5"
+          className="w-[40px] data-[menu-open=true]:border-none sticky top-0 inset-x-0flex items-center pl-5"
           onClick={toggleSidebar}
         >
           <Image
             src={ArrowLeft}
             className={`${
               collapsed ? "rotate-180" : "rotate-0"
-            } cursor-pointer duration-250 transform-gpu w-[20px]`}
+            } cursor-pointer duration-250 transform-gpu w-[20px] sidebar-icon`}
           />
         </div>
       </NavbarBrand>
@@ -85,7 +85,9 @@ export default function CustomNavbar() {
           onFocusChange={onNavbarFocus}
           onChange={(e) => setSearchText(e.currentTarget.value)}
         />
-        <ThemeButton />
+        <div className="hidden md:block">
+          <ThemeButton />
+        </div>
         <User />
       </NavbarContent>
     </Navbar>

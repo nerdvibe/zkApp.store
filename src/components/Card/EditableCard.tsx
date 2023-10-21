@@ -7,9 +7,10 @@ import { useState } from "react";
 
 interface IProps {
   initialValue: string;
+  editable?: boolean;
 }
 
-export default function EditableCard({ initialValue }: IProps) {
+export default function EditableCard({ initialValue, editable }: IProps) {
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(initialValue);
 
@@ -17,26 +18,32 @@ export default function EditableCard({ initialValue }: IProps) {
   return (
     <Card className="w-full auth-card">
       <CardBody className="py-8">
-        <div className="flex w-full justify-end pb-8">
-          {editMode ? (
-            <FontAwesomeIcon
-              icon={faFloppyDisk}
-              onClick={toggleEdit}
-              className="cursor-pointer"
-              size="lg"
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faPencil}
-              onClick={toggleEdit}
-              className="cursor-pointer"
-              size="lg"
-            />
-          )}
-        </div>
+        {editable && (
+          <div className="flex w-full justify-end pb-8">
+            {editMode ? (
+              <FontAwesomeIcon
+                icon={faFloppyDisk}
+                onClick={toggleEdit}
+                className="cursor-pointer"
+                size="lg"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faPencil}
+                onClick={toggleEdit}
+                className="cursor-pointer"
+                size="lg"
+              />
+            )}
+          </div>
+        )}
         <div data-color-mode="dark">
           {editMode ? (
-            <MDEditor value={value} onChange={setValue} />
+            <MDEditor
+              value={value}
+              onChange={setValue}
+              style={{ whiteSpace: "pre-wrap", background: "none" }}
+            />
           ) : (
             <MDEditor.Markdown
               source={value}

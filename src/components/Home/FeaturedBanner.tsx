@@ -1,8 +1,17 @@
 import { Chip, Image, ScrollShadow } from "@nextui-org/react";
 import "../style.css";
 import FeaturedCard from "../FeaturedCard";
+import cards from "@/mocks/featured-apps.json";
+import { useNavigate } from "react-router-dom";
+import routes from "@/routes";
 
 export default function FeaturedBanner() {
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    navigate(`${routes.PRODUCT}/1`);
+  };
+
   return (
     <>
       <div className="flex justify-between">
@@ -25,11 +34,14 @@ export default function FeaturedBanner() {
             orientation="horizontal"
             className="flex flex-row gap-4 w-full"
           >
-            <FeaturedCard />
-            <FeaturedCard white />
-            <FeaturedCard />
-            <FeaturedCard white />
-            <FeaturedCard />
+            {cards.map((card, index) => (
+              <FeaturedCard
+                onClick={onClick}
+                {...card}
+                white={index % 2 === 0}
+                key={`${index}`}
+              />
+            ))}
           </ScrollShadow>
         </div>
       </div>

@@ -6,12 +6,20 @@ import Audits from "../components/Product/ProductTabs/Audits";
 import SocialButtonsShare from "../components/SocialButtonsShare";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart as faHeartFull,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 import { selectIsProductFavorite } from "../store/favourites";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { toggleFavorite } from "../store/favourites";
 import mock from "@/mocks/product.json";
+import { useState } from "react";
+import { toggleEditProductModal } from "@/store/product";
+import Edit from "@/components/Product/Edit";
+import { Link } from "react-router-dom";
+import routes from "@/routes";
 
 const tabs = [
   { key: "description", title: "Description", component: <Description /> },
@@ -21,6 +29,7 @@ const tabs = [
 ];
 
 export default function Product() {
+  const [editableContent, setEditableContent] = useState(true);
   const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const isFavourite = selectIsProductFavorite("123")(state);
@@ -28,6 +37,10 @@ export default function Product() {
 
   const toggleFavouriteProduct = () => {
     dispatch(toggleFavorite("123"));
+  };
+
+  const editContent = () => {
+    dispatch(toggleEditProductModal({ active: true }));
   };
 
   return (
@@ -39,13 +52,13 @@ export default function Product() {
           removeWrapper
         />
       </div>
-      <div className="flex flex-row gap-4 justify-between px-8">
-        <div className="flex flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4 justify-between px-8">
+        <div className="flex flex-col md:flex-row gap-4 items-center md:items-start">
           <Avatar
             src="/images/banner.png"
             className="w-[100px] h-[100px] object-cover"
           />
-          <div className="h-full flex flex-col justify-center">
+          <div className="h-full flex flex-col justify-center items-center md:items-start">
             <h1 className="text-white text-3xl font-bold">
               {title}
               <FontAwesomeIcon
@@ -53,9 +66,22 @@ export default function Product() {
                 icon={isFavourite ? faHeartFull : faHeart}
                 onClick={toggleFavouriteProduct}
               />
+              {editableContent && (
+                <FontAwesomeIcon
+                  className="text-sm px-4 cursor-pointer mb-1"
+                  icon={faPencil}
+                  onClick={editContent}
+                />
+              )}
             </h1>
-            <p className="text-white text-lg">
-              {shortDescription} - @{creator}
+            <p className="text-white text-lg flex flex-col md:flex-row gap-4 items-center">
+              {shortDescription}
+              <Link
+                className="text-primary opacity-100 hover:opacity-80 transition-all duration-300"
+                to={`${routes.PROFILE}/${creator}`}
+              >
+                @{creator}
+              </Link>
             </p>
           </div>
         </div>
@@ -65,7 +91,7 @@ export default function Product() {
               Use now
             </Button>
           )}
-          <SocialButtonsShare />
+          <SocialButtonsShare {...social} />
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -84,6 +110,7 @@ export default function Product() {
           ))}
         </Tabs>
       </div>
+      <Edit />
     </div>
   );
 }
