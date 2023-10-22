@@ -1,6 +1,8 @@
-import { Diamond } from "../../assets/icons/Diamond";
-import { Globe } from "../../assets/icons/Globe";
+import { Diamond } from "@/assets/icons/Diamond";
+import { Globe } from "@/assets/icons/Globe";
 import routes from "../../routes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 export const SIDEBAR_TABS = [
   {
@@ -8,7 +10,7 @@ export const SIDEBAR_TABS = [
     key: "home",
     link: "/home",
     disabled: false,
-    icon: <Globe />,
+    icon: <FontAwesomeIcon icon={faHome} />,
     suffix: null,
     onClick: null,
   },

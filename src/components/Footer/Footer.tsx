@@ -1,5 +1,5 @@
 import { Image } from "@nextui-org/react";
-import Logo from "../../assets/logo-white.svg";
+import Logo from "@/assets/logo-white.svg";
 import "./style.css";
 
 export default function Footer() {

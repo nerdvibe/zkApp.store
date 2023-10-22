@@ -1,6 +1,6 @@
 import { Switch } from "@nextui-org/react";
-import { MoonIcon } from "../../assets/icons/MoonIcon";
-import { SunIcon } from "../../assets/icons/SunIcon";
+import { MoonIcon } from "@/assets/icons/MoonIcon";
+import { SunIcon } from "@/assets/icons/SunIcon";
 // import useDarkMode from "use-dark-mode";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

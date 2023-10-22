@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { toggleFavorite } from "../store/favourites";
 import mock from "@/mocks/product.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toggleEditProductModal } from "@/store/product";
 import Edit from "@/components/Product/Edit";
 import { Link } from "react-router-dom";
@@ -34,6 +34,10 @@ export default function Product() {
   const dispatch = useDispatch();
   const isFavourite = selectIsProductFavorite("123")(state);
   const { title, creator, shortDescription, link, social } = mock;
+
+  useEffect(() => {
+    dispatch(toggleEditProductModal({ active: false }));
+  }, []);
 
   const toggleFavouriteProduct = () => {
     dispatch(toggleFavorite("123"));

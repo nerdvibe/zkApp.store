@@ -11,8 +11,8 @@ interface ProdutSlice {
 
 // Define the initial state using that type
 const initialState: ProdutSlice = {
-  active: true,
-  newProduct: true,
+  active: false,
+  newProduct: false,
   editProduct: false,
   productId: "",
 };

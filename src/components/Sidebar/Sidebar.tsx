@@ -3,7 +3,7 @@ import { Menu, MenuItem, Sidebar, sidebarClasses } from "react-pro-sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
-import Logo from "../../assets/logo.svg";
+import Logo from "@/assets/logo.svg";
 import { SIDEBAR_TABS } from "./util";
 import { toggleBroken, toggle } from "@/store/sidebar";
 import ThemeButton from "../Navbar/ThemeButton";

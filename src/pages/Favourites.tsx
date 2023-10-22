@@ -8,7 +8,8 @@ export default function Favourites() {
     (state: RootState) => state.favoriteProducts.products
   );
   return (
-    <div className="flex justify-center m-auto">
+    <div className="flex justify-center m-auto flex-col">
+      <h1 className="text-4xl text-white font-bold my-8">{"> Favourites"}</h1>
       <div className="flex justify-center items-center flex-wrap gap-4">
         {products.map((el) => (
           <CustomCard />

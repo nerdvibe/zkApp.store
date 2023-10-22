@@ -43,6 +43,12 @@ export const sessionSlice = createSlice({
     setUserInfo: (state, { payload }) => {
       state.user = payload.user;
     },
+    clearToken: (state) => {
+      state.authToken = null;
+    },
+    clearRefreshToken: (state) => {
+      state.refreshToken = null;
+    },
     logout: (state) => {
       state.logged = false;
       state.authToken = null;
@@ -52,7 +58,7 @@ export const sessionSlice = createSlice({
   },
 });
 
-export const { login, logout, setUserInfo } = sessionSlice.actions;
+export const { login, logout, setUserInfo,clearToken,clearRefreshToken } = sessionSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const isLogged = (state: RootState) =>

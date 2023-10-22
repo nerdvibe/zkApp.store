@@ -14,6 +14,8 @@ function useTokenExpirationChecker(checkIntervalInMinutes: number): void {
     // Function to check token expiration status
     const checkTokenExpiration = () => {
       const token = store.getState().session.authToken;
+      console.log("🚀 ~ file: refreshToken.ts:17 ~ checkTokenExpiration ~ token:", token)
+      // TODO: Remove session data and logout if there's no token
       if (token) {
         try {
           const decodedToken = parseJwt(token);

@@ -1,4 +1,4 @@
-import { Button, Tab, Tabs } from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/react";
 import Trending from "../components/Category/CategoryTabs/Trending";
 import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
@@ -16,7 +16,6 @@ export default function Category() {
   const { id } = useParams();
   const [following, setFollowing] = useState(false);
   const onFollowClick = () => {
-    // alert("Follow");
     setFollowing(!following);
   };
 
@@ -26,9 +25,6 @@ export default function Category() {
       <div className="flex text-white justify-between">
         <p className="text-xl">{appsNumber} zkApps</p>
         <FollowButton onClick={onFollowClick} following={following} />
-        {/* <Button color="primary" onClick={onFollowClick}>
-          Follow
-        </Button> */}
       </div>
       <div className="flex flex-col gap-4">
         <Tabs

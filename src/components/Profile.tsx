@@ -7,6 +7,8 @@ import { RootState } from "../store/store";
 import { useParams } from "react-router-dom";
 import mock from "@/mocks/user-profile.json";
 import UserIcon from "./User/UserIcon";
+import Lottie from "react-lottie-player";
+import verified from "@/assets/animations/verified.json";
 
 const tabs = [
   { key: "zkapps", title: "zkApps", component: <UserApps /> },
@@ -33,7 +35,10 @@ export default function Profile() {
             // src={mock?.avatar || "/images/banner.png"}
             className="w-[100px] h-[100px] object-cover"
             fallback={
-              <UserIcon value={mock?.username || mock?.email || ""} size={100} />
+              <UserIcon
+                value={mock?.username || mock?.email || ""}
+                size={100}
+              />
             }
           />
           <div className="h-full flex flex-col justify-center">
@@ -41,9 +46,12 @@ export default function Profile() {
               <h1 className="text-white text-3xl font-bold inline">
                 @{mock?.username}
               </h1>
-              <Image
-                src="/icons/verified.png"
-                className="inline min-w-[18px]"
+              <Lottie
+                animationData={verified}
+                loop={false}
+                style={{ maxWidth: "30px" }}
+                play={true}
+                segments={[0, 50]}
               />
             </div>
             <p className="text-white text-lg">{mock.followers} Followers</p>

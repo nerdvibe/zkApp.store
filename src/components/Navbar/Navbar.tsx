@@ -10,7 +10,7 @@ import { SearchIcon } from "../SearchIcon.js";
 import User from "./User.js";
 import { collapse, toggle } from "../../store/sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import ArrowLeft from "../../assets/icons/arrow-left-to-line.svg";
+import ArrowLeft from "@/assets/icons/arrow-left-to-line.svg";
 import { RootState } from "../../store/store.js";
 import ThemeButton from "./ThemeButton.js";
 import { useKeyPress } from "@/hooks/useKeyPress.js";

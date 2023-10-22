@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
-import { logout } from "../../store/session";
+import { clearRefreshToken, clearToken, logout } from "../../store/session";
 import { useLogoutMutation } from "../../gql/generated";
 import { toast } from "react-hot-toast";
 import UserIcon from "../User/UserIcon";
@@ -71,8 +71,17 @@ export default function User() {
         <DropdownItem key="settings" onClick={goToSettings}>
           My Settings
         </DropdownItem>
-        <DropdownItem key="analytics">Analytics</DropdownItem>
-        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+        <DropdownItem key="settings" onClick={() => dispatch(clearToken())}>
+          Clear access token
+        </DropdownItem>
+        <DropdownItem
+          key="settings"
+          onClick={() => dispatch(clearRefreshToken())}
+        >
+          Clear refresh token
+        </DropdownItem>
+        {/* <DropdownItem key="analytics">Analytics</DropdownItem>
+        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
         <DropdownItem key="logout" color="danger" onClick={logoutHandler}>
           Log Out
         </DropdownItem>

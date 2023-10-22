@@ -1,3 +1,4 @@
+import { toggleProductModal } from "@/store/product";
 import {
   Card,
   CardHeader,
@@ -7,6 +8,7 @@ import {
   ScrollShadow,
 } from "@nextui-org/react";
 import { MouseEventHandler } from "react";
+import { useDispatch } from "react-redux";
 
 interface CustomCardProps {
   title?: string;
@@ -35,8 +37,17 @@ export default function CustomCard({
   onClick,
   image,
 }: CustomCardProps) {
+  const dispatch = useDispatch();
+  const onCardClick = () => {
+    dispatch(toggleProductModal({ active: true, productId: "123" }));
+  };
+
   return (
-    <Card className="py-4 min-w-[250px] max-w-[350px]" key={key}>
+    <Card
+      className="py-4 min-w-[250px] max-w-[350px] cursor-pointer"
+      key={key}
+      onMouseUp={onCardClick}
+    >
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start w-full z-0">
         <Image
           alt="Card background"
