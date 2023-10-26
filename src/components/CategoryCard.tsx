@@ -2,7 +2,14 @@ import { Card, CardFooter, Image } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import routes from "../routes";
 
-export default function CategoryCard({ alt, id }: any) {
+interface Props {
+  id: number;
+  thumbnails: string[];
+  name: string;
+  slug: string;
+}
+
+export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
   const navigate = useNavigate();
   const onCardClick = () => {
     navigate(`${routes.CATEGORY}/${id}`);
@@ -20,25 +27,25 @@ export default function CategoryCard({ alt, id }: any) {
             removeWrapper
             alt="Relaxing app background"
             className="w-[45%] object-cover top-5"
-            src={!alt ? `/images/category-1.png` : `/images/category-4.png`}
+            src={thumbnails[0]}
           />
           <Image
             removeWrapper
             alt="Relaxing app background"
             className="w-[50%] z-[11] left-[25%] object-cover absolute"
-            src={!alt ? `/images/category-2.png` : `/images/category-5.png`}
+            src={thumbnails[1]}
           />
           <Image
             removeWrapper
             className="w-[45%] object-cover top-5"
             alt="Relaxing app background"
-            src={!alt ? `/images/category-3.png` : `/images/category-6.png`}
+            src={thumbnails[2]}
           />
         </div>
         <CardFooter className="absolute bg-black/40 bottom-0 z-20 border-t-1 border-default-600 dark:border-default-100">
           <div className="flex flex-grow gap-2 items-center">
             <div className="flex flex-col">
-              <p className="text-tiny text-white/60">#Category</p>
+              <p className="text-tiny text-white/60 invert-color">#{name}</p>
             </div>
           </div>
         </CardFooter>

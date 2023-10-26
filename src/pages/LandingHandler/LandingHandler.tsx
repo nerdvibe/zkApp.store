@@ -17,7 +17,7 @@ export default function LandingHandler() {
       if (!state.session.user) {
         fetchUserInfo();
       } else {
-        navigate(ROUTES.HOME);
+        navigate(ROUTES.DASHBOARD);
       }
     } else {
       navigate(ROUTES.LOGIN);

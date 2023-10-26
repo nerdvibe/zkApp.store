@@ -4,26 +4,38 @@ import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
 import FollowButton from "../components/FollowButton";
 import { useState } from "react";
-
-const tabs = [
-  { key: "Trending", title: "Trending", component: <Trending /> },
-  { key: "MostUsed", title: "Most used", component: <MostUsed /> },
-  { key: "News", title: "News", component: <MostUsed /> },
-];
+import {
+  useCategoryQuery,
+  useProductsByCategoryQuery,
+} from "@/gql/generated_mock";
 
 export default function Category() {
-  const appsNumber = 123;
   const { id } = useParams();
   const [following, setFollowing] = useState(false);
   const onFollowClick = () => {
     setFollowing(!following);
   };
+  const { data } = useCategoryQuery({
+    variables: {
+      id,
+    },
+  });
+
+  const tabs = [
+    {
+      key: "Trending",
+      title: "Trending",
+      component: <Trending apps={data?.Category?.Products} />,
+    },
+    { key: "MostUsed", title: "Most used", component: <MostUsed /> },
+    { key: "News", title: "News", component: <MostUsed /> },
+  ];
 
   return (
-    <div className="flex flex-col gap-4 my-11 mx-8">
-      <h1 className="text-4xl text-white font-bold">#{id}</h1>
+    <div className="flex flex-col gap-4 my-11 md:mx-8">
+      <h1 className="text-4xl text-white font-bold">#{data?.Category?.name}</h1>
       <div className="flex text-white justify-between">
-        <p className="text-xl">{appsNumber} zkApps</p>
+        <p className="text-xl">{data?.Category?.Products?.length} zkApp</p>
         <FollowButton onClick={onFollowClick} following={following} />
       </div>
       <div className="flex flex-col gap-4">

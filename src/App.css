@@ -34,3 +34,11 @@ label {
 .light .sidebar-icon {
   filter: invert(1);
 }
+
+.light .invert-color {
+  filter: invert(1);
+}
+
+.wmde-markdown>*{
+  word-wrap: break-word;
+}

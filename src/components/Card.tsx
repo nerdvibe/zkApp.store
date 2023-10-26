@@ -13,8 +13,11 @@ import { useDispatch } from "react-redux";
 interface CustomCardProps {
   title?: string;
   description?: string;
+  shortDescription?: string;
   category?: string;
+  score?: number;
   version?: string;
+  id?: number;
   key?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   buttonColor?:
@@ -28,9 +31,11 @@ interface CustomCardProps {
 }
 
 export default function CustomCard({
+  id,
   title,
-  description,
+  shortDescription,
   category,
+  score,
   version,
   key,
   buttonColor,
@@ -39,7 +44,7 @@ export default function CustomCard({
 }: CustomCardProps) {
   const dispatch = useDispatch();
   const onCardClick = () => {
-    dispatch(toggleProductModal({ active: true, productId: "123" }));
+    dispatch(toggleProductModal({ active: true, productId: id }));
   };
 
   return (
@@ -54,22 +59,18 @@ export default function CustomCard({
           isBlurred
           className="object-cover rounded-xl z-0"
           src={image || "https://nextui.org/images/hero-card.jpeg"}
-          width={250}
+          // width={250}
           height={250}
           style={{
             height: "250px",
             width: "220px",
           }}
+          removeWrapper
         />
       </CardHeader>
-      <CardBody className="overflow-visible py-2 gap-2">
+      <CardBody className="overflow-visible py-2 gap-2 justify-between">
         <div className="flex flex-col">
           <p className="uppercase font-bold">{title || "Daily Mix"}</p>
-          <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[100px]">
-            <small className="text-default-500 w-full flex-wrap ">
-              {description || "12 Tracks"}
-            </small>
-          </ScrollShadow>
           <small className="text-default-400">
             #{category || "Authentication"}
           </small>
@@ -77,8 +78,13 @@ export default function CustomCard({
             <small className="text-default-400">
               {version || "thisisatest.com"}
             </small>
-            <p className="text-tiny text-primary">4/5 Score</p>
+            <p className="text-tiny text-primary">{score}/5 Score</p>
           </div>
+          <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 h-[80px] max-w-[220px]">
+            <small className="text-default-500 w-full flex-wrap ">
+              {shortDescription}
+            </small>
+          </ScrollShadow>
         </div>
         <Button
           color={buttonColor || "primary"}

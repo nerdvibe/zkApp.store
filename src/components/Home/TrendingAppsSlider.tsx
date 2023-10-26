@@ -2,12 +2,13 @@ import { ScrollShadow, Tab, Tabs } from "@nextui-org/react";
 import CustomCard from "../Card";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
-import mock from "@/mocks/TrendingApps.json";
+import { useTrendingAppsQuery } from "@/gql/generated_mock";
 
 export default function TrendingAppsSlider() {
+  const { data } = useTrendingAppsQuery();
   const navigate = useNavigate();
-  const onClick = () => {
-    navigate(`${routes.PRODUCT}/1`);
+  const onClick = (id: string) => {
+    navigate(`${routes.PRODUCT}/${id}`);
   };
   return (
     <>
@@ -26,8 +27,8 @@ export default function TrendingAppsSlider() {
               orientation="horizontal"
               className="w-full flex gap-4 left-0 p-4"
             >
-              {mock.map((element) => (
-                <CustomCard {...element} onClick={onClick} />
+              {data?.allTrendingApps?.map((element) => (
+                <CustomCard {...element} onClick={() => onClick(element?.id)} />
               ))}
             </ScrollShadow>
           </Tab>

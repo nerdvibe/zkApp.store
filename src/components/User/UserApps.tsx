@@ -1,14 +1,17 @@
-import { useParams } from "react-router-dom";
+import routes from "@/routes";
 import CustomCard from "../Card";
-import mock from "@/mocks/user-products.json";
+import { useNavigate } from "react-router-dom";
 
-export default function UserApps() {
-  const { id: urlId } = useParams();
+export default function UserApps({ apps }: { apps: any[] }) {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-center m-auto">
       <div className="flex justify-center items-center flex-wrap gap-4">
-        {mock.map((el) => (
-          <CustomCard {...el} />
+        {apps?.map((el) => (
+          <CustomCard
+            {...el}
+            onClick={() => navigate(`${routes.PRODUCT}/${el.id}`)}
+          />
         ))}
       </div>
     </div>

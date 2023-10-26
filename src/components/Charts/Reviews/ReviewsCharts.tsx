@@ -12,29 +12,7 @@ import {
 
 import "./style.css";
 
-export default function ReviewsCharts() {
-  const data = [
-    {
-      name: "5 Stars",
-      reviews: 2400,
-    },
-    {
-      name: "4 Stars",
-      reviews: 2210,
-    },
-    {
-      name: "3 Stars",
-      reviews: 2290,
-    },
-    {
-      name: "2 Stars",
-      reviews: 2000,
-    },
-    {
-      name: "1 Stars",
-      reviews: 2181,
-    },
-  ];
+export default function ReviewsCharts({ data }: any) {
   return (
     <ResponsiveContainer
       width="100%"

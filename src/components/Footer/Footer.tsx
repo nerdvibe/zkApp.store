@@ -7,7 +7,7 @@ export default function Footer() {
     <div className="flex flex-row justify-between px-5 flex-wrap items-center py-4">
       <div className="flex flex-col flex-1 gap-10 min-w-[300px] px-8">
         <div>
-          <Image src={Logo} alt="Logo" radius="none" />
+          <Image src={Logo} alt="Logo" radius="none" className="sidebar-icon" />
         </div>
         <div className="flex flex-col">
           <a className="footer-link" href="http://google.com">

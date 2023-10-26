@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 
 export interface IUser {
+  id?: number;
   username: string;
   email: string;
   avatar?: string;
@@ -41,7 +42,7 @@ export const sessionSlice = createSlice({
       state.user = payload.user;
     },
     setUserInfo: (state, { payload }) => {
-      state.user = payload.user;
+      state.user = { ...payload.user };
     },
     clearToken: (state) => {
       state.authToken = null;
@@ -58,7 +59,8 @@ export const sessionSlice = createSlice({
   },
 });
 
-export const { login, logout, setUserInfo,clearToken,clearRefreshToken } = sessionSlice.actions;
+export const { login, logout, setUserInfo, clearToken, clearRefreshToken } =
+  sessionSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const isLogged = (state: RootState) =>

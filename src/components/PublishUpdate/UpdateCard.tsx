@@ -22,20 +22,20 @@ interface IUpdateData {
     version: string;
     description: string;
     key: string;
-    app: app;
+    product: any;
   };
   onEdit: (data: unknown) => void;
 }
 
 export default function UpdateCard({ update, onEdit }: IUpdateData) {
-  const { title, version, description, app } = update;
+  const { title, version, description, Product } = update;
   return (
     <Card className="auth-card max-w-[400px]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col gap-1 px-2">
           <h1 className="font-bold text-xl">{title}</h1>
           <p className="text-small text-default-500">
-            {app.label} - {version}
+            {Product.title} - {version}
           </p>
         </div>
       </CardHeader>

@@ -25,9 +25,9 @@ export default function Home() {
       <TrendingAppsSlider />
       <Categories />
       <FeaturedBanner />
-      <AppModal />
       <CreativeBanner />
       <Footer />
+      <AppModal />
     </div>
   );
 }

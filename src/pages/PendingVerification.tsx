@@ -27,7 +27,7 @@ export default function PendingVerification() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 my-11 mx-8">
+    <div className="flex flex-col gap-4 my-11 md:mx-8">
       <h1 className="text-4xl text-white font-bold">
         {"> Email verification"}
       </h1>

@@ -41,7 +41,7 @@ export default function UpdateModal({
   const [version, setVersion] = useState(data?.version || "");
   const [description, setDescription] = useState(data?.description || "");
   const [selectedApp, setSelectedApp] = useState(
-    data?.app?.value || initialSelectedApp || ""
+    data?.Product?.id || initialSelectedApp || ""
   );
   useEffect(() => {
     if (data) {
@@ -49,7 +49,7 @@ export default function UpdateModal({
       setDescription(data.description);
       setVersion(data.version);
       if (!add) {
-        setSelectedApp(data?.app.value);
+        setSelectedApp(data?.Product.value);
       }
     }
   }, [data, add]);
@@ -119,10 +119,10 @@ export default function UpdateModal({
                   {availableApps?.map((app) => (
                     <SelectItem
                       className="text-white"
-                      key={app.value}
-                      value={app.value}
+                      key={app.id}
+                      value={app.id}
                     >
-                      {app.label}
+                      {app.title}
                     </SelectItem>
                   ))}
                 </Select>

@@ -10,19 +10,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
-import { clearRefreshToken, clearToken, logout } from "../../store/session";
+import {
+  clearRefreshToken,
+  clearToken,
+  logout,
+  setUserInfo,
+} from "../../store/session";
 import { useLogoutMutation } from "../../gql/generated";
 import { toast } from "react-hot-toast";
 import UserIcon from "../User/UserIcon";
+import { useUserQuery } from "@/gql/generated_mock";
+import { useEffect } from "react";
 
 export default function User() {
   const isAuthenticated = useSelector(
     (state: RootState) => state.session.logged
   );
+  const { data } = useUserQuery({
+    variables: {
+      id: 1,
+    },
+  });
   const user = useSelector((state: RootState) => state.session.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [logoutSession] = useLogoutMutation();
+
+  useEffect(() => {
+    if (data?.User) {
+      dispatch(setUserInfo({ user: data?.User }));
+    }
+  }, [data]);
 
   const logoutHandler = async () => {
     try {
@@ -31,13 +49,14 @@ export default function User() {
     } catch (error) {
       toast.error("There was an error while logging out");
     } finally {
+      dispatch(setUserInfo({}));
       dispatch(logout());
       navigate(routes.LANDING);
     }
   };
 
   const goToProfile = () => {
-    navigate(`${routes.PROFILE}/${user?.username}`);
+    navigate(`${routes.PROFILE}/${data?.User?.id}`);
   };
 
   const goToSettings = () => {
@@ -54,8 +73,12 @@ export default function User() {
           color="default"
           name={user?.username}
           size="sm"
+          src={data?.User?.userImage}
           fallback={
-            <UserIcon value={user?.username || user?.email || ""} size={30} />
+            <UserIcon
+              value={data?.User?.username || user?.email || ""}
+              size={30}
+            />
           }
         />
       </DropdownTrigger>
@@ -66,7 +89,9 @@ export default function User() {
           onClick={goToProfile}
         >
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{user?.email || user?.username}</p>
+          <p className="font-semibold">
+            {data?.User?.username || data?.User?.email}
+          </p>
         </DropdownItem>
         <DropdownItem key="settings" onClick={goToSettings}>
           My Settings

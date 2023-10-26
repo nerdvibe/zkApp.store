@@ -4,6 +4,8 @@ import PublishUpdate from "../components/PublishUpdate";
 import EmptyState from "../components/Dashboard/EmptyState";
 import mock from "@/mocks/user-apps.json";
 import Analytics from "@/components/Dashboard/Analytics/Analytics";
+import { useProductsByUserQuery, useUserQuery } from "@/gql/generated_mock";
+import { useParams } from "react-router-dom";
 
 export interface UserApps {
   id: string;
@@ -15,25 +17,35 @@ export interface UserApps {
   image: string;
 }
 
-const tabs = [
-  {
-    label: "zkApps",
-    component: <UserApps apps={mock.apps} />,
-  },
-  {
-    label: "Analytics",
-    component: <Analytics apps={mock.apps} />,
-  },
-  {
-    label: "Publish update",
-    component: <PublishUpdate />,
-  },
-];
-
 export default function Dashboard() {
-  const nApps = mock.apps.length;
+  const { data } = useUserQuery({
+    variables: {
+      id: 1,
+    },
+  });
+
+  const tabs = [
+    {
+      label: "zkApps",
+      component: <UserApps apps={data?.User?.Products} />,
+    },
+    {
+      label: "Analytics",
+      component: <Analytics apps={data?.User?.Products} />,
+    },
+    {
+      label: "Publish update",
+      component: (
+        <PublishUpdate
+          apps={data?.User?.Products}
+          updates={data?.User?.Updates}
+        />
+      ),
+    },
+  ];
+  const nApps = data?.User?.Products.length || 0;
   return (
-    <div className="flex flex-col gap-4 my-11 mx-8">
+    <div className="flex flex-col gap-4 my-11 md:mx-8">
       <h1 className="text-4xl text-white font-bold">{"> Dashboard"}</h1>
       <p className="text-white">
         You have {nApps || 0} zkApps published.{" "}

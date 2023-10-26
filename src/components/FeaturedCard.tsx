@@ -13,7 +13,7 @@ export default function FeaturedCard({
   white,
   onClick,
   title,
-  description,
+  shortDescription,
   key,
   image,
 }: Props) {
@@ -47,7 +47,7 @@ export default function FeaturedCard({
             white && "text-black"
           }`}
         >
-          {description}
+          {shortDescription}
         </small>
       </CardBody>
     </Card>

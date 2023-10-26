@@ -55,7 +55,8 @@ export default function BlurredCard({
           radius="full"
           size="sm"
           onClick={() => {
-            dispatch(toggleProductModal({ active: true, productId: "123" }));
+            // TODO: Fix this modal
+            // dispatch(toggleProductModal({ active: true, productId: "123" }));
           }}
         >
           {primaryButtonLabel}

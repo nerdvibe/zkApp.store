@@ -4,12 +4,23 @@ import AddUpdateCard from "./PublishUpdate/AddUpdateCard";
 import { useState } from "react";
 import UpdateModal from "./PublishUpdate/UpdateModal";
 import mock from "@/mocks/user-updates";
+import { UserApps } from "@/pages/Dashboard";
 
-export default function PublishUpdate() {
+interface IPublishUpdate {
+  apps: UserApps[];
+  // TODO: Update
+  updates: any[];
+}
+
+export default function PublishUpdate({ apps, updates }: IPublishUpdate) {
+  console.log(
+    "🚀 ~ file: PublishUpdate.tsx:16 ~ PublishUpdate ~ updates:",
+    updates
+  );
   const [selectedApp, setSelectedApp] = useState("");
   const [updateData, setUpdateData] = useState();
   const [addUpdateCard, setAddUpdateCard] = useState(false);
-  const { apps, updates } = mock;
+
   const updateEdit = (data: unknown) => {
     setAddUpdateCard(false);
     setUpdateData(data);
@@ -30,15 +41,11 @@ export default function PublishUpdate() {
           onChange={(e) => setSelectedApp(e.target.value)}
         >
           <SelectItem className="text-white" key={""} value={""}>
-            None
+            Overall
           </SelectItem>
           {apps.map((app) => (
-            <SelectItem
-              className="text-white"
-              key={app.value}
-              value={app.value}
-            >
-              {app.label}
+            <SelectItem className="text-white" key={app.id} value={app.id}>
+              {app.title}
             </SelectItem>
           ))}
         </Select>
@@ -51,12 +58,12 @@ export default function PublishUpdate() {
             show={!!updateData}
             data={updateData}
             availableApps={apps}
-            initialSelectedApp={updateData?.app?.value || selectedApp}
+            initialSelectedApp={updateData?.product?.id || selectedApp}
             add={addUpdateCard}
           />
           {updates
             .filter((update) =>
-              selectedApp ? update.app.value === selectedApp : true
+              selectedApp ? update?.Product?.id === selectedApp : true
             )
             .map((update) => (
               <UpdateCard update={update} onEdit={updateEdit} />

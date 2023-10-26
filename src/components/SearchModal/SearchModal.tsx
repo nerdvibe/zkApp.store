@@ -8,28 +8,39 @@ import {
   Kbd,
   Listbox,
   ListboxItem,
+  ListboxSection,
   Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
+  ScrollShadow,
   Spinner,
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchIcon } from "../SearchIcon";
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
+import { useSearchLazyQuery } from "@/gql/generated_mock";
+import { useNavigate } from "react-router-dom";
+import routes from "@/routes";
 
 export default function SearchModal() {
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
-  const [data, setData] = useState([]);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { showModal, text } = useSelector((state: RootState) => state.search);
   const debouncedSearchTerm = useDebounce<string>(inputValue, 500);
+  const [searchApps, { data }] = useSearchLazyQuery();
 
   useEffect(() => {
     if (showModal) {
       setInputValue(text);
+      searchApps({
+        variables: {
+          data: text,
+        },
+      });
     }
   }, [showModal, text]);
 
@@ -46,29 +57,21 @@ export default function SearchModal() {
       dispatch(searchApp({ value: debouncedSearchTerm }));
       setLoader(true);
 
-      // Placeholder
       setTimeout(() => {
-        setData([
-          {
-            title: "Test app",
-            icon: "https://nextui.org/images/hero-card.jpeg",
-            description: "This is a test app",
+        searchApps({
+          variables: {
+            data: debouncedSearchTerm,
           },
-          {
-            title: "Test app 2",
-            icon: "https://nextui.org/images/hero-card.jpeg",
-            description: "This is a test app 2",
-          },
-          {
-            title: "Test app 3",
-            icon: "https://nextui.org/images/hero-card.jpeg",
-            description: "This is a test app 3",
-          },
-        ]);
+        });
         setLoader(false);
       }, 1000);
     }
   }, [debouncedSearchTerm]);
+
+  const openResult = (route: string, id?: string) => {
+    navigate(`${route}/${id}`);
+    dispatch(toggleModal({}));
+  };
 
   return (
     <Modal
@@ -105,26 +108,93 @@ export default function SearchModal() {
               <Divider />
               <div className="flex flex-col items-center justify-center min-h-[150px] w-full">
                 {loader ? (
-                  <Spinner label="Searching items" />
+                  <Spinner label="Searching items" className="w-full" />
                 ) : (
-                  data && (
-                    <Listbox
-                      variant="flat"
-                      aria-label="Listbox menu with sections"
-                    >
-                      {data.map((app) => (
-                        <ListboxItem
-                          key={app.title}
-                          description={app.description}
-                          startContent={
-                            <Image src={app.icon} className="max-w-[50px]" />
-                          }
-                        >
-                          {app.title}
-                        </ListboxItem>
-                      ))}
-                    </Listbox>
-                  )
+                  <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px]">
+                    {data && (
+                      <Listbox
+                        variant="flat"
+                        aria-label="Listbox menu with sections"
+                        className="max-h-[500px]"
+                      >
+                        <ListboxSection title="zkApps" showDivider>
+                          {data?.allProducts?.length ? (
+                            data?.allProducts?.map((app) => (
+                              <ListboxItem
+                                key={app?.title}
+                                description={app?.shortDescription}
+                                onClick={() =>
+                                  openResult(routes.PRODUCT, app?.id)
+                                }
+                                startContent={
+                                  <Image
+                                    src={app?.image}
+                                    className="w-[50px] h-[50px] object-cover"
+                                  />
+                                }
+                              >
+                                {app?.title}
+                              </ListboxItem>
+                            ))
+                          ) : (
+                            <ListboxItem key={"no-zkapps"}>
+                              No results
+                            </ListboxItem>
+                          )}
+                        </ListboxSection>
+                        <ListboxSection title="Users" showDivider>
+                          {data?.allUsers?.length ? (
+                            data?.allUsers?.map((app) => (
+                              <ListboxItem
+                                key={app?.username}
+                                description={`${app?.followers} Followers`}
+                                onClick={() =>
+                                  openResult(routes.PROFILE, app?.id)
+                                }
+                                startContent={
+                                  <Image
+                                    src={app?.userImage}
+                                    className="w-[50px] h-[50px] object-cover"
+                                  />
+                                }
+                              >
+                                {app?.username}
+                              </ListboxItem>
+                            ))
+                          ) : (
+                            <ListboxItem key={"no-users"}>
+                              No results
+                            </ListboxItem>
+                          )}
+                        </ListboxSection>
+                        <ListboxSection title="Categories" showDivider>
+                          {data?.allCategories?.length ? (
+                            data?.allCategories?.map((app) => (
+                              <ListboxItem
+                                key={app?.name}
+                                description={`${app?.Products?.length} zkApps`}
+                                onClick={() =>
+                                  openResult(routes.CATEGORY, app?.id)
+                                }
+                                startContent={
+                                  <Image
+                                    src={app?.thumbnails[0]}
+                                    className="w-[50px] h-[50px] object-cover"
+                                  />
+                                }
+                              >
+                                #{app?.name}
+                              </ListboxItem>
+                            ))
+                          ) : (
+                            <ListboxItem key={"no-categories"}>
+                              No results
+                            </ListboxItem>
+                          )}
+                        </ListboxSection>
+                      </Listbox>
+                    )}
+                  </ScrollShadow>
                 )}
               </div>
             </ModalBody>

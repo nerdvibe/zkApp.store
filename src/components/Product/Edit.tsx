@@ -1,3 +1,4 @@
+import { useProductQuery } from "@/gql/generated_mock";
 import { toggleEditProductModal } from "@/store/product";
 import { RootState } from "@/store/store";
 import {
@@ -10,36 +11,27 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import MDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-// TODO: To be updated
-
-const data = {
-  title: "CyberpunKYC v4.0: Simplified Inte...",
-  version: "v4.0.1",
-  description: `We are thrilled to announce the release of CyberpunKYC version 4.0,
-  designed to simplify integration and enhance scalability for
-  businesses of all sizes. With streamlined APIs and robust
-  infrastructure, this update empowers organizations to seamlessly
-  integrate CyberpunKYC into their existing systems and handle
-  high-volume verification requests with ease`,
-  key: "1",
-  app: {
-    label: "CyberpunKYC",
-    value: "CyberpunKYC",
-    key: 1,
-  },
-};
+import { useParams } from "react-router-dom";
 
 export default function Edit() {
-  const [title, setTitle] = useState(data?.title || "");
+  const { id } = useParams();
+  const { data, loading, error } = useProductQuery({
+    variables: {
+      id,
+    },
+  });
+
+  const [title, setTitle] = useState(data?.Product?.title || "");
   const [shortDescription, setShortDescription] = useState(
-    data?.shortDescription || ""
+    data?.Product?.shortDescription || ""
   );
-  const [version, setVersion] = useState(data?.version || "");
-  const [link, setLink] = useState(data?.link || "");
-  const [description, setDescription] = useState(data?.description || "");
+  const [version, setVersion] = useState(data?.Product?.version || "");
+  const [link, setLink] = useState(data?.Product?.link || "");
+  const [description, setDescription] = useState(
+    data?.Product?.description || ""
+  );
   const dispatch = useDispatch();
   const show = useSelector((state: RootState) => state.product.editProduct);
 
