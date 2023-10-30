@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { PieChart, Pie, Sector, Cell } from "recharts";
-import mock from "@/mocks/app-stats.json";
 
 const COLORS = ["#2276FC", "#5FD5EC", "#FFBB28", "#FF8042"];
 
@@ -34,8 +33,8 @@ const renderActiveShape = (props: any) => {
       <Sector
         cx={cx}
         cy={cy}
-        innerRadius={innerRadius-2}
-        outerRadius={outerRadius+2}
+        innerRadius={innerRadius - 2}
+        outerRadius={outerRadius + 2}
         startAngle={startAngle}
         endAngle={endAngle}
         stroke="none"
@@ -48,7 +47,7 @@ const renderActiveShape = (props: any) => {
 
 export default function NewUsersCharts() {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const users = [];
   const onPieEnter = (_, index) => {
     setActiveIndex(index);
   };
@@ -59,7 +58,7 @@ export default function NewUsersCharts() {
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         stroke="none"
-        data={mock.users}
+        data={users}
         cx="50%"
         cy="50%"
         innerRadius={60}
@@ -68,7 +67,7 @@ export default function NewUsersCharts() {
         dataKey="value"
         onMouseEnter={onPieEnter}
       >
-        {mock.users.map((entry, index) => (
+        {users?.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>

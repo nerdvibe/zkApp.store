@@ -1,12 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 
+interface ZkApp {
+  id: string;
+  name: string;
+  slug: string;
+  subtitle?: string;
+  owner: string;
+  body?: string;
+  reviewScore?: number;
+  reviewCount?: number;
+  currentVersion: string;
+  url: string;
+  discordUrl?: string;
+  githubUrl?: string;
+  category?: string;
+  icon?: string;
+  bannerImage?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // Define a type for the slice state
 interface ProdutSlice {
   active: boolean;
   newProduct: boolean;
   editProduct: boolean;
   productId?: string;
+  selectedApp?: ZkApp;
 }
 
 // Define the initial state using that type
@@ -15,12 +36,16 @@ const initialState: ProdutSlice = {
   newProduct: false,
   editProduct: false,
   productId: "",
+  selectedApp: undefined,
 };
 
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    updateSelectedApp: (state, { payload }) => {
+      state.selectedApp = payload.zkApp;
+    },
     toggleProductModal: (state, { payload }) => {
       state.active = payload.active;
       state.productId = payload.productId;
@@ -38,6 +63,7 @@ export const {
   toggleProductModal,
   toggleNewProductModal,
   toggleEditProductModal,
+  updateSelectedApp,
 } = productSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

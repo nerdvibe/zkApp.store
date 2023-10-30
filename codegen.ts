@@ -5,7 +5,7 @@ const config: CodegenConfig = {
   // documents: ["src/**/*.graphql"],
   generates: {
     "./src/gql/generated.tsx": {
-      schema: "http://192.168.3.125:4000/graphql",
+      schema: "http://localhost:4000/graphql",
       plugins: [
         "typescript",
         "typescript-operations",
@@ -17,19 +17,19 @@ const config: CodegenConfig = {
         withHooks: true,
       },
     },
-    "./src/gql/generated_mock.tsx": {
-      schema: "http://localhost:3000/graphql",
-      documents: ["src/**/mock.graphql"],
-      plugins: [
-        "typescript",
-        "typescript-operations",
-        "typescript-react-apollo",
-        "typescript-resolvers",
-      ],
-      config: {
-        withHooks: true,
-      },
-    },
+    // "./src/gql/generated_mock.tsx": {
+    //   schema: "http://localhost:3000/graphql",
+    //   documents: ["src/**/mock.graphql"],
+    //   plugins: [
+    //     "typescript",
+    //     "typescript-operations",
+    //     "typescript-react-apollo",
+    //     "typescript-resolvers",
+    //   ],
+    //   config: {
+    //     withHooks: true,
+    //   },
+    // },
   },
 };
 

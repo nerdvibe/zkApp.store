@@ -1,18 +1,23 @@
-import { Chip, Image, ScrollShadow } from "@nextui-org/react";
+import { Image, ScrollShadow } from "@nextui-org/react";
 import "../style.css";
 import FeaturedCard from "../FeaturedCard";
-import cards from "@/mocks/featured-apps.json";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
-import { useCategoryQuery, useFeaturedAppsQuery } from "@/gql/generated_mock";
 
 export default function FeaturedBanner() {
   const navigate = useNavigate();
-  const { data } = useFeaturedAppsQuery({
-    variables: {
-      id: 2,
-    },
-  });
+  const data = undefined;
+
+  if (!data) {
+    return (
+      <>
+        <h1 className="text-white text-xl">Featured</h1>
+        <div className="w-full flex items-center justify-center h-[200px] border-dashed border-2 border-gray-600 rounded-xl">
+          <h1 className="text-white">No featured ZkApps</h1>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

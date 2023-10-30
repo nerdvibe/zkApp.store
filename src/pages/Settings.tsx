@@ -2,12 +2,10 @@ import {
   Accordion,
   AccordionItem,
   Avatar,
-  Image,
   Listbox,
   ListboxItem,
   ListboxSection,
 } from "@nextui-org/react";
-import mock from "@/mocks/user-profile.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
@@ -15,6 +13,11 @@ import { useMemo, useState } from "react";
 import { IconWrapper } from "../components/IconWrapper";
 import Security from "../components/Settings/Security";
 import Profile from "@/components/Settings/Profile";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import UserIcon from "@/components/User/UserIcon";
+import Lottie from "react-lottie-player";
+import verified from "@/assets/animations/verified.json";
 
 enum TABS {
   PROFILE = "PROFILE",
@@ -59,6 +62,7 @@ const tabs = {
 
 export default function Settings() {
   const [selectedKeys, setSelectedKeys] = useState(new Set([TABS.PROFILE]));
+  const user = useSelector((state: RootState) => state.session.user);
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", "),
     [selectedKeys]
@@ -98,18 +102,26 @@ export default function Settings() {
         <div className="flex flex-row gap-4 justify-between px-8">
           <div className="flex flex-row gap-4">
             <Avatar
-              src={mock?.avatar || "/images/banner.png"}
+              src={user?.avatar}
               className="w-[100px] h-[100px] object-cover"
+              fallback={
+                <UserIcon value={user?.username || user?.email || ""} />
+              }
             />
             <div className="h-full flex flex-col justify-center">
               <div className="flex flex-row gap-2 items-center">
                 <h1 className="text-white text-3xl font-bold inline">
-                  @{mock?.username}
+                  {user?.username}
                 </h1>
-                <Image
-                  src="/icons/verified.png"
-                  className="inline min-w-[18px]"
-                />
+                {user?.verified && (
+                  <Lottie
+                    animationData={verified}
+                    loop={false}
+                    style={{ maxWidth: "30px" }}
+                    play={true}
+                    segments={[0, 50]}
+                  />
+                )}
               </div>
               <p className="text-white text-lg">Your personal account</p>
             </div>

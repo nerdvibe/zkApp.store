@@ -36,7 +36,7 @@ export const useKeyPress = ({
         }
       } else {
         if (keys.some((key) => event.key === key)) {
-          event.preventDefault();
+          // event.preventDefault();
           callbackRef.current(event);
         }
       }

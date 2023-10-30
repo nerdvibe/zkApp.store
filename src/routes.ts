@@ -2,7 +2,7 @@ export default {
   LANDING: "/",
   HOME: "/home",
   FAVOURITES: "/favourites",
-  PRODUCT: "/product",
+  PRODUCT: "/app",
   CATEGORY: "/category",
   LOGIN: "/login",
   REGISTER: "/register",

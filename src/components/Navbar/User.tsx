@@ -16,7 +16,7 @@ import {
   logout,
   setUserInfo,
 } from "../../store/session";
-import { useLogoutMutation } from "../../gql/generated";
+import { useLogoutMutation, useUserDataQuery } from "../../gql/generated";
 import { toast } from "react-hot-toast";
 import UserIcon from "../User/UserIcon";
 import { useUserQuery } from "@/gql/generated_mock";
@@ -26,10 +26,9 @@ export default function User() {
   const isAuthenticated = useSelector(
     (state: RootState) => state.session.logged
   );
-  const { data } = useUserQuery({
-    variables: {
-      id: 1,
-    },
+
+  const { data: userData } = useUserDataQuery({
+    skip: !isAuthenticated,
   });
   const user = useSelector((state: RootState) => state.session.user);
   const navigate = useNavigate();
@@ -37,10 +36,10 @@ export default function User() {
   const [logoutSession] = useLogoutMutation();
 
   useEffect(() => {
-    if (data?.User) {
-      dispatch(setUserInfo({ user: data?.User }));
+    if (userData) {
+      dispatch(setUserInfo({ user: userData.userDetails }));
     }
-  }, [data]);
+  }, [userData]);
 
   const logoutHandler = async () => {
     try {
@@ -56,7 +55,7 @@ export default function User() {
   };
 
   const goToProfile = () => {
-    navigate(`${routes.PROFILE}/${data?.User?.id}`);
+    navigate(`${routes.PROFILE}/${user?.id}`);
   };
 
   const goToSettings = () => {
@@ -73,12 +72,9 @@ export default function User() {
           color="default"
           name={user?.username}
           size="sm"
-          src={data?.User?.userImage}
+          src={user?.avatar}
           fallback={
-            <UserIcon
-              value={data?.User?.username || user?.email || ""}
-              size={30}
-            />
+            <UserIcon value={user?.username || user?.email || ""} size={30} />
           }
         />
       </DropdownTrigger>
@@ -89,21 +85,10 @@ export default function User() {
           onClick={goToProfile}
         >
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">
-            {data?.User?.username || data?.User?.email}
-          </p>
+          <p className="font-semibold">{user?.username || user?.email}</p>
         </DropdownItem>
         <DropdownItem key="settings" onClick={goToSettings}>
           My Settings
-        </DropdownItem>
-        <DropdownItem key="settings" onClick={() => dispatch(clearToken())}>
-          Clear access token
-        </DropdownItem>
-        <DropdownItem
-          key="settings"
-          onClick={() => dispatch(clearRefreshToken())}
-        >
-          Clear refresh token
         </DropdownItem>
         {/* <DropdownItem key="analytics">Analytics</DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}

@@ -2,7 +2,7 @@ export default function CreativeBanner() {
   return (
     <div className="flex flex-col items-center gap-8 py-8">
       <div>
-        <h1 className="text-4xl font-bold">Be a Creative Developer</h1>
+        <h1 className="text-4xl font-bold text-white">Be a Creative Developer</h1>
         <p className="text-white text-center">
           Join the landscape of Mina Protocol and reach <br />
           hundreds of developers and users.

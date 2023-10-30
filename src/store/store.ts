@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
@@ -10,30 +10,33 @@ import publishAppReducer from "./publishApp";
 import favoriteProductsReducer from "./favourites";
 import registrationReducer from "./registration";
 import searchReducer from "./search";
+import hardSet from "redux-persist/es/stateReconciler/hardSet";
 
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["sidebar", "session", "config", "favoriteProducts"],
+  blacklist: ["product", "publishApp", "search", "registration"],
 };
 
+const rootReducer = combineReducers({
+  sidebar: sidebarReducer,
+  product: productReducer,
+  session: sessionReducer,
+  config: configReducer,
+  favoriteProducts: favoriteProductsReducer,
+  publishApp: publishAppReducer,
+  search: searchReducer,
+  registration: registrationReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
-  reducer: {
-    sidebar: persistReducer(persistConfig, sidebarReducer),
-    product: persistReducer(persistConfig, productReducer),
-    session: persistReducer(persistConfig, sessionReducer),
-    config: persistReducer(persistConfig, configReducer),
-    favoriteProducts: persistReducer(persistConfig, favoriteProductsReducer),
-    publishApp: publishAppReducer,
-    search: searchReducer,
-    registration: registrationReducer,
-  },
+  reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: [thunk],
 });
-
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch;
-
 export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;

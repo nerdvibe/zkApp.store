@@ -19,21 +19,56 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type CreateZkApp = {
+  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['String']['input']>;
+  category?: InputMaybe<Scalars['String']['input']>;
+  currentVersion: Scalars['String']['input'];
+  discordUrl?: InputMaybe<Scalars['String']['input']>;
+  githubUrl?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  url: Scalars['String']['input'];
+};
+
 export type Message = {
   __typename?: 'Message';
+  error?: Maybe<Scalars['Boolean']['output']>;
   message: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  checkSlug: Scalars['Boolean']['output'];
+  createZkApp: ZkApp;
+  deleteZkApp: Scalars['Boolean']['output'];
   login?: Maybe<Token>;
   logout?: Maybe<Message>;
   refreshToken?: Maybe<Token>;
   requestResetPassword?: Maybe<Message>;
+  resendVerifyEmail?: Maybe<Message>;
   signup?: Maybe<Token>;
   updatePassword?: Maybe<Message>;
   updateResetPassword?: Maybe<Message>;
+  updateZkApp: ZkApp;
   verifyEmail?: Maybe<Message>;
+};
+
+
+export type MutationCheckSlugArgs = {
+  slug: Scalars['String']['input'];
+};
+
+
+export type MutationCreateZkAppArgs = {
+  zkApp: CreateZkApp;
+};
+
+
+export type MutationDeleteZkAppArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -49,6 +84,11 @@ export type MutationRefreshTokenArgs = {
 
 
 export type MutationRequestResetPasswordArgs = {
+  email: Scalars['String']['input'];
+};
+
+
+export type MutationResendVerifyEmailArgs = {
   email: Scalars['String']['input'];
 };
 
@@ -70,6 +110,11 @@ export type MutationUpdateResetPasswordArgs = {
 };
 
 
+export type MutationUpdateZkAppArgs = {
+  zkApp: UpdateZkApp;
+};
+
+
 export type MutationVerifyEmailArgs = {
   emailVerificationToken: Scalars['String']['input'];
 };
@@ -78,6 +123,12 @@ export type Query = {
   __typename?: 'Query';
   publicInfo?: Maybe<Scalars['String']['output']>;
   userDetails?: Maybe<User>;
+  zkApp?: Maybe<ZkApp>;
+};
+
+
+export type QueryZkAppArgs = {
+  slug: Scalars['String']['input'];
 };
 
 export type Signup = {
@@ -101,6 +152,43 @@ export type User = {
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
   id: Scalars['String']['output'];
+  username: Scalars['String']['output'];
+};
+
+export type ZkApp = {
+  __typename?: 'ZkApp';
+  bannerImage?: Maybe<Scalars['String']['output']>;
+  body?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  currentVersion: Scalars['String']['output'];
+  discordUrl?: Maybe<Scalars['String']['output']>;
+  githubUrl?: Maybe<Scalars['String']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  owner: Scalars['String']['output'];
+  reviewCount?: Maybe<Scalars['Float']['output']>;
+  reviewScore?: Maybe<Scalars['Float']['output']>;
+  slug: Scalars['String']['output'];
+  subtitle?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
+};
+
+export type UpdateZkApp = {
+  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['String']['input']>;
+  category?: InputMaybe<Scalars['String']['input']>;
+  currentVersion?: InputMaybe<Scalars['String']['input']>;
+  discordUrl?: InputMaybe<Scalars['String']['input']>;
+  githubUrl?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -170,6 +258,39 @@ export type UpdatePasswordMutationVariables = Exact<{
 
 
 export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword?: { __typename?: 'Message', message: string } | null };
+
+export type UserDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserDataQuery = { __typename?: 'Query', userDetails?: { __typename?: 'User', id: string, email: string, username: string } | null };
+
+export type CreateZkAppMutationVariables = Exact<{
+  zkApp: CreateZkApp;
+}>;
+
+
+export type CreateZkAppMutation = { __typename?: 'Mutation', createZkApp: { __typename?: 'ZkApp', name: string } };
+
+export type AppDataQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, category?: string | null, icon?: string | null, bannerImage?: string | null, createdAt?: string | null, updatedAt?: string | null } | null };
+
+export type UpdateZkAppMutationVariables = Exact<{
+  zkApp: UpdateZkApp;
+}>;
+
+
+export type UpdateZkAppMutation = { __typename?: 'Mutation', updateZkApp: { __typename?: 'ZkApp', slug: string, body?: string | null, currentVersion: string, name: string, subtitle?: string | null, category?: string | null, url: string } };
+
+export type DeleteAppMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteAppMutation = { __typename?: 'Mutation', deleteZkApp: boolean };
 
 
 export const UserDetailsDocument = gql`
@@ -489,6 +610,205 @@ export function useUpdatePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdatePasswordMutationHookResult = ReturnType<typeof useUpdatePasswordMutation>;
 export type UpdatePasswordMutationResult = Apollo.MutationResult<UpdatePasswordMutation>;
 export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
+export const UserDataDocument = gql`
+    query userData {
+  userDetails {
+    id
+    email
+    username
+  }
+}
+    `;
+
+/**
+ * __useUserDataQuery__
+ *
+ * To run a query within a React component, call `useUserDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserDataQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserDataQuery(baseOptions?: Apollo.QueryHookOptions<UserDataQuery, UserDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserDataQuery, UserDataQueryVariables>(UserDataDocument, options);
+      }
+export function useUserDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserDataQuery, UserDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserDataQuery, UserDataQueryVariables>(UserDataDocument, options);
+        }
+export function useUserDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserDataQuery, UserDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserDataQuery, UserDataQueryVariables>(UserDataDocument, options);
+        }
+export type UserDataQueryHookResult = ReturnType<typeof useUserDataQuery>;
+export type UserDataLazyQueryHookResult = ReturnType<typeof useUserDataLazyQuery>;
+export type UserDataSuspenseQueryHookResult = ReturnType<typeof useUserDataSuspenseQuery>;
+export type UserDataQueryResult = Apollo.QueryResult<UserDataQuery, UserDataQueryVariables>;
+export const CreateZkAppDocument = gql`
+    mutation createZkApp($zkApp: CreateZkApp!) {
+  createZkApp(zkApp: $zkApp) {
+    name
+  }
+}
+    `;
+export type CreateZkAppMutationFn = Apollo.MutationFunction<CreateZkAppMutation, CreateZkAppMutationVariables>;
+
+/**
+ * __useCreateZkAppMutation__
+ *
+ * To run a mutation, you first call `useCreateZkAppMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateZkAppMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createZkAppMutation, { data, loading, error }] = useCreateZkAppMutation({
+ *   variables: {
+ *      zkApp: // value for 'zkApp'
+ *   },
+ * });
+ */
+export function useCreateZkAppMutation(baseOptions?: Apollo.MutationHookOptions<CreateZkAppMutation, CreateZkAppMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateZkAppMutation, CreateZkAppMutationVariables>(CreateZkAppDocument, options);
+      }
+export type CreateZkAppMutationHookResult = ReturnType<typeof useCreateZkAppMutation>;
+export type CreateZkAppMutationResult = Apollo.MutationResult<CreateZkAppMutation>;
+export type CreateZkAppMutationOptions = Apollo.BaseMutationOptions<CreateZkAppMutation, CreateZkAppMutationVariables>;
+export const AppDataDocument = gql`
+    query appData($slug: String!) {
+  zkApp(slug: $slug) {
+    name
+    owner
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category
+    icon
+    bannerImage
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useAppDataQuery__
+ *
+ * To run a query within a React component, call `useAppDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppDataQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useAppDataQuery(baseOptions: Apollo.QueryHookOptions<AppDataQuery, AppDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppDataQuery, AppDataQueryVariables>(AppDataDocument, options);
+      }
+export function useAppDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppDataQuery, AppDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppDataQuery, AppDataQueryVariables>(AppDataDocument, options);
+        }
+export function useAppDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AppDataQuery, AppDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AppDataQuery, AppDataQueryVariables>(AppDataDocument, options);
+        }
+export type AppDataQueryHookResult = ReturnType<typeof useAppDataQuery>;
+export type AppDataLazyQueryHookResult = ReturnType<typeof useAppDataLazyQuery>;
+export type AppDataSuspenseQueryHookResult = ReturnType<typeof useAppDataSuspenseQuery>;
+export type AppDataQueryResult = Apollo.QueryResult<AppDataQuery, AppDataQueryVariables>;
+export const UpdateZkAppDocument = gql`
+    mutation updateZkApp($zkApp: updateZkApp!) {
+  updateZkApp(zkApp: $zkApp) {
+    slug
+    body
+    currentVersion
+    name
+    subtitle
+    category
+    url
+  }
+}
+    `;
+export type UpdateZkAppMutationFn = Apollo.MutationFunction<UpdateZkAppMutation, UpdateZkAppMutationVariables>;
+
+/**
+ * __useUpdateZkAppMutation__
+ *
+ * To run a mutation, you first call `useUpdateZkAppMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateZkAppMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateZkAppMutation, { data, loading, error }] = useUpdateZkAppMutation({
+ *   variables: {
+ *      zkApp: // value for 'zkApp'
+ *   },
+ * });
+ */
+export function useUpdateZkAppMutation(baseOptions?: Apollo.MutationHookOptions<UpdateZkAppMutation, UpdateZkAppMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateZkAppMutation, UpdateZkAppMutationVariables>(UpdateZkAppDocument, options);
+      }
+export type UpdateZkAppMutationHookResult = ReturnType<typeof useUpdateZkAppMutation>;
+export type UpdateZkAppMutationResult = Apollo.MutationResult<UpdateZkAppMutation>;
+export type UpdateZkAppMutationOptions = Apollo.BaseMutationOptions<UpdateZkAppMutation, UpdateZkAppMutationVariables>;
+export const DeleteAppDocument = gql`
+    mutation deleteApp($id: String!) {
+  deleteZkApp(id: $id)
+}
+    `;
+export type DeleteAppMutationFn = Apollo.MutationFunction<DeleteAppMutation, DeleteAppMutationVariables>;
+
+/**
+ * __useDeleteAppMutation__
+ *
+ * To run a mutation, you first call `useDeleteAppMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAppMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAppMutation, { data, loading, error }] = useDeleteAppMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteAppMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAppMutation, DeleteAppMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAppMutation, DeleteAppMutationVariables>(DeleteAppDocument, options);
+      }
+export type DeleteAppMutationHookResult = ReturnType<typeof useDeleteAppMutation>;
+export type DeleteAppMutationResult = Apollo.MutationResult<DeleteAppMutation>;
+export type DeleteAppMutationOptions = Apollo.BaseMutationOptions<DeleteAppMutation, DeleteAppMutationVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -561,6 +881,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreateZkApp: CreateZkApp;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Message: ResolverTypeWrapper<Message>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -569,11 +891,15 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;
+  ZkApp: ResolverTypeWrapper<ZkApp>;
+  updateZkApp: UpdateZkApp;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CreateZkApp: CreateZkApp;
+  Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
   Message: Message;
   Mutation: {};
@@ -582,27 +908,36 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   Token: Token;
   User: User;
+  ZkApp: ZkApp;
+  updateZkApp: UpdateZkApp;
 };
 
 export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
+  error?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  checkSlug?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCheckSlugArgs, 'slug'>>;
+  createZkApp?: Resolver<ResolversTypes['ZkApp'], ParentType, ContextType, RequireFields<MutationCreateZkAppArgs, 'zkApp'>>;
+  deleteZkApp?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteZkAppArgs, 'id'>>;
   login?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType>;
   refreshToken?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationRefreshTokenArgs, 'refreshToken'>>;
   requestResetPassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationRequestResetPasswordArgs, 'email'>>;
+  resendVerifyEmail?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationResendVerifyEmailArgs, 'email'>>;
   signup?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'user'>>;
   updatePassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdatePasswordArgs, 'newPassword' | 'oldPassword'>>;
   updateResetPassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdateResetPasswordArgs, 'newPassword' | 'resetToken'>>;
+  updateZkApp?: Resolver<ResolversTypes['ZkApp'], ParentType, ContextType, RequireFields<MutationUpdateZkAppArgs, 'zkApp'>>;
   verifyEmail?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'emailVerificationToken'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   userDetails?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
 };
 
 export type TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
@@ -615,6 +950,28 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ZkAppResolvers<ContextType = any, ParentType extends ResolversParentTypes['ZkApp'] = ResolversParentTypes['ZkApp']> = {
+  bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reviewCount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -624,5 +981,6 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  ZkApp?: ZkAppResolvers<ContextType>;
 };
 

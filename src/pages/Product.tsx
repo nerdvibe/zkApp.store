@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Image,
-  Skeleton,
-  Spinner,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
-import Description from "../components/Product/ProductTabs/Description/Description";
+import { Button, Spinner, Tab, Tabs } from "@nextui-org/react";
 import Reviews from "../components/Product/ProductTabs/Reviews";
 import Stats from "../components/Product/ProductTabs/Stats";
 import Audits from "../components/Product/ProductTabs/Audits";
@@ -23,43 +14,63 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { toggleFavorite } from "../store/favourites";
 import { useEffect, useState } from "react";
-import { toggleEditProductModal } from "@/store/product";
+import { toggleEditProductModal, updateSelectedApp } from "@/store/product";
 import Edit from "@/components/Product/Edit";
 import { Link, useParams } from "react-router-dom";
 import routes from "@/routes";
-import { useProductQuery } from "@/gql/generated_mock";
 import EmptyStateCard from "@/components/EmptyStateCard";
+import { useAppDataQuery } from "@/gql/generated";
+import EditableBanner from "@/components/Product/EditableBanner";
+import EditableAvatar from "@/components/Product/EditableAvatar";
+import EditableCard from "@/components/Card/EditableCard";
 
 export default function Product() {
   const { id } = useParams();
   const state = useSelector((state: RootState) => state);
   const userData = useSelector((state: RootState) => state.session.user);
-  const { data, loading, error } = useProductQuery({
+
+  const { data, loading, refetch } = useAppDataQuery({
     variables: {
-      id,
+      slug: id,
     },
   });
 
+  const clearStoreData = () => {
+    dispatch(updateSelectedApp({ zkApp: undefined }));
+  };
+
+  useEffect(() => {
+    clearStoreData();
+    return clearStoreData;
+  }, []);
+
   useEffect(() => {
     if (userData && data) {
-      setEditableContent(userData?.id === data.Product?.User?.id);
+      setEditableContent(userData?.id === data.zkApp?.owner);
+      dispatch(updateSelectedApp({ zkApp: data.zkApp }));
     }
   }, [userData, data]);
 
-  const [editableContent, setEditableContent] = useState(true);
+  const [editableContent, setEditableContent] = useState(false);
   const dispatch = useDispatch();
   const isFavourite = selectIsProductFavorite(`${id}`)(state);
   const tabs = [
     {
       key: "description",
       title: "Description",
-      component: <Description description={data?.Product?.description} />,
+      component: (
+        <EditableCard
+          initialValue={data?.zkApp?.body || ""}
+          editable={editableContent}
+          refetchData={() => refetch()}
+        />
+      ),
     },
     { key: "reviews", title: "Reviews", component: <Reviews /> },
     {
       key: "stats",
       title: "Stats",
-      component: <Stats reviews={data?.Product?.reviews} />,
+      component: <Stats />,
     },
     { key: "audits", title: "Audits", component: <Audits /> },
   ];
@@ -76,11 +87,15 @@ export default function Product() {
     dispatch(toggleEditProductModal({ active: true }));
   };
 
+  const openApp = () => {
+    window.open(data?.zkApp?.url, "_blank", "noreferrer");
+  };
+
   if (loading) {
     return <Spinner />;
   }
 
-  if (!loading && !data?.Product) {
+  if (!loading && !data?.zkApp) {
     return (
       <EmptyStateCard
         title="zkApp not found"
@@ -92,24 +107,23 @@ export default function Product() {
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="w-full object-cover flex">
-        <Image
-          src={data?.Product?.bannerImage}
-          width={1500}
-          className="w-full max-h-[200px] object-cover min-h-[150px] h-[200px]"
-          classNames={{
-            wrapper: "w-full max-w-max",
-          }}
+        <EditableBanner
+          bannerImage={data?.zkApp?.bannerImage}
+          isEditable={editableContent}
+          refetch={refetch}
         />
       </div>
       <div className="flex flex-col md:flex-row gap-4 justify-between px-8">
         <div className="flex flex-col md:flex-row gap-4 items-center md:items-start">
-          <Avatar
-            src={data?.Product?.image}
-            className="w-[100px] h-[100px] object-cover"
+          <EditableAvatar
+            icon={data?.zkApp?.icon}
+            name={data?.zkApp?.name}
+            isEditable={editableContent}
+            refetch={refetch}
           />
           <div className="h-full flex flex-col justify-center items-center md:items-start">
             <h1 className="text-white text-3xl font-bold">
-              {data?.Product?.title}
+              {data?.zkApp?.name}
               <FontAwesomeIcon
                 className="text-sm px-4 text-red-600 cursor-pointer mb-1"
                 icon={isFavourite ? faHeartFull : faHeart}
@@ -126,21 +140,24 @@ export default function Product() {
             <p className="text-white text-lg flex flex-col md:flex-row gap-4 items-center">
               <Link
                 className="text-primary opacity-100 hover:opacity-80 transition-all duration-300"
-                to={`${routes.PROFILE}/${data?.Product?.User?.id}`}
+                to={`${routes.PROFILE}/${data?.zkApp?.owner}`}
               >
-                @{data?.Product?.User?.username}
+                @{data?.zkApp?.owner}
               </Link>
-              {data?.Product?.shortDescription}
+              {data?.zkApp?.subtitle}
             </p>
           </div>
         </div>
         <div className="flex flex-col items-center gap-4 my-4">
-          {data?.Product?.link && (
-            <Button className="w-full" color="primary">
-              Use now
+          {data?.zkApp?.url && (
+            <Button className="w-full" color="primary" onClick={openApp}>
+              Use ZkApp
             </Button>
           )}
-          <SocialButtonsShare {...data?.Product?.social} />
+          <SocialButtonsShare
+            discord={data?.zkApp?.discordUrl}
+            github={data?.zkApp?.githubUrl}
+          />
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -159,7 +176,7 @@ export default function Product() {
           ))}
         </Tabs>
       </div>
-      <Edit />
+      <Edit refetchData={refetch} data={data} />
     </div>
   );
 }

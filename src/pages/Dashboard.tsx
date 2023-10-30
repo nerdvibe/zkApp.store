@@ -2,10 +2,9 @@ import { Tab, Tabs } from "@nextui-org/react";
 import UserApps from "../components/UserApps";
 import PublishUpdate from "../components/PublishUpdate";
 import EmptyState from "../components/Dashboard/EmptyState";
-import mock from "@/mocks/user-apps.json";
 import Analytics from "@/components/Dashboard/Analytics/Analytics";
-import { useProductsByUserQuery, useUserQuery } from "@/gql/generated_mock";
-import { useParams } from "react-router-dom";
+import { useUserQuery } from "@/gql/generated_mock";
+import PublishAppModal from "@/components/PublishAppModal";
 
 export interface UserApps {
   id: string;
@@ -71,6 +70,7 @@ export default function Dashboard() {
           </Tabs>
         </div>
       )}
+      <PublishAppModal />
     </div>
   );
 }

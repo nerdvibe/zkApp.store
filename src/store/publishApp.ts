@@ -3,19 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 // Define a type for the slice state
 interface PublishAppSlice {
   title: string;
-  description: string;
+  body: string;
+  subtitle: string;
+  slug: string;
   category: string;
   version: string;
+  link: string;
   key: string;
 }
 
 // Define the initial state using that type
 const initialState: PublishAppSlice = {
   title: "",
-  description: "",
+  body: "",
+  subtitle: "",
+  slug: "",
   category: "",
   version: "",
   key: "",
+  link: "",
 };
 
 export const publishAppSlice = createSlice({

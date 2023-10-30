@@ -6,9 +6,10 @@ interface Props {
   title?: string;
   description?: string;
   image?: any;
+  speed?: number
 }
 
-export default function EmptyStateCard({ title, description, image }: Props) {
+export default function EmptyStateCard({ title, description, image,speed }: Props) {
   return (
     <div className="flex justify-center items-center h-full min-h-[500px] w-full">
       <Card>
@@ -19,7 +20,7 @@ export default function EmptyStateCard({ title, description, image }: Props) {
               loop={true}
               style={{ width: "100%", maxWidth: "400px" }}
               play={true}
-              speed={0.5}
+              speed={speed || 0.5}
             />
             <div className="mt-4 flex flex-col gap-4">
               {title && (

@@ -1,9 +1,10 @@
 import { Spinner } from "@nextui-org/react";
 import BlurredCard, { IBlurredCardProps } from "../BlurredCard";
-import { useHeroBannerQuery } from "@/gql/generated_mock";
 
 export default function BlurredCards() {
-  const { data, loading, error } = useHeroBannerQuery();
+  const data = undefined,
+    loading = undefined,
+    error = undefined;
   if (error) {
     return <></>;
   }
@@ -14,7 +15,7 @@ export default function BlurredCards() {
           <Spinner />
         </div>
       )}
-      {data?.allHomepages?.map((el: IBlurredCardProps) => (
+      {data?.map((el: IBlurredCardProps) => (
         <BlurredCard {...el} key={el.title} />
       ))}
     </div>

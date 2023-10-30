@@ -1,16 +1,51 @@
 import { Formik } from "formik";
-import { initialPublishAppForm } from "./util";
+import { initialPublishAppForm, newAppFormSchema } from "./util";
 import DarkInput from "../DarkInput";
-import { Button, Textarea } from "@nextui-org/react";
-import { FileUploader } from "react-drag-drop-files";
-import { fileTypes } from "../Registration/WhoamiForm";
+import { Accordion, AccordionItem, Button, Textarea } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
 import { updateAppDetails } from "../../store/publishApp";
+import AdditionalData from "./AdditionalData";
+import { useCreateZkAppMutation } from "@/gql/generated";
+import { toast } from "react-hot-toast";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function PublishApp() {
   const dispatch = useDispatch();
+  const [createZkApp] = useCreateZkAppMutation();
   const onSubmit = (value: any) => {
-    alert(JSON.stringify(value));
+    const {
+      name,
+      version,
+      slug,
+      url,
+      subtitle,
+      body,
+      category,
+      discordUrl,
+      githubUrl,
+    } = value;
+    toast.promise(
+      createZkApp({
+        variables: {
+          zkApp: {
+            name,
+            currentVersion: version,
+            slug,
+            url,
+            subtitle,
+            body: body || undefined,
+            category,
+            discordUrl: discordUrl || undefined,
+            githubUrl: githubUrl || undefined,
+          },
+        },
+      }),
+      {
+        loading: "Creating app",
+        success: <b>ZkApp created!</b>,
+        error: (err) => <b>{err.message}</b>,
+      }
+    );
   };
 
   const handleFormUpdate = (field: string, value: string) => {
@@ -18,7 +53,7 @@ export default function PublishApp() {
   };
 
   return (
-    <div className="w-full p-8">
+    <div className="w-full md:p-2">
       <div className="flex flex-col items-center justify-stretch gap-8">
         <Formik
           initialValues={initialPublishAppForm}
@@ -35,99 +70,115 @@ export default function PublishApp() {
             handleChange,
             handleBlur,
             values,
+            setFieldValue,
             handleSubmit,
           }) => (
             <form
-              className="flex flex-col items-center justify-stretch gap-6 w-full"
+              className="flex flex-row items-center justify-stretch gap-6 w-full max-h-[70vh] overflow-y-auto flex-wrap px-4 pb-6"
               onSubmit={handleSubmit}
             >
-              <DarkInput
-                type="name"
-                label="zkApp name"
-                labelPlacement="outside"
-                placeholder="Enter your zkApp name"
-                name="name"
-                onChange={(event) => {
-                  handleFormUpdate("title", event.currentTarget.value);
-                  handleChange(event);
-                }}
-                onBlur={handleBlur}
-                value={values.name}
-                errorMessage={errors.name && touched.name && errors.name}
-              />
-              <Textarea
-                label="Description"
-                labelPlacement="outside"
-                name="description"
-                placeholder="Enter your description"
-                value={values.description}
-                onBlur={handleBlur}
-                onChange={(event) => {
-                  handleFormUpdate("description", event.currentTarget.value);
-                  handleChange(event);
-                }}
-                variant="flat"
-              />
-              <DarkInput
-                type="text"
-                label="Category"
-                labelPlacement="outside"
-                placeholder="Enter a category"
-                name="category"
-                onChange={(event) => {
-                  handleFormUpdate("category", event.currentTarget.value);
-                  handleChange(event);
-                }}
-                onBlur={handleBlur}
-                value={values.category}
-                errorMessage={
-                  errors.category && touched.category && errors.category
+              {newAppFormSchema.main.map(
+                ({
+                  type,
+                  name,
+                  label,
+                  placeholder,
+                  error,
+                  required,
+                  small,
+                }) => {
+                  if (type === "INPUT") {
+                    return (
+                      <DarkInput
+                        className={small ? "w-full lg:w-[47.5%]" : "w-full"}
+                        type={name}
+                        label={label}
+                        labelPlacement="outside"
+                        placeholder={placeholder}
+                        name={name}
+                        onChange={(event) => {
+                          handleFormUpdate(name, event.currentTarget.value);
+                          handleChange(event);
+                        }}
+                        onBlur={handleBlur}
+                        value={values[name]}
+                        errorMessage={
+                          error &&
+                          required &&
+                          errors[name] &&
+                          touched[name] &&
+                          errors[name]
+                        }
+                      />
+                    );
+                  }
+                  if (type === "TEXT_AREA") {
+                    return (
+                      <Textarea
+                        label={label}
+                        labelPlacement="outside"
+                        name={name}
+                        placeholder={placeholder}
+                        value={values[name]}
+                        onBlur={handleBlur}
+                        onChange={(event) => {
+                          handleFormUpdate(name, event.currentTarget.value);
+                          handleChange(event);
+                        }}
+                        variant="flat"
+                      />
+                    );
+                  }
+                  if (type === "MD") {
+                    return (
+                      <div data-color-mode="dark">
+                        <label className="text-sm">Description</label>
+                        <MDEditor
+                          className="mt-2 min-h-[400px]"
+                          value={values[name]}
+                          style={{ whiteSpace: "pre-wrap", background: "none" }}
+                          onChange={(val) => {
+                            handleFormUpdate(name, val);
+                            handleChange(val);
+                          }}
+                        />
+                      </div>
+                    );
+                  }
                 }
-              />
-              <DarkInput
-                type="text"
-                label="Version"
-                labelPlacement="outside"
-                placeholder="Enter your zkApp version"
-                name="version"
-                onChange={(event) => {
-                  handleFormUpdate("version", event.currentTarget.value);
-                  handleChange(event);
-                }}
-                onBlur={handleBlur}
-                value={values.version}
-                errorMessage={
-                  errors.version && touched.version && errors.version
-                }
-              />
-              <DarkInput
-                label="Link"
-                labelPlacement="outside"
-                placeholder="Enter your zkApp link"
-                type="text"
-                name="link"
-                onChange={(event) =>
-                  handleFormUpdate("link", event.currentTarget.value)
-                }
-                onBlur={handleBlur}
-                value={values.link}
-                errorMessage={errors.link && touched.link && errors.link}
-              />
-              <FileUploader
+              )}
+              {/* <FileUploader
                 // handleChange={handleChange}
                 name="file"
                 types={fileTypes}
                 classes="drag-and-drop w-full min-h-[100px]"
                 label="Drop your zkApp banner here"
-              />
-              <Button
-                color="primary"
-                className="w-full"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Review
-              </Button>
+              /> */}
+              <Accordion>
+                <AccordionItem
+                  key="1"
+                  aria-label="Additional details"
+                  title="Additional details"
+                >
+                  <AdditionalData
+                    handleFormUpdate={handleFormUpdate}
+                    handleBlur={handleBlur}
+                    values={values}
+                    handleChange={handleChange}
+                    setFieldValue={setFieldValue}
+                  />
+                </AccordionItem>
+              </Accordion>
+              <div className="w-full">
+                <Button
+                  color="primary"
+                  className="w-full"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Publish ZkApp
+                </Button>
+              </div>
             </form>
           )}
         </Formik>

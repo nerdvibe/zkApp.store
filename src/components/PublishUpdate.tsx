@@ -3,7 +3,6 @@ import UpdateCard from "./PublishUpdate/UpdateCard";
 import AddUpdateCard from "./PublishUpdate/AddUpdateCard";
 import { useState } from "react";
 import UpdateModal from "./PublishUpdate/UpdateModal";
-import mock from "@/mocks/user-updates";
 import { UserApps } from "@/pages/Dashboard";
 
 interface IPublishUpdate {
@@ -13,10 +12,6 @@ interface IPublishUpdate {
 }
 
 export default function PublishUpdate({ apps, updates }: IPublishUpdate) {
-  console.log(
-    "🚀 ~ file: PublishUpdate.tsx:16 ~ PublishUpdate ~ updates:",
-    updates
-  );
   const [selectedApp, setSelectedApp] = useState("");
   const [updateData, setUpdateData] = useState();
   const [addUpdateCard, setAddUpdateCard] = useState(false);

@@ -39,6 +39,26 @@ label {
   filter: invert(1);
 }
 
-.wmde-markdown>*{
+.wmde-markdown>* {
   word-wrap: break-word;
+}
+
+.responsive-border {
+  border-color: #ffffff9b
+}
+
+.light .responsive-border {
+  border-color: #0000009b
+}
+
+.wmde-markdown-color {
+  color: #ffffff9b
+}
+
+.light .wmde-markdown-color>* {
+  color: #0000009b
+}
+
+.light .wmde-markdown pre {
+  background-color: #ffffff9b
 }

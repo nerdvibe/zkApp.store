@@ -1,5 +1,4 @@
 import EmptyStateCard from "./EmptyStateCard";
-import PublishAppModal from "../PublishAppModal";
 
 export default function EmptyState() {
   return (
@@ -8,14 +7,13 @@ export default function EmptyState() {
         <div className="hidden lg:block">
           <EmptyStateCard />
         </div>
-        <div className="hidden md:block">
-          <EmptyStateCard />
-        </div>
         <div>
           <EmptyStateCard add />
         </div>
+        <div className="hidden md:block">
+          <EmptyStateCard />
+        </div>
       </div>
-      <PublishAppModal />
     </div>
   );
 }

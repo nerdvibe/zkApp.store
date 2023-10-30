@@ -70,19 +70,15 @@ export default function CustomCard({
       </CardHeader>
       <CardBody className="overflow-visible py-2 gap-2 justify-between">
         <div className="flex flex-col">
-          <p className="uppercase font-bold">{title || "Daily Mix"}</p>
-          <small className="text-default-400">
-            #{category || "Authentication"}
-          </small>
+          <p className="uppercase font-bold">{title || "ZkApp Name"}</p>
+          <small className="text-default-400">#{category || "Category"}</small>
           <div className="flex flex-row justify-between">
-            <small className="text-default-400">
-              {version || "thisisatest.com"}
-            </small>
-            <p className="text-tiny text-primary">{score}/5 Score</p>
+            <small className="text-default-400">{version || "Version"}</small>
+            <p className="text-tiny text-primary">Score {score || 5}/5</p>
           </div>
           <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 h-[80px] max-w-[220px]">
             <small className="text-default-500 w-full flex-wrap ">
-              {shortDescription}
+              {shortDescription || "This a short description of the ZkApp"}
             </small>
           </ScrollShadow>
         </div>

@@ -23,14 +23,21 @@ export default function PublishAppModal() {
       className="max-w-[900px] p-0"
     >
       <ModalContent>
-        {(onClose) => (
+        {() => (
           <>
             <ModalHeader>
               <h1>Publish a new zkApp</h1>
             </ModalHeader>
             <ModalBody className="flex flex-row p-0 items-center px-4">
               <PublishApp />
-              <CustomCard {...newAppDetails} buttonColor="default" />
+              <div className="hidden md:block">
+                <CustomCard
+                  {...newAppDetails}
+                  title={newAppDetails.name}
+                  shortDescription={newAppDetails.subtitle}
+                  buttonColor="primary"
+                />
+              </div>
             </ModalBody>
           </>
         )}

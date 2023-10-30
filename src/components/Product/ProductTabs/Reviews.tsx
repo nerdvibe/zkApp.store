@@ -10,20 +10,10 @@ interface IReviewsProps {
 }
 
 export default function Reviews({ reviews }: IReviewsProps) {
-  const { id } = useParams();
-  const { data, loading } = useReviewByProductQuery({
-    variables: {
-      product: id!,
-    },
-  });
   return (
     <div className="flex flex-col gap-4">
-      {data?.allReviews ? (
-        data?.allReviews?.map((review, index) => (
-          <Comment {...review} index={index} />
-        ))
-      ) : loading ? (
-        <Spinner label="Loading reviews" />
+      {reviews ? (
+        reviews.map((review, index) => <Comment {...review} index={index} />)
       ) : (
         <EmptyStateCard description="There are no reviews yet" image={radar} />
       )}

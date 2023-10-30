@@ -34,7 +34,7 @@ export default function Favourites() {
             onClick={() => navigate(`${routes.PRODUCT}/${product.id}`)}
           />
         ))}
-        {!products.length && <EmptyState />}
+        {!data && <EmptyState />}
       </div>
     </div>
   );
