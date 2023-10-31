@@ -55,15 +55,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
       getNewToken().catch(() => {
         resolvePendingRequests();
         setIsRefreshing(false);
-
         localStorage.clear();
-
-        // // Cache shared with main client instance
-        // renewTokenApiClient!.writeQuery({
-        //   query: GET_CURRENT_USER,
-        //   data: { currentUser: null },
-        // });
-
         return forward(operation);
       })
     ).flatMap(() => {

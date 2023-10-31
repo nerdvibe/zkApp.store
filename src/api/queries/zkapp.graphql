@@ -1,0 +1,42 @@
+mutation createZkApp($zkApp: CreateZkApp!) {
+  createZkApp(zkApp: $zkApp) {
+    name
+  }
+}
+
+query appData($slug: String!) {
+  zkApp(slug: $slug) {
+    name
+    owner
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category
+    icon
+    bannerImage
+    createdAt
+    updatedAt
+  }
+}
+
+mutation updateZkApp($zkApp: updateZkApp!) {
+  updateZkApp(zkApp: $zkApp) {
+    slug
+    body
+    currentVersion
+    name
+    subtitle
+    category
+    url
+  }
+}
+
+mutation deleteApp($id: String!) {
+  deleteZkApp(id: $id)
+}

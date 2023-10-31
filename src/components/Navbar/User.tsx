@@ -10,16 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
-import {
-  clearRefreshToken,
-  clearToken,
-  logout,
-  setUserInfo,
-} from "../../store/session";
+import { logout, setUserInfo } from "../../store/session";
 import { useLogoutMutation, useUserDataQuery } from "../../gql/generated";
 import { toast } from "react-hot-toast";
 import UserIcon from "../User/UserIcon";
-import { useUserQuery } from "@/gql/generated_mock";
 import { useEffect } from "react";
 
 export default function User() {

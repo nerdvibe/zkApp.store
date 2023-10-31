@@ -4,10 +4,6 @@ import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
 import FollowButton from "../components/FollowButton";
 import { useState } from "react";
-import {
-  useCategoryQuery,
-  useProductsByCategoryQuery,
-} from "@/gql/generated_mock";
 
 export default function Category() {
   const { id } = useParams();
@@ -15,11 +11,8 @@ export default function Category() {
   const onFollowClick = () => {
     setFollowing(!following);
   };
-  const { data } = useCategoryQuery({
-    variables: {
-      id,
-    },
-  });
+  // TODO: Add query
+  const { data } = undefined;
 
   const tabs = [
     {

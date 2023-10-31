@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import UserIcon from "./User/UserIcon";
 import Lottie from "react-lottie-player";
 import verified from "@/assets/animations/verified.json";
-import { useUserLazyQuery } from "@/gql/generated_mock";
 import { useEffect } from "react";
 import EmptyStateCard from "./EmptyStateCard";
 
@@ -19,7 +18,10 @@ export default function Profile() {
   );
   const { id: urlId } = useParams();
   const isCurrentUser = currentUser?.id === urlId;
-  const [fetchUserData, { data, loading }] = useUserLazyQuery();
+  const [fetchUserData, { data, loading }] = [
+    (val: any) => null,
+    { data: undefined, loading: false },
+  ];
   useEffect(() => {
     if (urlId) {
       fetchUserData({

@@ -2,13 +2,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import CustomCard from "../components/Card";
 import EmptyState from "@/components/Favourites/EmptyState";
-import { useFilteredProductsLazyQuery } from "@/gql/generated_mock";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
 
 export default function Favourites() {
-  const [fetchProducts, { data }] = useFilteredProductsLazyQuery();
+  // TODO: Add query
+  const [fetchProducts, { data }] = [(val: any) => null, { data: undefined }];
   const navigate = useNavigate();
   const products = useSelector(
     (state: RootState) => state.favoriteProducts.products

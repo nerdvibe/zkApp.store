@@ -3,7 +3,6 @@ import UserApps from "../components/UserApps";
 import PublishUpdate from "../components/PublishUpdate";
 import EmptyState from "../components/Dashboard/EmptyState";
 import Analytics from "@/components/Dashboard/Analytics/Analytics";
-import { useUserQuery } from "@/gql/generated_mock";
 import PublishAppModal from "@/components/PublishAppModal";
 
 export interface UserApps {
@@ -17,11 +16,8 @@ export interface UserApps {
 }
 
 export default function Dashboard() {
-  const { data } = useUserQuery({
-    variables: {
-      id: 1,
-    },
-  });
+  // TODO: Add query
+  const { data } = { data: undefined };
 
   const tabs = [
     {

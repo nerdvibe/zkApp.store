@@ -12,11 +12,13 @@ import { toggleProductModal } from "../store/product";
 import { Link, useNavigate } from "react-router-dom";
 import routes from "@/routes";
 import MDEditor from "@uiw/react-md-editor";
-import { useProductLazyQuery } from "@/gql/generated_mock";
 import { useEffect } from "react";
 
 export default function AppModal() {
-  const [fetchProductData, { data }] = useProductLazyQuery();
+  const [fetchProductData, { data }] = [
+    (val: any) => null,
+    { data: undefined },
+  ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => {

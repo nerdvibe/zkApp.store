@@ -10,7 +10,7 @@ interface IAnalytics {
 }
 
 export default function Analytics({ apps }: IAnalytics) {
-  const [selectedApp, setSelectedApp] = useState("");
+  const [_, setSelectedApp] = useState("");
   return (
     <div className="flex gap-4 w-full flex-col">
       <div>

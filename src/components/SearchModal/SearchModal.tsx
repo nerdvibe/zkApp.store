@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { SearchIcon } from "../SearchIcon";
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
-import { useSearchLazyQuery } from "@/gql/generated_mock";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
 
@@ -31,7 +30,8 @@ export default function SearchModal() {
   const dispatch = useDispatch();
   const { showModal, text } = useSelector((state: RootState) => state.search);
   const debouncedSearchTerm = useDebounce<string>(inputValue, 500);
-  const [searchApps, { data }] = useSearchLazyQuery();
+  // TODO: Add query
+  const [searchApps, { data }] = [(val: any) => null, { data: undefined }];
 
   useEffect(() => {
     if (showModal) {

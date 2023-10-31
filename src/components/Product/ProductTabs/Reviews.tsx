@@ -1,12 +1,9 @@
 import EmptyStateCard from "@/components/EmptyStateCard";
 import Comment from "./Comment";
 import radar from "@/assets/animations/radar.json";
-import { useReviewByProductQuery } from "@/gql/generated_mock";
-import { useParams } from "react-router-dom";
-import { Spinner } from "@nextui-org/react";
 
 interface IReviewsProps {
-  reviews: any[];
+  reviews: unknown[];
 }
 
 export default function Reviews({ reviews }: IReviewsProps) {
