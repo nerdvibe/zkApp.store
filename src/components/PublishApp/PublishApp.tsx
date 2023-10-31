@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { initialPublishAppForm, newAppFormSchema } from "./util";
+import { initialPublishAppForm, newAppFormSchema, validatePublishApp } from "./util";
 import DarkInput from "../DarkInput";
 import { Accordion, AccordionItem, Button, Textarea } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
@@ -57,7 +57,7 @@ export default function PublishApp() {
       <div className="flex flex-col items-center justify-stretch gap-8">
         <Formik
           initialValues={initialPublishAppForm}
-          // validate={validateRegistration}
+          validate={validatePublishApp}
           onSubmit={(values, { setSubmitting }) => {
             onSubmit(values);
             setSubmitting(false);

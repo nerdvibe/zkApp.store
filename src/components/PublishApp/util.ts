@@ -1,3 +1,5 @@
+import { isValidSlug, isValidVersion } from "@/util/validation";
+
 export const initialPublishAppForm = {
   name: "",
   slug: "",
@@ -15,7 +17,7 @@ export const newAppFormSchema = {
   main: [
     {
       name: "name",
-      label: "zkAppName",
+      label: "ZkApp Name *",
       placeholder: "Enter your zkApp name",
       type: "INPUT",
       required: true,
@@ -23,7 +25,7 @@ export const newAppFormSchema = {
     },
     {
       name: "slug",
-      label: "App identifier",
+      label: "App identifier *",
       placeholder: "Enter an app identifier",
       type: "INPUT",
       required: true,
@@ -31,7 +33,7 @@ export const newAppFormSchema = {
     },
     {
       name: "url",
-      label: "App URL",
+      label: "App URL *",
       placeholder: "Enter an URL",
       type: "INPUT",
       required: true,
@@ -45,7 +47,7 @@ export const newAppFormSchema = {
     },
     {
       name: "version",
-      label: "Current version",
+      label: "Current version *",
       placeholder: "Enter current app version",
       type: "INPUT",
       required: true,
@@ -81,3 +83,36 @@ export const newAppFormSchema = {
     },
   ],
 };
+
+export const validatePublishApp = (values: any) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Required";
+  } else if (!EMAIL_REGEX.test(values.name)) {
+    errors.name = "Invalid email address";
+  }
+  if (!values.slug) {
+    errors.slug = "Required";
+  }
+  if (!isValidSlug(values.slug)) {
+    errors.slug =
+      "App identifier can contain only characters, numbers and hyphen";
+  }
+  if (!values.version) {
+    errors.version = "Required";
+  }
+  if (!isValidVersion(values.version)) {
+    errors.version =
+      "Version must follow this form X.Y.Z and it can contain only numbers";
+  }
+  if (!values.url) {
+    errors.url = "Required";
+  }
+  if (!URL_REGEX.test(values.url)) {
+    errors.url = "Insert a valid link";
+  }
+  return errors;
+};
+
+export const URL_REGEX =
+  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
