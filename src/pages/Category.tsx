@@ -4,6 +4,7 @@ import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
 import FollowButton from "../components/FollowButton";
 import { useState } from "react";
+import EmptyStateCard from "@/components/EmptyStateCard";
 
 export default function Category() {
   const { id } = useParams();
@@ -12,7 +13,11 @@ export default function Category() {
     setFollowing(!following);
   };
   // TODO: Add query
-  const { data } = undefined;
+  const data = undefined;
+
+  if (!data) {
+    return <EmptyStateCard title="Category not found" />;
+  }
 
   const tabs = [
     {

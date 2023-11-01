@@ -88,8 +88,6 @@ export const validatePublishApp = (values: any) => {
   const errors = {};
   if (!values.name) {
     errors.name = "Required";
-  } else if (!EMAIL_REGEX.test(values.name)) {
-    errors.name = "Invalid email address";
   }
   if (!values.slug) {
     errors.slug = "Required";

@@ -269,7 +269,7 @@ export type CreateZkAppMutationVariables = Exact<{
 }>;
 
 
-export type CreateZkAppMutation = { __typename?: 'Mutation', createZkApp: { __typename?: 'ZkApp', name: string } };
+export type CreateZkAppMutation = { __typename?: 'Mutation', createZkApp: { __typename?: 'ZkApp', name: string, slug: string } };
 
 export type AppDataQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -655,6 +655,7 @@ export const CreateZkAppDocument = gql`
     mutation createZkApp($zkApp: CreateZkApp!) {
   createZkApp(zkApp: $zkApp) {
     name
+    slug
   }
 }
     `;

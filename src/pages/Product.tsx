@@ -23,6 +23,7 @@ import { useAppDataQuery } from "@/gql/generated";
 import EditableBanner from "@/components/Product/EditableBanner";
 import EditableAvatar from "@/components/Product/EditableAvatar";
 import EditableCard from "@/components/Card/EditableCard";
+import { toast } from "react-hot-toast";
 
 export default function Product() {
   const { id } = useParams();
@@ -80,6 +81,11 @@ export default function Product() {
   }, []);
 
   const toggleFavouriteProduct = () => {
+    toast.success(
+      isFavourite
+        ? "ZkApp removed from favourites"
+        : "ZkApp added to favourites"
+    );
     dispatch(toggleFavorite(`${id}`));
   };
 

@@ -1,6 +1,7 @@
 mutation createZkApp($zkApp: CreateZkApp!) {
   createZkApp(zkApp: $zkApp) {
     name
+    slug
   }
 }
 

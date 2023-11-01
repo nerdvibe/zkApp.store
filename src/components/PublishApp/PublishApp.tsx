@@ -1,5 +1,9 @@
 import { Formik } from "formik";
-import { initialPublishAppForm, newAppFormSchema, validatePublishApp } from "./util";
+import {
+  initialPublishAppForm,
+  newAppFormSchema,
+  validatePublishApp,
+} from "./util";
 import DarkInput from "../DarkInput";
 import { Accordion, AccordionItem, Button, Textarea } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
@@ -8,10 +12,14 @@ import AdditionalData from "./AdditionalData";
 import { useCreateZkAppMutation } from "@/gql/generated";
 import { toast } from "react-hot-toast";
 import MDEditor from "@uiw/react-md-editor";
+import { useNavigate } from "react-router-dom";
+import routes from "@/routes";
 
 export default function PublishApp() {
   const dispatch = useDispatch();
   const [createZkApp] = useCreateZkAppMutation();
+  const navigate = useNavigate();
+
   const onSubmit = (value: any) => {
     const {
       name,
@@ -24,28 +32,32 @@ export default function PublishApp() {
       discordUrl,
       githubUrl,
     } = value;
-    toast.promise(
-      createZkApp({
-        variables: {
-          zkApp: {
-            name,
-            currentVersion: version,
-            slug,
-            url,
-            subtitle,
-            body: body || undefined,
-            category,
-            discordUrl: discordUrl || undefined,
-            githubUrl: githubUrl || undefined,
+    toast
+      .promise(
+        createZkApp({
+          variables: {
+            zkApp: {
+              name,
+              currentVersion: version,
+              slug,
+              url,
+              subtitle: subtitle || undefined,
+              body: body || undefined,
+              category: category || undefined,
+              discordUrl: discordUrl || undefined,
+              githubUrl: githubUrl || undefined,
+            },
           },
-        },
-      }),
-      {
-        loading: "Creating app",
-        success: <b>ZkApp created!</b>,
-        error: (err) => <b>{err.message}</b>,
-      }
-    );
+        }),
+        {
+          loading: "Creating app",
+          success: <b>ZkApp created!</b>,
+          error: (err) => <b>{err.message}</b>,
+        }
+      )
+      .then((data) => {
+        navigate(`${routes.PRODUCT}/${data.data?.createZkApp.slug}`);
+      });
   };
 
   const handleFormUpdate = (field: string, value: string) => {
@@ -58,6 +70,7 @@ export default function PublishApp() {
         <Formik
           initialValues={initialPublishAppForm}
           validate={validatePublishApp}
+          validateOnChange
           onSubmit={(values, { setSubmitting }) => {
             onSubmit(values);
             setSubmitting(false);

@@ -135,14 +135,18 @@ export default function EditableBanner({
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col items-center gap-6">
-              <Image
-                src={file || bannerImage}
-                width={1500}
-                className="w-full max-h-[200px] object-cover min-h-[150px] h-[200px]"
-                classNames={{
-                  wrapper: "w-full max-w-max",
-                }}
-              />
+              {file || bannerImage ? (
+                <Image
+                  src={file || bannerImage}
+                  width={1500}
+                  className="w-full max-h-[200px] object-cover min-h-[150px] h-[200px]"
+                  classNames={{
+                    wrapper: "w-full max-w-max",
+                  }}
+                />
+              ) : (
+                <h1>No image selected yet</h1>
+              )}
               <FileUploader
                 handleChange={handleFileUpload}
                 name="file"
