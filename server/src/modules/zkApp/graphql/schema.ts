@@ -15,7 +15,6 @@ export const schema = `
   input updateZkApp {
     id: String!
     name: String
-    slug: String
     currentVersion: String
     url: String
     subtitle: String

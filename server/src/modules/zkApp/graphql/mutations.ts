@@ -81,7 +81,6 @@ export const Mutation = {
     if (
       !isValidString(zkApp.id) ||
       !isValidString(zkApp.name, true) ||
-      !isValidString(zkApp.slug, true) ||
       !isValidString(zkApp.currentVersion, true) ||
       !isValidString(zkApp.url, true) ||
       !isValidString(zkApp.subtitle, true) ||
@@ -93,6 +92,10 @@ export const Mutation = {
       !isValidString(zkApp.bannerImage, true)
     ) {
       throw new Error("Unknown param");
+    }
+    
+    if(zkApp.currentVersion && !isValidVersion(zkApp.currentVersion)) {
+      throw new Error("Version not valid")
     }
 
     const foundZkAppId = await ZkAppRepo.findOne({_id: zkApp.id, owner: user._id });
@@ -113,10 +116,8 @@ export const Mutation = {
     const updatedZkApp = await ZkAppRepo.findOneAndUpdate({_id: zkApp.id, owner: user._id }, {
       $set: {
         ...(zkApp.name && {name: zkApp.name}),
-        ...(zkApp.slug && {slug: zkApp.slug}),
         ...(zkApp.currentVersion && {currentVersion: zkApp.currentVersion}),
         ...(zkApp.url && {url: zkApp.url}),
-        ...(user._id && {owner: user._id}),
         ...(zkApp.subtitle && {subtitle: zkApp.subtitle}),
         ...(zkApp.body && {body: zkApp.body}),
         ...(zkApp.discordUrl && {discordUrl: zkApp.discordUrl}),
