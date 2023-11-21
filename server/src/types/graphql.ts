@@ -122,11 +122,17 @@ export type Query = {
   publicInfo?: Maybe<Scalars['String']['output']>;
   userDetails?: Maybe<User>;
   zkApp?: Maybe<ZkApp>;
+  zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
 };
 
 
 export type QueryZkAppArgs = {
   slug: Scalars['String']['input'];
+};
+
+
+export type QueryZkAppCategoriesSearchArgs = {
+  text: Scalars['String']['input'];
 };
 
 export type Signup = {
@@ -171,6 +177,12 @@ export type ZkApp = {
   subtitle?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
+};
+
+export type ZkAppCategory = {
+  __typename?: 'ZkAppCategory';
+  name: Scalars['String']['output'];
+  zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type UpdateZkApp = {
@@ -270,6 +282,7 @@ export type ResolversTypes = {
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;
   ZkApp: ResolverTypeWrapper<ZkApp>;
+  ZkAppCategory: ResolverTypeWrapper<ZkAppCategory>;
   updateZkApp: UpdateZkApp;
 };
 
@@ -287,6 +300,7 @@ export type ResolversParentTypes = {
   Token: Token;
   User: User;
   ZkApp: ZkApp;
+  ZkAppCategory: ZkAppCategory;
   updateZkApp: UpdateZkApp;
 };
 
@@ -316,6 +330,7 @@ export type QueryResolvers<ContextType = ModuleContext, ParentType extends Resol
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   userDetails?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
+  zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
 };
 
 export type TokenResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
@@ -352,6 +367,12 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ZkAppCategoryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppCategory'] = ResolversParentTypes['ZkAppCategory']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = ModuleContext> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -359,5 +380,6 @@ export type Resolvers<ContextType = ModuleContext> = {
   Token?: TokenResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   ZkApp?: ZkAppResolvers<ContextType>;
+  ZkAppCategory?: ZkAppCategoryResolvers<ContextType>;
 };
 
