@@ -17,7 +17,7 @@ export const Query = {
         $search: args.text
       },
       deleted: { $exists: false },
-    });
+    }).limit(10);
 
     return categories;
   },
