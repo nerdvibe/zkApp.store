@@ -9,7 +9,7 @@ export const schema = `
     isDeveloper: Boolean!
   }
 
-  type User {
+  type SelfUser {
     id: String!
     email: String!
     emailVerified: Boolean!
@@ -26,7 +26,7 @@ export const schema = `
 
   type Query {
     publicInfo: String
-    userDetails: User @rateLimit(limit: 40, duration: 20)
+    userDetails: SelfUser @rateLimit(limit: 40, duration: 20)
   }
 
 

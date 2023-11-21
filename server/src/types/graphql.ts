@@ -120,9 +120,16 @@ export type MutationVerifyEmailArgs = {
 export type Query = {
   __typename?: 'Query';
   publicInfo?: Maybe<Scalars['String']['output']>;
-  userDetails?: Maybe<User>;
+  user?: Maybe<User>;
+  userDetails?: Maybe<SelfUser>;
   zkApp?: Maybe<ZkApp>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
+};
+
+
+export type QueryUserArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -133,6 +140,13 @@ export type QueryZkAppArgs = {
 
 export type QueryZkAppCategoriesSearchArgs = {
   text: Scalars['String']['input'];
+};
+
+export type SelfUser = {
+  __typename?: 'SelfUser';
+  email: Scalars['String']['output'];
+  emailVerified: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type Signup = {
@@ -153,9 +167,14 @@ export type Token = {
 
 export type User = {
   __typename?: 'User';
-  email: Scalars['String']['output'];
-  emailVerified: Scalars['Boolean']['output'];
+  bannerPicture?: Maybe<Scalars['String']['output']>;
+  discordUrl?: Maybe<Scalars['String']['output']>;
+  followerCount?: Maybe<Scalars['String']['output']>;
+  githubUrl?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
+  xUsername?: Maybe<Scalars['String']['output']>;
 };
 
 export type ZkApp = {
@@ -277,6 +296,7 @@ export type ResolversTypes = {
   Message: ResolverTypeWrapper<Message>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SelfUser: ResolverTypeWrapper<SelfUser>;
   Signup: Signup;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Token: ResolverTypeWrapper<Token>;
@@ -295,6 +315,7 @@ export type ResolversParentTypes = {
   Message: Message;
   Mutation: {};
   Query: {};
+  SelfUser: SelfUser;
   Signup: Signup;
   String: Scalars['String']['output'];
   Token: Token;
@@ -328,9 +349,17 @@ export type MutationResolvers<ContextType = ModuleContext, ParentType extends Re
 
 export type QueryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  userDetails?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserArgs>>;
+  userDetails?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
   zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
+};
+
+export type SelfUserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['SelfUser'] = ResolversParentTypes['SelfUser']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type TokenResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
@@ -340,9 +369,14 @@ export type TokenResolvers<ContextType = ModuleContext, ParentType extends Resol
 };
 
 export type UserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  followerCount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  profilePicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  xUsername?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -377,6 +411,7 @@ export type Resolvers<ContextType = ModuleContext> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SelfUser?: SelfUserResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   ZkApp?: ZkAppResolvers<ContextType>;
