@@ -126,6 +126,7 @@ export type Query = {
   usersSortedByFollowers?: Maybe<Array<Maybe<User>>>;
   zkApp?: Maybe<ZkApp>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
+  zkAppsByUser?: Maybe<Array<Maybe<ZkApp>>>;
 };
 
 
@@ -147,6 +148,11 @@ export type QueryZkAppArgs = {
 
 export type QueryZkAppCategoriesSearchArgs = {
   text: Scalars['String']['input'];
+};
+
+
+export type QueryZkAppsByUserArgs = {
+  userId: Scalars['String']['input'];
 };
 
 export type SelfUser = {
@@ -202,19 +208,17 @@ export type ZkApp = {
   bannerImage?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['String']['output']>;
   category?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
   discordUrl?: Maybe<Scalars['String']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
   icon?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
+  id?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   owner: Scalars['String']['output'];
   reviewCount?: Maybe<Scalars['Float']['output']>;
   reviewScore?: Maybe<Scalars['Float']['output']>;
   slug: Scalars['String']['output'];
   subtitle?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
 };
 
@@ -377,6 +381,7 @@ export type QueryResolvers<ContextType = ModuleContext, ParentType extends Resol
   usersSortedByFollowers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
   zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
+  zkAppsByUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByUserArgs, 'userId'>>;
 };
 
 export type SelfUserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['SelfUser'] = ResolversParentTypes['SelfUser']> = {
@@ -421,19 +426,17 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
   bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   reviewCount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
