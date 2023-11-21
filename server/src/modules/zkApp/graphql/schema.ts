@@ -27,7 +27,7 @@ export const schema = `
   }
 
   type ZkApp {
-    id: String!
+    id: String
     name: String!
     slug: String!
     subtitle: String
@@ -42,8 +42,10 @@ export const schema = `
     category: String
     icon: String
     bannerImage: String
-    createdAt: String
-    updatedAt: String
+
+    # TODO: Fix these two fields
+    # createdAt: String
+    # updatedAt: String
   }
 
   type Token {
@@ -57,6 +59,7 @@ export const schema = `
 
   type Query {
     zkApp(slug: String!): ZkApp @rateLimit(limit: 3, duration: 60)
+    zkAppsByUser(userId: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
   }
 
 

@@ -1,5 +1,7 @@
 import {
   type QueryZkAppArgs,
+  type QueryZkAppsByUserArgs,
+  type ZkApp,
 } from "@interfaces/graphql";
 import {
   isValidString,
@@ -44,5 +46,19 @@ export const Query = {
       createdAt: zkApp.createdAt,
       updatedAt: zkApp.updatedAt,
     };
+  },
+  zkAppsByUser: async (parent: any, args: QueryZkAppsByUserArgs): Promise<ZkApp[]> => {
+    if (
+      !isValidString(args.userId)
+    ) {
+      throw new Error("Unknown param");
+    }
+
+    const zkApps = await ZkAppRepo.find({
+      owner: args.userId,
+      deleted: {$exists: false}
+    })
+
+    return zkApps;
   },
 };
