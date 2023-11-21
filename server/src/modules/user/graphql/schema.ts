@@ -1,6 +1,6 @@
 export const schema = `
   type ZkApp {
-    id: String!
+    id: String
     name: String!
     slug: String!
     subtitle: String
@@ -15,8 +15,10 @@ export const schema = `
     category: String
     icon: String
     bannerImage: String
-    createdAt: String
-    updatedAt: String
+
+    # TODO: Fix these two fields
+    # createdAt: String
+    # updatedAt: String
   }
 
   type UserWithZkApp {

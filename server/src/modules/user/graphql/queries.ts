@@ -5,7 +5,7 @@ import {
 } from "@interfaces/graphql";
 import { isValidString } from "@modules/util";
 import { type UserDoc, UserRepo, PUBLIC_USER_FIELDS } from "../UserModel";
-// import { Query as ZkAppQueries } from "@modules/zkApp/graphql/queries";
+import { ZkAppRepo } from "@modules/zkApp/ZkAppModel";
 
 export const Query = {
   user: async (
@@ -30,11 +30,20 @@ export const Query = {
       PUBLIC_USER_FIELDS
     );
 
-    // if(user) {
-    //   user.zkApp = await ZkAppQueries.zkApp({}, )
-    // }
+    if (!user) {
+      return null;
+    }
 
-    return user;
+    const zkApps = await ZkAppRepo.find({
+      owner: user.id,
+      deleted: { $exists: false },
+    });
+
+    return {
+      ...user.toJSON(),
+      id: user._id.toString(),
+      ...(zkApps && { zkApps }),
+    };
   },
 
   // TODO: make this query to accept partial text
