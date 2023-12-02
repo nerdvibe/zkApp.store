@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import UserIcon from "../User/UserIcon";
 const fileTypes = ["JPG", "PNG", "GIF"];
 
 export default function EditableAvatar({
@@ -22,6 +23,7 @@ export default function EditableAvatar({
   name,
   isEditable,
   refetch,
+  isUser,
 }: any) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
@@ -180,6 +182,12 @@ export default function EditableAvatar({
         </ModalContent>
       </Modal>
     </>
+  ) : isUser ? (
+    <Avatar
+      src={icon}
+      className="w-[100px] h-[100px] object-cover"
+      fallback={<UserIcon value={name || ""} size={100} />}
+    />
   ) : (
     <Avatar
       src={icon}

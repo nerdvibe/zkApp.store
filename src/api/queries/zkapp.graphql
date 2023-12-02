@@ -21,8 +21,6 @@ query appData($slug: String!) {
     category
     icon
     bannerImage
-    createdAt
-    updatedAt
   }
 }
 
@@ -40,4 +38,52 @@ mutation updateZkApp($zkApp: updateZkApp!) {
 
 mutation deleteApp($id: String!) {
   deleteZkApp(id: $id)
+}
+
+query zkAppsByUser($userId: String!) {
+  zkAppsByUser(userId: $userId) {
+    id
+    name
+    slug
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category
+    icon
+    bannerImage
+  }
+}
+
+query userWithZkApps($username: String, $id: String) {
+  user(id: $id, username: $username) {
+    username
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
+    id
+    zkApps {
+      id
+      name
+      slug
+      subtitle
+      body
+      reviewScore
+      reviewCount
+      currentVersion
+      url
+      discordUrl
+      githubUrl
+      category
+      icon
+      bannerImage
+    }
+  }
 }

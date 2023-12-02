@@ -1,15 +1,21 @@
 import { Card, CardBody } from "@nextui-org/react";
 import Lottie from "react-lottie-player";
 import ufo from "@/assets/animations/ufo.json";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 interface Props {
   title?: string;
   description?: string;
   image?: any;
-  speed?: number
+  speed?: number;
 }
 
-export default function EmptyStateCard({ title, description, image,speed }: Props) {
+export default function EmptyStateCard({
+  title,
+  description,
+  image,
+  speed,
+}: Props) {
   return (
     <div className="flex justify-center items-center h-full min-h-[500px] w-full">
       <Card>

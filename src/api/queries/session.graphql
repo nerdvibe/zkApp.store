@@ -78,6 +78,5 @@ query userData {
   userDetails {
     id
     email
-    username
   }
 }

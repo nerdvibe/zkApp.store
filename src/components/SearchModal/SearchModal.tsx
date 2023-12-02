@@ -2,6 +2,7 @@ import { useKeyPress } from "@/hooks/useKeyPress";
 import { toggleModal, searchApp } from "@/store/search";
 import { RootState } from "@/store/store";
 import {
+  Avatar,
   Divider,
   Image,
   Input,
@@ -22,10 +23,13 @@ import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
+import { useSearchUserLazyQuery } from "@/gql/generated";
+import UserIcon from "../User/UserIcon";
 
 export default function SearchModal() {
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
+  const [fetchedUsers, setFetchedUsers] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { showModal, text } = useSelector((state: RootState) => state.search);
@@ -33,13 +37,19 @@ export default function SearchModal() {
   // TODO: Add query
   const [searchApps, { data }] = [(val: any) => null, { data: undefined }];
 
+  const [searchUsers, { data: users, called }] = useSearchUserLazyQuery();
+
   useEffect(() => {
     if (showModal) {
       setInputValue(text);
-      searchApps({
+      searchUsers({
         variables: {
-          data: text,
+          username: text,
         },
+      }).then((data) => {
+        if (data?.data?.userSearch) {
+          setFetchedUsers(data?.data?.userSearch);
+        }
       });
     }
   }, [showModal, text]);
@@ -58,6 +68,15 @@ export default function SearchModal() {
       setLoader(true);
 
       setTimeout(() => {
+        searchUsers({
+          variables: {
+            username: text,
+          },
+        }).then((data) => {
+          if (data?.data?.userSearch) {
+            setFetchedUsers(data?.data?.userSearch);
+          }
+        });
         searchApps({
           variables: {
             data: debouncedSearchTerm,
@@ -67,6 +86,13 @@ export default function SearchModal() {
       }, 1000);
     }
   }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    if (!showModal) {
+      setLoader(true);
+      setFetchedUsers([]);
+    }
+  }, [showModal]);
 
   const openResult = (route: string, id?: string) => {
     navigate(`${route}/${id}`);
@@ -106,12 +132,12 @@ export default function SearchModal() {
             </ModalHeader>
             <ModalBody className="flex flex-col p-0 items-center px-4 pb-4 min-h-[150px]">
               <Divider />
-              <div className="flex flex-col items-center justify-center min-h-[150px] w-full">
-                {loader ? (
+              <div className="flex flex-col items-center justify-center min-h-[250px] w-full">
+                {!called || loader ? (
                   <Spinner label="Searching items" className="w-full" />
                 ) : (
                   <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px]">
-                    {data && (
+                    {fetchedUsers && (
                       <Listbox
                         variant="flat"
                         aria-label="Listbox menu with sections"
@@ -143,18 +169,29 @@ export default function SearchModal() {
                           )}
                         </ListboxSection>
                         <ListboxSection title="Users" showDivider>
-                          {data?.allUsers?.length ? (
-                            data?.allUsers?.map((app) => (
+                          {fetchedUsers?.length ? (
+                            fetchedUsers?.map((app) => (
                               <ListboxItem
                                 key={app?.username}
-                                description={`${app?.followers} Followers`}
+                                description={`${app?.followerCount} Followers`}
                                 onClick={() =>
                                   openResult(routes.PROFILE, app?.id)
                                 }
                                 startContent={
-                                  <Image
-                                    src={app?.userImage}
-                                    className="w-[50px] h-[50px] object-cover"
+                                  <Avatar
+                                    isBordered
+                                    as="button"
+                                    className="transition-transform"
+                                    color="default"
+                                    name={app?.username}
+                                    size="sm"
+                                    src={app?.profilePicture}
+                                    fallback={
+                                      <UserIcon
+                                        value={app?.username || ""}
+                                        size={30}
+                                      />
+                                    }
                                   />
                                 }
                               >

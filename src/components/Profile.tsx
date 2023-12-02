@@ -1,4 +1,4 @@
-import { Avatar, Button, Image, Tab, Tabs } from "@nextui-org/react";
+import { Avatar, Button, Image, Spinner, Tab, Tabs } from "@nextui-org/react";
 import SocialButtonsShare from "./SocialButtonsShare";
 import UserApps from "./User/UserApps";
 import UserUpdates from "./User/UserUpdates";
@@ -10,18 +10,22 @@ import Lottie from "react-lottie-player";
 import verified from "@/assets/animations/verified.json";
 import { useEffect } from "react";
 import EmptyStateCard from "./EmptyStateCard";
+import { useUserWithZkAppsLazyQuery } from "@/gql/generated";
+import EditableBanner from "./Product/EditableBanner";
+import EditableAvatar from "./Product/EditableAvatar";
 
 export default function Profile() {
+  const { id: urlId } = useParams();
   const currentUser = useSelector((state: RootState) => state.session.user);
   const isAuthenticated = useSelector(
     (state: RootState) => state.session.logged
   );
-  const { id: urlId } = useParams();
   const isCurrentUser = currentUser?.id === urlId;
-  const [fetchUserData, { data, loading }] = [
-    (val: any) => null,
-    { data: undefined, loading: false },
-  ];
+  const [fetchUserData, { data, loading }] = useUserWithZkAppsLazyQuery({
+    variables: {
+      id: urlId,
+    },
+  });
   useEffect(() => {
     if (urlId) {
       fetchUserData({
@@ -36,12 +40,16 @@ export default function Profile() {
     {
       key: "zkapps",
       title: "zkApps",
-      component: <UserApps apps={data?.User?.Products} />,
+      component: <UserApps apps={data?.user?.zkApps} />,
     },
     { key: "updates", title: "Updates", component: <UserUpdates /> },
   ];
 
-  if (!loading && !data?.User) {
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!loading && !data?.user) {
     return (
       <EmptyStateCard
         title="User not found"
@@ -53,33 +61,21 @@ export default function Profile() {
   return (
     <div className="w-full flex flex-col gap-8">
       <div className="w-full object-cover flex">
-        <Image
-          src={data?.User?.userBanner}
-          className="w-full h-[200px] object-cover"
-          width={1500}
-          classNames={{
-            wrapper: "w-full max-w-max",
-          }}
-        />
+        <EditableBanner bannerImage={data?.user?.bannerPicture} />
       </div>
       <div className="flex flex-col md:flex-row gap-4 justify-between px-8">
         <div className="flex flex-col md:flex-row items-center gap-4">
-          <Avatar
-            src={data?.User?.userImage}
-            className="w-[100px] h-[100px] object-cover"
-            fallback={
-              <UserIcon
-                value={data?.User?.username || data?.User?.email || ""}
-                size={100}
-              />
-            }
+          <EditableAvatar
+            icon={data?.user?.profilePicture}
+            name={data?.user?.username}
+            isUser
           />
           <div className="h-full flex flex-col justify-center">
             <div className="flex flex-row gap-2 items-center">
               <h1 className="text-white text-3xl font-bold inline">
-                @{data?.User?.username}
+                @{data?.user?.username}
               </h1>
-              {data?.User?.verified && (
+              {data?.user?.verified && (
                 <Lottie
                   animationData={verified}
                   loop={false}
@@ -90,7 +86,7 @@ export default function Profile() {
               )}
             </div>
             <p className="text-white text-lg">
-              {data?.User?.followers} Followers
+              {data?.user?.followerCount || 0} Followers
             </p>
           </div>
         </div>
@@ -102,7 +98,11 @@ export default function Profile() {
           >
             Follow
           </Button>
-          <SocialButtonsShare {...data?.User?.social} />
+          <SocialButtonsShare
+            discord={data?.user?.discordUrl}
+            github={data?.user?.githubUrl}
+            twitter={data?.user?.xUsername}
+          />
         </div>
       </div>
       <div className="flex flex-col gap-4">

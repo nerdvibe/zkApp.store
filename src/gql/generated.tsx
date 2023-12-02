@@ -122,13 +122,46 @@ export type MutationVerifyEmailArgs = {
 export type Query = {
   __typename?: 'Query';
   publicInfo?: Maybe<Scalars['String']['output']>;
-  userDetails?: Maybe<User>;
+  user?: Maybe<UserWithZkApp>;
+  userDetails?: Maybe<SelfUser>;
+  userSearch?: Maybe<Array<Maybe<User>>>;
+  usersSortedByFollowers?: Maybe<Array<Maybe<User>>>;
   zkApp?: Maybe<ZkApp>;
+  zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
+  zkAppsByUser?: Maybe<Array<Maybe<ZkApp>>>;
+};
+
+
+export type QueryUserArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryUserSearchArgs = {
+  username: Scalars['String']['input'];
 };
 
 
 export type QueryZkAppArgs = {
   slug: Scalars['String']['input'];
+};
+
+
+export type QueryZkAppCategoriesSearchArgs = {
+  text: Scalars['String']['input'];
+};
+
+
+export type QueryZkAppsByUserArgs = {
+  userId: Scalars['String']['input'];
+};
+
+export type SelfUser = {
+  __typename?: 'SelfUser';
+  email: Scalars['String']['output'];
+  emailVerified: Scalars['Boolean']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type Signup = {
@@ -149,10 +182,27 @@ export type Token = {
 
 export type User = {
   __typename?: 'User';
-  email: Scalars['String']['output'];
-  emailVerified: Scalars['Boolean']['output'];
-  id: Scalars['String']['output'];
+  bannerPicture?: Maybe<Scalars['String']['output']>;
+  discordUrl?: Maybe<Scalars['String']['output']>;
+  followerCount?: Maybe<Scalars['Int']['output']>;
+  githubUrl?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  profilePicture?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+  xUsername?: Maybe<Scalars['String']['output']>;
+};
+
+export type UserWithZkApp = {
+  __typename?: 'UserWithZkApp';
+  bannerPicture?: Maybe<Scalars['String']['output']>;
+  discordUrl?: Maybe<Scalars['String']['output']>;
+  followerCount?: Maybe<Scalars['Int']['output']>;
+  githubUrl?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
+  xUsername?: Maybe<Scalars['String']['output']>;
+  zkApps?: Maybe<Array<Maybe<ZkApp>>>;
 };
 
 export type ZkApp = {
@@ -160,20 +210,24 @@ export type ZkApp = {
   bannerImage?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['String']['output']>;
   category?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
   discordUrl?: Maybe<Scalars['String']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
   icon?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
+  id?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   owner: Scalars['String']['output'];
   reviewCount?: Maybe<Scalars['Float']['output']>;
   reviewScore?: Maybe<Scalars['Float']['output']>;
   slug: Scalars['String']['output'];
   subtitle?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
+};
+
+export type ZkAppCategory = {
+  __typename?: 'ZkAppCategory';
+  name: Scalars['String']['output'];
+  zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type UpdateZkApp = {
@@ -186,15 +240,21 @@ export type UpdateZkApp = {
   icon?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
-  slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type SearchUserQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
+
+
+export type SearchUserQuery = { __typename?: 'Query', userSearch?: Array<{ __typename?: 'User', username: string, followerCount?: number | null, profilePicture?: string | null, id?: string | null } | null> | null };
+
 export type UserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserDetailsQuery = { __typename?: 'Query', userDetails?: { __typename?: 'User', email: string, id: string } | null };
+export type UserDetailsQuery = { __typename?: 'Query', userDetails?: { __typename?: 'SelfUser', email: string, id: string } | null };
 
 export type SignupMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -262,7 +322,7 @@ export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword?:
 export type UserDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserDataQuery = { __typename?: 'Query', userDetails?: { __typename?: 'User', id: string, email: string, username: string } | null };
+export type UserDataQuery = { __typename?: 'Query', userDetails?: { __typename?: 'SelfUser', id: string, email: string } | null };
 
 export type CreateZkAppMutationVariables = Exact<{
   zkApp: CreateZkApp;
@@ -276,7 +336,7 @@ export type AppDataQueryVariables = Exact<{
 }>;
 
 
-export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, category?: string | null, icon?: string | null, bannerImage?: string | null, createdAt?: string | null, updatedAt?: string | null } | null };
+export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', name: string, owner: string, id?: string | null, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, category?: string | null, icon?: string | null, bannerImage?: string | null } | null };
 
 export type UpdateZkAppMutationVariables = Exact<{
   zkApp: UpdateZkApp;
@@ -292,7 +352,65 @@ export type DeleteAppMutationVariables = Exact<{
 
 export type DeleteAppMutation = { __typename?: 'Mutation', deleteZkApp: boolean };
 
+export type ZkAppsByUserQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+}>;
 
+
+export type ZkAppsByUserQuery = { __typename?: 'Query', zkAppsByUser?: Array<{ __typename?: 'ZkApp', id?: string | null, name: string, slug: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, category?: string | null, icon?: string | null, bannerImage?: string | null } | null> | null };
+
+export type UserWithZkAppsQueryVariables = Exact<{
+  username?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UserWithZkAppsQuery = { __typename?: 'Query', user?: { __typename?: 'UserWithZkApp', username: string, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null, id?: string | null, zkApps?: Array<{ __typename?: 'ZkApp', id?: string | null, name: string, slug: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, category?: string | null, icon?: string | null, bannerImage?: string | null } | null> | null } | null };
+
+
+export const SearchUserDocument = gql`
+    query searchUser($username: String!) {
+  userSearch(username: $username) {
+    username
+    followerCount
+    profilePicture
+    id
+  }
+}
+    `;
+
+/**
+ * __useSearchUserQuery__
+ *
+ * To run a query within a React component, call `useSearchUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchUserQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useSearchUserQuery(baseOptions: Apollo.QueryHookOptions<SearchUserQuery, SearchUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchUserQuery, SearchUserQueryVariables>(SearchUserDocument, options);
+      }
+export function useSearchUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchUserQuery, SearchUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchUserQuery, SearchUserQueryVariables>(SearchUserDocument, options);
+        }
+export function useSearchUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchUserQuery, SearchUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchUserQuery, SearchUserQueryVariables>(SearchUserDocument, options);
+        }
+export type SearchUserQueryHookResult = ReturnType<typeof useSearchUserQuery>;
+export type SearchUserLazyQueryHookResult = ReturnType<typeof useSearchUserLazyQuery>;
+export type SearchUserSuspenseQueryHookResult = ReturnType<typeof useSearchUserSuspenseQuery>;
+export type SearchUserQueryResult = Apollo.QueryResult<SearchUserQuery, SearchUserQueryVariables>;
 export const UserDetailsDocument = gql`
     query userDetails {
   userDetails {
@@ -615,7 +733,6 @@ export const UserDataDocument = gql`
   userDetails {
     id
     email
-    username
   }
 }
     `;
@@ -702,8 +819,6 @@ export const AppDataDocument = gql`
     category
     icon
     bannerImage
-    createdAt
-    updatedAt
   }
 }
     `;
@@ -810,6 +925,123 @@ export function useDeleteAppMutation(baseOptions?: Apollo.MutationHookOptions<De
 export type DeleteAppMutationHookResult = ReturnType<typeof useDeleteAppMutation>;
 export type DeleteAppMutationResult = Apollo.MutationResult<DeleteAppMutation>;
 export type DeleteAppMutationOptions = Apollo.BaseMutationOptions<DeleteAppMutation, DeleteAppMutationVariables>;
+export const ZkAppsByUserDocument = gql`
+    query zkAppsByUser($userId: String!) {
+  zkAppsByUser(userId: $userId) {
+    id
+    name
+    slug
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category
+    icon
+    bannerImage
+  }
+}
+    `;
+
+/**
+ * __useZkAppsByUserQuery__
+ *
+ * To run a query within a React component, call `useZkAppsByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useZkAppsByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useZkAppsByUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useZkAppsByUserQuery(baseOptions: Apollo.QueryHookOptions<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>(ZkAppsByUserDocument, options);
+      }
+export function useZkAppsByUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>(ZkAppsByUserDocument, options);
+        }
+export function useZkAppsByUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>(ZkAppsByUserDocument, options);
+        }
+export type ZkAppsByUserQueryHookResult = ReturnType<typeof useZkAppsByUserQuery>;
+export type ZkAppsByUserLazyQueryHookResult = ReturnType<typeof useZkAppsByUserLazyQuery>;
+export type ZkAppsByUserSuspenseQueryHookResult = ReturnType<typeof useZkAppsByUserSuspenseQuery>;
+export type ZkAppsByUserQueryResult = Apollo.QueryResult<ZkAppsByUserQuery, ZkAppsByUserQueryVariables>;
+export const UserWithZkAppsDocument = gql`
+    query userWithZkApps($username: String, $id: String) {
+  user(id: $id, username: $username) {
+    username
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
+    id
+    zkApps {
+      id
+      name
+      slug
+      subtitle
+      body
+      reviewScore
+      reviewCount
+      currentVersion
+      url
+      discordUrl
+      githubUrl
+      category
+      icon
+      bannerImage
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserWithZkAppsQuery__
+ *
+ * To run a query within a React component, call `useUserWithZkAppsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserWithZkAppsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserWithZkAppsQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserWithZkAppsQuery(baseOptions?: Apollo.QueryHookOptions<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>(UserWithZkAppsDocument, options);
+      }
+export function useUserWithZkAppsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>(UserWithZkAppsDocument, options);
+        }
+export function useUserWithZkAppsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>(UserWithZkAppsDocument, options);
+        }
+export type UserWithZkAppsQueryHookResult = ReturnType<typeof useUserWithZkAppsQuery>;
+export type UserWithZkAppsLazyQueryHookResult = ReturnType<typeof useUserWithZkAppsLazyQuery>;
+export type UserWithZkAppsSuspenseQueryHookResult = ReturnType<typeof useUserWithZkAppsSuspenseQuery>;
+export type UserWithZkAppsQueryResult = Apollo.QueryResult<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -888,11 +1120,14 @@ export type ResolversTypes = {
   Message: ResolverTypeWrapper<Message>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SelfUser: ResolverTypeWrapper<SelfUser>;
   Signup: Signup;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;
+  UserWithZkApp: ResolverTypeWrapper<UserWithZkApp>;
   ZkApp: ResolverTypeWrapper<ZkApp>;
+  ZkAppCategory: ResolverTypeWrapper<ZkAppCategory>;
   updateZkApp: UpdateZkApp;
 };
 
@@ -905,11 +1140,14 @@ export type ResolversParentTypes = {
   Message: Message;
   Mutation: {};
   Query: {};
+  SelfUser: SelfUser;
   Signup: Signup;
   String: Scalars['String']['output'];
   Token: Token;
   User: User;
+  UserWithZkApp: UserWithZkApp;
   ZkApp: ZkApp;
+  ZkAppCategory: ZkAppCategory;
   updateZkApp: UpdateZkApp;
 };
 
@@ -937,8 +1175,20 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  userDetails?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['UserWithZkApp']>, ParentType, ContextType, Partial<QueryUserArgs>>;
+  userDetails?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
+  userSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUserSearchArgs, 'username'>>;
+  usersSortedByFollowers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
+  zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
+  zkAppsByUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByUserArgs, 'userId'>>;
+};
+
+export type SelfUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['SelfUser'] = ResolversParentTypes['SelfUser']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
@@ -948,10 +1198,27 @@ export type TokenResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  profilePicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  xUsername?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserWithZkAppResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserWithZkApp'] = ResolversParentTypes['UserWithZkApp']> = {
+  bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  profilePicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  xUsername?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zkApps?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -959,20 +1226,24 @@ export type ZkAppResolvers<ContextType = any, ParentType extends ResolversParent
   bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   reviewCount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ZkAppCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ZkAppCategory'] = ResolversParentTypes['ZkAppCategory']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -980,8 +1251,11 @@ export type Resolvers<ContextType = any> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SelfUser?: SelfUserResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserWithZkApp?: UserWithZkAppResolvers<ContextType>;
   ZkApp?: ZkAppResolvers<ContextType>;
+  ZkAppCategory?: ZkAppCategoryResolvers<ContextType>;
 };
 

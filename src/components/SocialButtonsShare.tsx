@@ -6,9 +6,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
-  github?: string;
-  discord?: string;
-  twitter?: string;
+  github?: string | null;
+  discord?: string | null;
+  twitter?: string | null;
 }
 
 export default function SocialButtonsShare({
