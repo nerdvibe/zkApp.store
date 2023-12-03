@@ -1,8 +1,11 @@
 import { type QueryZkAppCategoriesSearchArgs } from "@interfaces/graphql";
 import { isValidString } from "@modules/util";
-import { type ZkAppCategoriesDoc, ZkAppCategoriesRepo } from "../ZkAppCategoriesModel";
+import {
+  type ZkAppCategoriesDoc,
+  ZkAppCategoriesRepo,
+} from "../ZkAppCategoriesModel";
 
-// TODO: make this query accept part of words
+// TODO: make this query accept part of words (partials)
 export const Query = {
   zkAppCategoriesSearch: async (
     parent: any,
@@ -14,7 +17,7 @@ export const Query = {
 
     const categories = await ZkAppCategoriesRepo.find({
       $text: {
-        $search: args.text
+        $search: args.text,
       },
       deleted: { $exists: false },
     }).limit(10);
