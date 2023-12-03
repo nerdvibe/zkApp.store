@@ -6,6 +6,8 @@ const zkAppCategoriesSchema = new mongoose.Schema({
   deleted: { type: Boolean },
 }, {timestamps: true});
 
+zkAppCategoriesSchema.index({ name: 'text', });
+
 export const ZkAppCategoriesRepo = mongoose.model("ZkAppCategories", zkAppCategoriesSchema);
 
 export type ZkAppCategoriesDoc = mongoose.InferSchemaType<typeof zkAppCategoriesSchema> & mongoose.Document;
