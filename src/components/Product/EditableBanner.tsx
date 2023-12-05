@@ -177,7 +177,7 @@ export default function EditableBanner({
       width={1500}
       className="w-full max-h-[200px] object-cover min-h-[150px] h-[200px]"
       classNames={{
-        wrapper: "w-full max-w-max bg-slate-600",
+        wrapper: "w-full max-w-max bg-[#475569aa]",
       }}
     />
   );

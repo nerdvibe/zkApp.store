@@ -3,7 +3,6 @@ import UpdateCard from "./PublishUpdate/UpdateCard";
 import AddUpdateCard from "./PublishUpdate/AddUpdateCard";
 import { useState } from "react";
 import UpdateModal from "./PublishUpdate/UpdateModal";
-import { UserApps } from "@/pages/Dashboard";
 
 interface IPublishUpdate {
   apps: UserApps[];

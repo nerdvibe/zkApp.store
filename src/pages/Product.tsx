@@ -128,21 +128,25 @@ export default function Product() {
             refetch={refetch}
           />
           <div className="h-full flex flex-col justify-center items-center md:items-start">
-            <h1 className="text-white text-3xl font-bold">
-              {data?.zkApp?.name}
-              <FontAwesomeIcon
-                className="text-sm px-4 text-red-600 cursor-pointer mb-1"
-                icon={isFavourite ? faHeartFull : faHeart}
-                onClick={toggleFavouriteProduct}
-              />
-              {editableContent && (
+            <div className="flex flex-col md:flex-row items-center gap-y-2">
+              <h1 className="text-white text-3xl font-bold">
+                {data?.zkApp?.name}
+              </h1>
+              <div>
+                {editableContent && (
+                  <FontAwesomeIcon
+                    className="px-4 cursor-pointer text-white text-xl font-bold"
+                    icon={faPencil}
+                    onClick={editContent}
+                  />
+                )}
                 <FontAwesomeIcon
-                  className="text-sm px-4 cursor-pointer mb-1"
-                  icon={faPencil}
-                  onClick={editContent}
+                  className="text-xl px-4 text-red-600 cursor-pointer font-bold"
+                  icon={isFavourite ? faHeartFull : faHeart}
+                  onClick={toggleFavouriteProduct}
                 />
-              )}
-            </h1>
+              </div>
+            </div>
             <p className="text-white text-lg flex flex-col md:flex-row gap-4 items-center">
               <Link
                 className="text-primary opacity-100 hover:opacity-80 transition-all duration-300"

@@ -1,7 +1,6 @@
 import NewUsersCard from "@/components/Charts/NewUsers/NewUsersCard";
 import Reviews from "@/components/Charts/Reviews/Reviews";
 import SearchImpression from "@/components/Charts/SearchImpression/SearchImpression";
-import { UserApps } from "@/pages/Dashboard";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useState } from "react";
 

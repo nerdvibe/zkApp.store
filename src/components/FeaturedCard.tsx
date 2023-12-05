@@ -4,7 +4,7 @@ interface Props {
   white?: boolean;
   onClick?: () => void;
   title?: string;
-  description?: string;
+  shortDescription?: string;
   key?: string;
   image?: string;
 }
