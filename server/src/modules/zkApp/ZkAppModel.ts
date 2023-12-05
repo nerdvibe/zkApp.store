@@ -18,6 +18,8 @@ const zkAppSchema = new mongoose.Schema({
   deleted: { type: Boolean },
 }, {timestamps: true});
 
+zkAppSchema.index({ name: 'text', });
+
 export const ZkAppRepo = mongoose.model("ZkApp", zkAppSchema);
 
 export type ZkAppDoc = mongoose.InferSchemaType<typeof zkAppSchema> & mongoose.Document;
