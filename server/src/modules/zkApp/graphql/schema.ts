@@ -60,6 +60,7 @@ export const schema = `
   type Query {
     zkApp(slug: String!): ZkApp @rateLimit(limit: 3, duration: 60)
     zkAppsByUser(userId: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
+    searchZkAppByName(name: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
   }
 
 
