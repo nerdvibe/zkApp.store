@@ -120,6 +120,7 @@ export type MutationVerifyEmailArgs = {
 export type Query = {
   __typename?: 'Query';
   publicInfo?: Maybe<Scalars['String']['output']>;
+  searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
   user?: Maybe<UserWithZkApp>;
   userDetails?: Maybe<SelfUser>;
   userSearch?: Maybe<Array<Maybe<User>>>;
@@ -127,6 +128,11 @@ export type Query = {
   zkApp?: Maybe<ZkApp>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
   zkAppsByUser?: Maybe<Array<Maybe<ZkApp>>>;
+};
+
+
+export type QuerySearchZkAppByNameArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -375,6 +381,7 @@ export type MutationResolvers<ContextType = ModuleContext, ParentType extends Re
 
 export type QueryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;
   user?: Resolver<Maybe<ResolversTypes['UserWithZkApp']>, ParentType, ContextType, Partial<QueryUserArgs>>;
   userDetails?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
   userSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUserSearchArgs, 'username'>>;
