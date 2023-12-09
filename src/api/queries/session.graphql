@@ -1,7 +1,15 @@
 query userDetails {
-  userDetails {
-    email
+  selfUser {
     id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
   }
 }
 
@@ -75,8 +83,9 @@ mutation updatePassword($newPassword: String!, $oldPassword: String!) {
 }
 
 query userData {
-  userDetails {
+  selfUser {
     id
     email
+    username
   }
 }

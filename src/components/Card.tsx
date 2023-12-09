@@ -12,8 +12,8 @@ import { useDispatch } from "react-redux";
 
 interface CustomCardProps {
   name?: string;
-  body?: string;
   subtitle?: string;
+  slug?: string;
   category?: string;
   reviewScore?: number;
   currentVersion?: string;
@@ -31,9 +31,9 @@ interface CustomCardProps {
 }
 
 export default function CustomCard({
-  id,
   name,
   subtitle,
+  slug,
   category,
   reviewScore,
   currentVersion,
@@ -44,7 +44,7 @@ export default function CustomCard({
 }: CustomCardProps) {
   const dispatch = useDispatch();
   const onCardClick = () => {
-    dispatch(toggleProductModal({ active: true, productId: id }));
+    dispatch(toggleProductModal({ active: true, productId: slug }));
   };
 
   return (
@@ -59,7 +59,6 @@ export default function CustomCard({
           isBlurred
           className="object-cover rounded-xl z-0"
           src={icon || "https://nextui.org/images/hero-card.jpeg"}
-          // width={250}
           height={250}
           style={{
             height: "250px",
@@ -79,7 +78,7 @@ export default function CustomCard({
             <p className="text-tiny text-primary">Score {reviewScore || 5}/5</p>
           </div>
           <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 h-[80px] max-w-[220px]">
-            <small className="text-default-500 w-full flex-wrap ">
+            <small className="text-default-500 w-full flex-wrap text-md">
               {subtitle || "This a short body of the ZkApp"}
             </small>
           </ScrollShadow>

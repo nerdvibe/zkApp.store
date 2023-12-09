@@ -1,0 +1,7 @@
+query homepageCategories {
+  zkAppCategories(limit: 5) {
+    name
+    slug
+    zkAppCount
+  }
+}

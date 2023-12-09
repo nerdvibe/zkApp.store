@@ -1,10 +1,11 @@
 import { ScrollShadow } from "@nextui-org/react";
 import CategoryCard from "../CategoryCard";
+import { useHomepageCategoriesQuery } from "@/gql/generated";
 
 export default function Categories() {
-  const data = undefined;
+  const { data } = useHomepageCategoriesQuery();
 
-  if (!data) {
+  if (!data || data.zkAppCategories?.length === 0) {
     return (
       <>
         <h1 className="text-white text-xl">Categories</h1>
@@ -25,7 +26,7 @@ export default function Categories() {
           orientation="horizontal"
           className="w-full flex gap-4 left-0 p-4 min-h-[240px] items-end"
         >
-          {data?.map((category) => (
+          {data?.zkAppCategories?.map((category) => (
             <CategoryCard {...category} key={category.id} />
           ))}
         </ScrollShadow>

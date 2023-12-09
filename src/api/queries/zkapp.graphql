@@ -18,7 +18,9 @@ query appData($slug: String!) {
     url
     discordUrl
     githubUrl
-    category
+    category {
+      name
+    }
     icon
     bannerImage
   }
@@ -31,7 +33,9 @@ mutation updateZkApp($zkApp: updateZkApp!) {
     currentVersion
     name
     subtitle
-    category
+    category {
+      name
+    }
     url
   }
 }
@@ -53,7 +57,9 @@ query zkAppsByUser($userId: String!) {
     url
     discordUrl
     githubUrl
-    category
+    category {
+      name
+    }
     icon
     bannerImage
   }
@@ -81,7 +87,6 @@ query userWithZkApps($username: String, $id: String) {
       url
       discordUrl
       githubUrl
-      category
       icon
       bannerImage
     }
