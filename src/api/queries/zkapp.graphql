@@ -92,3 +92,19 @@ query userWithZkApps($username: String, $id: String) {
     }
   }
 }
+
+query trendingApps {
+  zkApps(sortByTrending: true, limit: 5) {
+    id
+    name
+    slug
+    subtitle
+    owner
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    icon
+  }
+}

@@ -445,6 +445,11 @@ export type UserWithZkAppsQueryVariables = Exact<{
 
 export type UserWithZkAppsQuery = { __typename?: 'Query', user?: { __typename?: 'UserWithZkApp', username: string, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null, id?: string | null, zkApps?: Array<{ __typename?: 'ZkAppUser', id?: string | null, name: string, slug: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null } | null> | null } | null };
 
+export type TrendingAppsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TrendingAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, icon?: string | null } | null> | null };
+
 
 export const HomepageCategoriesDocument = gql`
     query homepageCategories {
@@ -1175,6 +1180,55 @@ export type UserWithZkAppsQueryHookResult = ReturnType<typeof useUserWithZkAppsQ
 export type UserWithZkAppsLazyQueryHookResult = ReturnType<typeof useUserWithZkAppsLazyQuery>;
 export type UserWithZkAppsSuspenseQueryHookResult = ReturnType<typeof useUserWithZkAppsSuspenseQuery>;
 export type UserWithZkAppsQueryResult = Apollo.QueryResult<UserWithZkAppsQuery, UserWithZkAppsQueryVariables>;
+export const TrendingAppsDocument = gql`
+    query trendingApps {
+  zkApps(sortByTrending: true, limit: 5) {
+    id
+    name
+    slug
+    subtitle
+    owner
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    icon
+  }
+}
+    `;
+
+/**
+ * __useTrendingAppsQuery__
+ *
+ * To run a query within a React component, call `useTrendingAppsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTrendingAppsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTrendingAppsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTrendingAppsQuery(baseOptions?: Apollo.QueryHookOptions<TrendingAppsQuery, TrendingAppsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TrendingAppsQuery, TrendingAppsQueryVariables>(TrendingAppsDocument, options);
+      }
+export function useTrendingAppsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TrendingAppsQuery, TrendingAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TrendingAppsQuery, TrendingAppsQueryVariables>(TrendingAppsDocument, options);
+        }
+export function useTrendingAppsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<TrendingAppsQuery, TrendingAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<TrendingAppsQuery, TrendingAppsQueryVariables>(TrendingAppsDocument, options);
+        }
+export type TrendingAppsQueryHookResult = ReturnType<typeof useTrendingAppsQuery>;
+export type TrendingAppsLazyQueryHookResult = ReturnType<typeof useTrendingAppsLazyQuery>;
+export type TrendingAppsSuspenseQueryHookResult = ReturnType<typeof useTrendingAppsSuspenseQuery>;
+export type TrendingAppsQueryResult = Apollo.QueryResult<TrendingAppsQuery, TrendingAppsQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

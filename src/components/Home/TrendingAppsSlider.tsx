@@ -2,15 +2,16 @@ import { ScrollShadow, Tab, Tabs } from "@nextui-org/react";
 import CustomCard from "../Card";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
+import { useTrendingAppsQuery } from "@/gql/generated";
 
 export default function TrendingAppsSlider() {
-  const data = undefined;
+  const { data } = useTrendingAppsQuery();
   const navigate = useNavigate();
   const onClick = (id: string) => {
     navigate(`${routes.PRODUCT}/${id}`);
   };
 
-  if (!data) {
+  if (!data?.zkApps) {
     return (
       <>
         <h1 className="text-white text-xl">Trending zkApps</h1>
@@ -38,13 +39,16 @@ export default function TrendingAppsSlider() {
               orientation="horizontal"
               className="w-full flex gap-4 left-0 p-4"
             >
-              {data?.map((element) => (
-                <CustomCard {...element} onClick={() => onClick(element?.id)} />
+              {data?.zkApps?.map((element) => (
+                <CustomCard
+                  {...element}
+                  onClick={() => onClick(element?.slug)}
+                />
               ))}
             </ScrollShadow>
           </Tab>
-          <Tab key="week" title="Week" />
-          <Tab key="ever" title="Ever" />
+          {/* <Tab key="week" title="Week" />
+          <Tab key="ever" title="Ever" /> */}
         </Tabs>
       </div>
     </>
