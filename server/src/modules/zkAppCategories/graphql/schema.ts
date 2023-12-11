@@ -1,6 +1,7 @@
 export const schema = `
   type ZkAppCategory {
     name: String!
+    slug:  String!
     zkAppCount: Int
   }
 
