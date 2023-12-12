@@ -12,7 +12,7 @@ const zkAppSchema = new mongoose.Schema({
   url: { type: String, required: true },
   discordUrl: { type: String },
   githubUrl: { type: String },
-  category: { type: String },
+  categorySlug: { type: String, required: true },
   icon: { type: String },
   bannerImage: { type: String },
   deleted: { type: Boolean },

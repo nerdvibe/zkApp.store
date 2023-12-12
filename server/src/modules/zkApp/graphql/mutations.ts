@@ -35,11 +35,11 @@ export const Mutation = {
       !isValidString(zkApp.slug) ||
       !isValidString(zkApp.currentVersion) ||
       !isValidString(zkApp.url) ||
+      !isValidString(zkApp.categorySlug) ||
       !isValidString(zkApp.subtitle, true) ||
       !isValidString(zkApp.body, true) ||
       !isValidString(zkApp.discordUrl, true) ||
       !isValidString(zkApp.githubUrl, true) ||
-      !isValidString(zkApp.category, true) ||
       !isValidString(zkApp.icon, true) ||
       !isValidString(zkApp.bannerImage, true)
     ) {
@@ -74,7 +74,7 @@ export const Mutation = {
       ...(zkApp.body && { body: zkApp.body }),
       ...(zkApp.discordUrl && { discordUrl: zkApp.discordUrl }),
       ...(zkApp.githubUrl && { githubUrl: zkApp.githubUrl }),
-      ...(zkApp.category && { category: zkApp.category }),
+      ...(zkApp.categorySlug && { categorySlug: zkApp.categorySlug }),
       ...(zkApp.icon && { icon: zkApp.icon }),
       ...(zkApp.bannerImage && { bannerImage: zkApp.bannerImage }),
     });
@@ -96,7 +96,7 @@ export const Mutation = {
       !isValidString(zkApp.body, true) ||
       !isValidString(zkApp.discordUrl, true) ||
       !isValidString(zkApp.githubUrl, true) ||
-      !isValidString(zkApp.category, true) ||
+      !isValidString(zkApp.categorySlug, true) ||
       !isValidString(zkApp.icon, true) ||
       !isValidString(zkApp.bannerImage, true)
     ) {
@@ -126,7 +126,7 @@ export const Mutation = {
           ...(zkApp.body && { body: zkApp.body }),
           ...(zkApp.discordUrl && { discordUrl: zkApp.discordUrl }),
           ...(zkApp.githubUrl && { githubUrl: zkApp.githubUrl }),
-          ...(zkApp.category && { category: zkApp.category }),
+          ...(zkApp.categorySlug && { categorySlug: zkApp.categorySlug }),
           ...(zkApp.icon && { icon: zkApp.icon }),
           ...(zkApp.bannerImage && { bannerImage: zkApp.bannerImage }),
         },

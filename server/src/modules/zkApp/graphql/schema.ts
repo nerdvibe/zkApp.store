@@ -8,7 +8,7 @@ export const schema = `
     body: String
     discordUrl: String
     githubUrl: String
-    category: String
+    categorySlug: String
     icon: String
     bannerImage: String
   }
@@ -21,13 +21,19 @@ export const schema = `
     body: String
     discordUrl: String
     githubUrl: String
-    category: String
+    categorySlug: String
     icon: String
     bannerImage: String
   }
 
+  type ZkAppCategoryZkApp {
+    name: String
+    slug: String
+    zkAppCount: String
+  }
+
   type ZkApp {
-    id: String
+    id: String!
     name: String!
     slug: String!
     subtitle: String
@@ -39,9 +45,10 @@ export const schema = `
     url: String!
     discordUrl: String
     githubUrl: String
-    category: String
+    categorySlug: String
     icon: String
     bannerImage: String
+    category: ZkAppCategoryZkApp
 
     # TODO: Fix these two fields
     # createdAt: String
@@ -61,6 +68,7 @@ export const schema = `
     zkApp(slug: String!): ZkApp @rateLimit(limit: 3, duration: 60)
     zkAppsByUser(userId: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
     searchZkAppByName(name: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
+    zkAppsByCategory(categorySlug: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
   }
 
 

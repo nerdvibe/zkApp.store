@@ -2,16 +2,15 @@ import {
   type QueryZkAppArgs,
   type QueryZkAppsByUserArgs,
   type QuerySearchZkAppByNameArgs,
+  type QueryZkAppsByCategoryArgs,
   type ZkApp,
 } from "@interfaces/graphql";
 import { isValidString } from "@modules/util";
 import { type ZkAppDoc, ZkAppRepo } from "../ZkAppModel";
+import { ZkAppCategoriesRepo } from "@modules/zkAppCategories/ZkAppCategoriesModel";
 
 export const Query = {
-  zkApp: async (
-    parent: any,
-    args: QueryZkAppArgs
-  ): Promise<Partial<ZkAppDoc>> => {
+  zkApp: async (parent: any, args: QueryZkAppArgs): Promise<ZkApp> => {
     if (!isValidString(args.slug)) {
       throw new Error("Unknown param");
     }
@@ -22,11 +21,17 @@ export const Query = {
     });
 
     if (!zkApp) {
-      return {};
+      throw new Error("not found");
     }
 
+    const zkAppCategory = await ZkAppCategoriesRepo.findOne({
+      slug: zkApp.categorySlug,
+    });
+
+    console.log(zkApp.categorySlug, "categoryslug");
+
     return {
-      id: zkApp._id,
+      id: zkApp._id.toString(),
       name: zkApp.name,
       slug: zkApp.slug,
       subtitle: zkApp.subtitle,
@@ -38,11 +43,14 @@ export const Query = {
       url: zkApp.url,
       discordUrl: zkApp.discordUrl,
       githubUrl: zkApp.githubUrl,
-      category: zkApp.category,
+      categorySlug: zkApp.categorySlug,
+      category: {
+        name: zkAppCategory?.name,
+        slug: zkAppCategory?.slug,
+        zkAppCount: zkAppCategory?.zkAppCount,
+      },
       icon: zkApp.icon,
       bannerImage: zkApp.bannerImage,
-      createdAt: zkApp.createdAt,
-      updatedAt: zkApp.updatedAt,
     };
   },
   zkAppsByUser: async (
@@ -58,7 +66,7 @@ export const Query = {
       deleted: { $exists: false },
     });
 
-    return zkApps;
+    return flattenZkAppsDocArrayToGQL(zkApps);
   },
   searchZkAppByName: async (
     parent: any,
@@ -74,6 +82,43 @@ export const Query = {
       deleted: { $exists: false },
     }).limit(10);
 
-    return zkApps;
+    return flattenZkAppsDocArrayToGQL(zkApps);
   },
+  zkAppsByCategory: async (
+    parent: any,
+    args: QueryZkAppsByCategoryArgs
+  ): Promise<ZkApp[]> => {
+    if (!isValidString(args.categorySlug)) {
+      throw new Error("Unknown param");
+    }
+
+    const zkApps = await ZkAppRepo.find({
+      categorySlug: args.categorySlug,
+      deleted: { $exists: false },
+    }).limit(10);
+
+    return flattenZkAppsDocArrayToGQL(zkApps);
+  },
+};
+
+const flattenZkAppsDocArrayToGQL = (zkApps: ZkAppDoc[]): ZkApp[] => {
+  return zkApps.map((zkApp) => {
+    return {
+      id: zkApp._id.toString(),
+      name: zkApp.name,
+      slug: zkApp.slug,
+      subtitle: zkApp.subtitle,
+      owner: zkApp.owner,
+      body: zkApp.body,
+      reviewScore: zkApp.reviewScore,
+      reviewCount: zkApp.reviewCount,
+      currentVersion: zkApp.currentVersion,
+      url: zkApp.url,
+      discordUrl: zkApp.discordUrl,
+      githubUrl: zkApp.githubUrl,
+      categorySlug: zkApp.categorySlug,
+      icon: zkApp.icon,
+      bannerImage: zkApp.bannerImage,
+    };
+  });
 };
