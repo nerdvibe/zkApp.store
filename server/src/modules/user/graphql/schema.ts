@@ -1,5 +1,5 @@
 export const schema = `
-  type ZkApp {
+  type ZkAppUser {
     id: String
     name: String!
     slug: String!
@@ -12,7 +12,7 @@ export const schema = `
     url: String!
     discordUrl: String
     githubUrl: String
-    category: String
+    categorySlug: String
     icon: String
     bannerImage: String
 
@@ -30,7 +30,7 @@ export const schema = `
     profilePicture: String
     bannerPicture: String
     id: String
-    zkApps: [ZkApp]
+    zkApps: [ZkAppUser]
   }
 
   type User {
