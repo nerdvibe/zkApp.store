@@ -28,8 +28,6 @@ export const Query = {
       slug: zkApp.categorySlug,
     });
 
-    console.log(zkApp.categorySlug, "categoryslug");
-
     return {
       id: zkApp._id.toString(),
       name: zkApp.name,
