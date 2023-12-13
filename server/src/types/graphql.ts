@@ -20,7 +20,7 @@ export type Scalars = {
 export type CreateZkApp = {
   bannerImage?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['String']['input']>;
-  category?: InputMaybe<Scalars['String']['input']>;
+  categorySlug?: InputMaybe<Scalars['String']['input']>;
   currentVersion: Scalars['String']['input'];
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
@@ -127,6 +127,7 @@ export type Query = {
   usersSortedByFollowers?: Maybe<Array<Maybe<User>>>;
   zkApp?: Maybe<ZkApp>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
+  zkAppsByCategory?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByUser?: Maybe<Array<Maybe<ZkApp>>>;
 };
 
@@ -154,6 +155,11 @@ export type QueryZkAppArgs = {
 
 export type QueryZkAppCategoriesSearchArgs = {
   text: Scalars['String']['input'];
+};
+
+
+export type QueryZkAppsByCategoryArgs = {
+  categorySlug: Scalars['String']['input'];
 };
 
 
@@ -206,14 +212,48 @@ export type UserWithZkApp = {
   profilePicture?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
   xUsername?: Maybe<Scalars['String']['output']>;
-  zkApps?: Maybe<Array<Maybe<ZkApp>>>;
+  zkApps?: Maybe<Array<Maybe<ZkAppUser>>>;
 };
 
 export type ZkApp = {
   __typename?: 'ZkApp';
   bannerImage?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['String']['output']>;
-  category?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<ZkAppCategoryZkApp>;
+  categorySlug?: Maybe<Scalars['String']['output']>;
+  currentVersion: Scalars['String']['output'];
+  discordUrl?: Maybe<Scalars['String']['output']>;
+  githubUrl?: Maybe<Scalars['String']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  owner: Scalars['String']['output'];
+  reviewCount?: Maybe<Scalars['Float']['output']>;
+  reviewScore?: Maybe<Scalars['Float']['output']>;
+  slug: Scalars['String']['output'];
+  subtitle?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
+};
+
+export type ZkAppCategory = {
+  __typename?: 'ZkAppCategory';
+  name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
+  zkAppCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ZkAppCategoryZkApp = {
+  __typename?: 'ZkAppCategoryZkApp';
+  name?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+  zkAppCount?: Maybe<Scalars['String']['output']>;
+};
+
+export type ZkAppUser = {
+  __typename?: 'ZkAppUser';
+  bannerImage?: Maybe<Scalars['String']['output']>;
+  body?: Maybe<Scalars['String']['output']>;
+  categorySlug?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
   discordUrl?: Maybe<Scalars['String']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
@@ -228,16 +268,10 @@ export type ZkApp = {
   url: Scalars['String']['output'];
 };
 
-export type ZkAppCategory = {
-  __typename?: 'ZkAppCategory';
-  name: Scalars['String']['output'];
-  zkAppCount?: Maybe<Scalars['Int']['output']>;
-};
-
 export type UpdateZkApp = {
   bannerImage?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['String']['input']>;
-  category?: InputMaybe<Scalars['String']['input']>;
+  categorySlug?: InputMaybe<Scalars['String']['input']>;
   currentVersion?: InputMaybe<Scalars['String']['input']>;
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
@@ -334,6 +368,8 @@ export type ResolversTypes = {
   UserWithZkApp: ResolverTypeWrapper<UserWithZkApp>;
   ZkApp: ResolverTypeWrapper<ZkApp>;
   ZkAppCategory: ResolverTypeWrapper<ZkAppCategory>;
+  ZkAppCategoryZkApp: ResolverTypeWrapper<ZkAppCategoryZkApp>;
+  ZkAppUser: ResolverTypeWrapper<ZkAppUser>;
   updateZkApp: UpdateZkApp;
 };
 
@@ -354,6 +390,8 @@ export type ResolversParentTypes = {
   UserWithZkApp: UserWithZkApp;
   ZkApp: ZkApp;
   ZkAppCategory: ZkAppCategory;
+  ZkAppCategoryZkApp: ZkAppCategoryZkApp;
+  ZkAppUser: ZkAppUser;
   updateZkApp: UpdateZkApp;
 };
 
@@ -388,6 +426,7 @@ export type QueryResolvers<ContextType = ModuleContext, ParentType extends Resol
   usersSortedByFollowers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
   zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
+  zkAppsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByCategoryArgs, 'categorySlug'>>;
   zkAppsByUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByUserArgs, 'userId'>>;
 };
 
@@ -425,14 +464,48 @@ export type UserWithZkAppResolvers<ContextType = ModuleContext, ParentType exten
   profilePicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   xUsername?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  zkApps?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType>;
+  zkApps?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppUser']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkApp'] = ResolversParentTypes['ZkApp']> = {
   bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['ZkAppCategoryZkApp']>, ParentType, ContextType>;
+  categorySlug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reviewCount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ZkAppCategoryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppCategory'] = ResolversParentTypes['ZkAppCategory']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ZkAppCategoryZkAppResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppCategoryZkApp'] = ResolversParentTypes['ZkAppCategoryZkApp']> = {
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ZkAppUserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppUser'] = ResolversParentTypes['ZkAppUser']> = {
+  bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  categorySlug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -448,12 +521,6 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ZkAppCategoryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppCategory'] = ResolversParentTypes['ZkAppCategory']> = {
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type Resolvers<ContextType = ModuleContext> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -464,5 +531,7 @@ export type Resolvers<ContextType = ModuleContext> = {
   UserWithZkApp?: UserWithZkAppResolvers<ContextType>;
   ZkApp?: ZkAppResolvers<ContextType>;
   ZkAppCategory?: ZkAppCategoryResolvers<ContextType>;
+  ZkAppCategoryZkApp?: ZkAppCategoryZkAppResolvers<ContextType>;
+  ZkAppUser?: ZkAppUserResolvers<ContextType>;
 };
 
