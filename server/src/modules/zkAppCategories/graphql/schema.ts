@@ -7,5 +7,6 @@ export const schema = `
 
   type Query {
     zkAppCategoriesSearch(text: String!): [ZkAppCategory] @rateLimit(limit: 15, duration: 10)
+    zkAppCategories: [ZkAppCategory] @rateLimit(limit: 15, duration: 10)
   }
 `;

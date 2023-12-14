@@ -24,4 +24,11 @@ export const Query = {
 
     return categories;
   },
+  zkAppCategories: async (): Promise<Partial<ZkAppCategoriesDoc[]>> => {
+    const categories = await ZkAppCategoriesRepo.find({
+      deleted: { $exists: false },
+    });
+
+    return categories;
+  },
 };
