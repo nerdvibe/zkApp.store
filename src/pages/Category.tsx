@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import FollowButton from "../components/FollowButton";
 import { useState } from "react";
 import EmptyStateCard from "@/components/EmptyStateCard";
+import { useZkAppsByCategoryQuery } from "@/gql/generated";
 
 export default function Category() {
   const { id } = useParams();
@@ -12,8 +13,11 @@ export default function Category() {
   const onFollowClick = () => {
     setFollowing(!following);
   };
-  // TODO: Add query
-  const data = undefined;
+  const { data } = useZkAppsByCategoryQuery({
+    variables: {
+      categorySlug: id,
+    },
+  });
 
   if (!data) {
     return <EmptyStateCard title="Category not found" />;
@@ -23,17 +27,19 @@ export default function Category() {
     {
       key: "Trending",
       title: "Trending",
-      component: <Trending apps={data?.Category?.Products} />,
+      component: <Trending apps={data?.zkAppsByCategory} />,
     },
-    { key: "MostUsed", title: "Most used", component: <MostUsed /> },
-    { key: "News", title: "News", component: <MostUsed /> },
+    // { key: "MostUsed", title: "Most used", component: <MostUsed /> },
+    // { key: "News", title: "News", component: <MostUsed /> },
   ];
 
   return (
     <div className="flex flex-col gap-4 my-11 md:mx-8">
-      <h1 className="text-4xl text-white font-bold">#{data?.Category?.name}</h1>
+      <h1 className="text-4xl text-white font-bold">
+        {/* TODO: Add category query */}#{id}
+      </h1>
       <div className="flex text-white justify-between">
-        <p className="text-xl">{data?.Category?.Products?.length} zkApp</p>
+        <p className="text-xl">{data?.zkAppsByCategory?.length} zkApp</p>
         <FollowButton onClick={onFollowClick} following={following} />
       </div>
       <div className="flex flex-col gap-4">

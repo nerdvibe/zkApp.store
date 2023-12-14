@@ -31,7 +31,7 @@ export default function User() {
 
   useEffect(() => {
     if (userData) {
-      dispatch(setUserInfo({ user: userData.userDetails }));
+      dispatch(setUserInfo({ user: userData.selfUser }));
     }
   }, [userData]);
 

@@ -322,6 +322,13 @@ export type HomepageCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HomepageCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null } | null> | null };
 
+export type ZkAppsByCategoryQueryVariables = Exact<{
+  categorySlug: Scalars['String']['input'];
+}>;
+
+
+export type ZkAppsByCategoryQuery = { __typename?: 'Query', zkAppsByCategory?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null } | null> | null };
+
 export type SearchUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
@@ -492,6 +499,50 @@ export type HomepageCategoriesQueryHookResult = ReturnType<typeof useHomepageCat
 export type HomepageCategoriesLazyQueryHookResult = ReturnType<typeof useHomepageCategoriesLazyQuery>;
 export type HomepageCategoriesSuspenseQueryHookResult = ReturnType<typeof useHomepageCategoriesSuspenseQuery>;
 export type HomepageCategoriesQueryResult = Apollo.QueryResult<HomepageCategoriesQuery, HomepageCategoriesQueryVariables>;
+export const ZkAppsByCategoryDocument = gql`
+    query zkAppsByCategory($categorySlug: String!) {
+  zkAppsByCategory(categorySlug: $categorySlug) {
+    id
+    name
+    slug
+    subtitle
+    icon
+  }
+}
+    `;
+
+/**
+ * __useZkAppsByCategoryQuery__
+ *
+ * To run a query within a React component, call `useZkAppsByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useZkAppsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useZkAppsByCategoryQuery({
+ *   variables: {
+ *      categorySlug: // value for 'categorySlug'
+ *   },
+ * });
+ */
+export function useZkAppsByCategoryQuery(baseOptions: Apollo.QueryHookOptions<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>(ZkAppsByCategoryDocument, options);
+      }
+export function useZkAppsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>(ZkAppsByCategoryDocument, options);
+        }
+export function useZkAppsByCategorySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>(ZkAppsByCategoryDocument, options);
+        }
+export type ZkAppsByCategoryQueryHookResult = ReturnType<typeof useZkAppsByCategoryQuery>;
+export type ZkAppsByCategoryLazyQueryHookResult = ReturnType<typeof useZkAppsByCategoryLazyQuery>;
+export type ZkAppsByCategorySuspenseQueryHookResult = ReturnType<typeof useZkAppsByCategorySuspenseQuery>;
+export type ZkAppsByCategoryQueryResult = Apollo.QueryResult<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>;
 export const SearchUserDocument = gql`
     query searchUser($username: String!) {
   userSearch(username: $username) {

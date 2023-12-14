@@ -5,3 +5,13 @@ query homepageCategories {
     zkAppCount
   }
 }
+
+query zkAppsByCategory($categorySlug: String! ) {
+  zkAppsByCategory(categorySlug: $categorySlug) {
+    id
+    name
+    slug
+    subtitle
+    icon
+  }
+}

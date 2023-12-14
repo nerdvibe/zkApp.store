@@ -43,7 +43,7 @@ export default function PublishApp() {
               url,
               subtitle: subtitle || undefined,
               body: body || undefined,
-              category: category || undefined,
+              categorySlug: category || undefined,
               discordUrl: discordUrl || undefined,
               githubUrl: githubUrl || undefined,
             },
