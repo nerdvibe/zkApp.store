@@ -9,12 +9,6 @@ export const schema = `
     isDeveloper: Boolean!
   }
 
-  type SelfUser {
-    id: String!
-    email: String!
-    emailVerified: Boolean!
-  }
-
   type Token {
     accessToken: String!
     refreshToken: String!
@@ -26,7 +20,6 @@ export const schema = `
 
   type Query {
     publicInfo: String
-    userDetails: SelfUser @rateLimit(limit: 40, duration: 20)
   }
 
 
