@@ -44,9 +44,17 @@ export const schema = `
     id: String
   }
 
+
+  type SelfUser {
+    id: String!
+    email: String!
+    emailVerified: Boolean!
+  }
+
   type Query {
     user(username: String, id: String): UserWithZkApp @rateLimit(limit: 10, duration: 5)
     userSearch(username: String!): [User] @rateLimit(limit: 10, duration: 5)
     usersSortedByFollowers: [User] @rateLimit(limit: 10, duration: 5)
+    selfUser: SelfUser @rateLimit(limit: 40, duration: 20)
   }
 `;

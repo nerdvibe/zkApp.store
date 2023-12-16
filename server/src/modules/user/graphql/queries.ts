@@ -6,6 +6,7 @@ import {
 import { isValidString } from "@modules/util";
 import { type UserDoc, UserRepo, PUBLIC_USER_FIELDS } from "../UserModel";
 import { ZkAppRepo } from "@modules/zkApp/ZkAppModel";
+import { isAuthenticated } from "@modules/auth/util";
 
 export const Query = {
   user: async (
@@ -79,5 +80,25 @@ export const Query = {
       .sort({ followerCount: "desc" });
 
     return user;
+  },
+
+  selfUser: async (parent: any, args: any, context: any) => {
+    const { accessToken } = context;
+
+    const user = await isAuthenticated(accessToken);
+
+    
+    return {
+      email: user.email,
+      id: user._id,
+      emailVerified: user.emailVerified,
+      username: user.username,
+      followerCount: user.followerCount,
+      xUsername: user.xUsername,
+      discordUrl: user.discordUrl,
+      githubUrl: user.githubUrl,
+      profilePicture: user.profilePicture,
+      bannerPicture: user.bannerPicture,
+    };
   },
 };
