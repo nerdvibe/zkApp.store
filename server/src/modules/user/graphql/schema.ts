@@ -48,7 +48,14 @@ export const schema = `
   type SelfUser {
     id: String!
     email: String!
+    username: String!
     emailVerified: Boolean!
+    followerCount: Int
+    xUsername: String
+    discordUrl: String
+    githubUrl: String
+    profilePicture: String
+    bannerPicture: String
   }
 
   type Query {

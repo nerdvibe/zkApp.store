@@ -1,4 +1,5 @@
 import {
+  type SelfUser,
   type QueryUserArgs,
   type QueryUserSearchArgs,
   type UserWithZkApp,
@@ -82,7 +83,7 @@ export const Query = {
     return user;
   },
 
-  selfUser: async (parent: any, args: any, context: any) => {
+  selfUser: async (parent: any, args: any, context: any): Promise<SelfUser> => {
     const { accessToken } = context;
 
     const user = await isAuthenticated(accessToken);
