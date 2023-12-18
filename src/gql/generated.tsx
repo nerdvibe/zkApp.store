@@ -262,6 +262,7 @@ export type ZkApp = {
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   owner: Scalars['String']['output'];
+  ownerUsername?: Maybe<Scalars['String']['output']>;
   reviewCount?: Maybe<Scalars['Float']['output']>;
   reviewScore?: Maybe<Scalars['Float']['output']>;
   slug: Scalars['String']['output'];
@@ -327,7 +328,14 @@ export type ZkAppsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type ZkAppsByCategoryQuery = { __typename?: 'Query', zkAppsByCategory?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null } | null> | null };
+export type ZkAppsByCategoryQuery = { __typename?: 'Query', zkAppsByCategory?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null, currentVersion: string } | null> | null };
+
+export type SearchCategoriesQueryVariables = Exact<{
+  text: Scalars['String']['input'];
+}>;
+
+
+export type SearchCategoriesQuery = { __typename?: 'Query', zkAppCategoriesSearch?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null } | null> | null };
 
 export type SearchUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -507,6 +515,7 @@ export const ZkAppsByCategoryDocument = gql`
     slug
     subtitle
     icon
+    currentVersion
   }
 }
     `;
@@ -543,6 +552,48 @@ export type ZkAppsByCategoryQueryHookResult = ReturnType<typeof useZkAppsByCateg
 export type ZkAppsByCategoryLazyQueryHookResult = ReturnType<typeof useZkAppsByCategoryLazyQuery>;
 export type ZkAppsByCategorySuspenseQueryHookResult = ReturnType<typeof useZkAppsByCategorySuspenseQuery>;
 export type ZkAppsByCategoryQueryResult = Apollo.QueryResult<ZkAppsByCategoryQuery, ZkAppsByCategoryQueryVariables>;
+export const SearchCategoriesDocument = gql`
+    query searchCategories($text: String!) {
+  zkAppCategoriesSearch(text: $text) {
+    name
+    slug
+    zkAppCount
+  }
+}
+    `;
+
+/**
+ * __useSearchCategoriesQuery__
+ *
+ * To run a query within a React component, call `useSearchCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchCategoriesQuery({
+ *   variables: {
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useSearchCategoriesQuery(baseOptions: Apollo.QueryHookOptions<SearchCategoriesQuery, SearchCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchCategoriesQuery, SearchCategoriesQueryVariables>(SearchCategoriesDocument, options);
+      }
+export function useSearchCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchCategoriesQuery, SearchCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchCategoriesQuery, SearchCategoriesQueryVariables>(SearchCategoriesDocument, options);
+        }
+export function useSearchCategoriesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchCategoriesQuery, SearchCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchCategoriesQuery, SearchCategoriesQueryVariables>(SearchCategoriesDocument, options);
+        }
+export type SearchCategoriesQueryHookResult = ReturnType<typeof useSearchCategoriesQuery>;
+export type SearchCategoriesLazyQueryHookResult = ReturnType<typeof useSearchCategoriesLazyQuery>;
+export type SearchCategoriesSuspenseQueryHookResult = ReturnType<typeof useSearchCategoriesSuspenseQuery>;
+export type SearchCategoriesQueryResult = Apollo.QueryResult<SearchCategoriesQuery, SearchCategoriesQueryVariables>;
 export const SearchUserDocument = gql`
     query searchUser($username: String!) {
   userSearch(username: $username) {
@@ -1488,6 +1539,7 @@ export type ZkAppResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ownerUsername?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   reviewCount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

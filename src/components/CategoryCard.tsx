@@ -30,6 +30,7 @@ export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
             <>
               <Image
                 removeWrapper
+                // TODO: Fix alt text
                 alt="Relaxing app background"
                 className="w-[45%] object-cover top-5 h-[200px]"
                 src={thumbnails[0]}

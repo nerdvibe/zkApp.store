@@ -6,12 +6,21 @@ query homepageCategories {
   }
 }
 
-query zkAppsByCategory($categorySlug: String! ) {
+query zkAppsByCategory($categorySlug: String!) {
   zkAppsByCategory(categorySlug: $categorySlug) {
     id
     name
     slug
     subtitle
     icon
+    currentVersion
+  }
+}
+
+query searchCategories($text: String!) {
+  zkAppCategoriesSearch(text: $text) {
+    name
+    slug
+    zkAppCount
   }
 }

@@ -9,7 +9,7 @@ export default function Trending({ apps }: { apps: any[] }) {
       {apps?.map((product) => (
         <CustomCard
           {...product}
-          onClick={() => navigate(`${routes.PRODUCT}/${product.id}`)}
+          onClick={() => navigate(`${routes.PRODUCT}/${product.slug}`)}
         />
       ))}
     </div>

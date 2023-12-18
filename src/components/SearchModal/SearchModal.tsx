@@ -1,15 +1,10 @@
 import { useKeyPress } from "@/hooks/useKeyPress";
-import { toggleModal, searchApp } from "@/store/search";
+import { toggleModal } from "@/store/search";
 import { RootState } from "@/store/store";
 import {
-  Avatar,
   Divider,
-  Image,
   Input,
   Kbd,
-  Listbox,
-  ListboxItem,
-  ListboxSection,
   Modal,
   ModalBody,
   ModalContent,
@@ -22,37 +17,18 @@ import { SearchIcon } from "../SearchIcon";
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import routes from "@/routes";
-import { useSearchUserLazyQuery } from "@/gql/generated";
-import UserIcon from "../User/UserIcon";
+import UserSearch from "./UserSearch";
+import CategorySearch from "./CategorySearch";
 
 export default function SearchModal() {
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
-  const [fetchedUsers, setFetchedUsers] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [completedCalls, setCompletedCalls] = useState(0);
   const { showModal, text } = useSelector((state: RootState) => state.search);
   const debouncedSearchTerm = useDebounce<string>(inputValue, 500);
   // TODO: Add query
-  const [searchApps, { data }] = [(val: any) => null, { data: undefined }];
-
-  const [searchUsers, { data: users, called }] = useSearchUserLazyQuery();
-
-  useEffect(() => {
-    if (showModal) {
-      setInputValue(text);
-      searchUsers({
-        variables: {
-          username: text,
-        },
-      }).then((data) => {
-        if (data?.data?.userSearch) {
-          setFetchedUsers(data?.data?.userSearch);
-        }
-      });
-    }
-  }, [showModal, text]);
 
   const onKeyPress = () => {
     dispatch(toggleModal({}));
@@ -60,39 +36,35 @@ export default function SearchModal() {
 
   useKeyPress({ keys: ["k"], ctrl: true, callback: onKeyPress });
 
-  // Effect for API call simulation
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      // Here you could call an API to search for items
-      dispatch(searchApp({ value: debouncedSearchTerm }));
-      setLoader(true);
-
-      setTimeout(() => {
-        searchUsers({
-          variables: {
-            username: text,
-          },
-        }).then((data) => {
-          if (data?.data?.userSearch) {
-            setFetchedUsers(data?.data?.userSearch);
-          }
-        });
-        searchApps({
-          variables: {
-            data: debouncedSearchTerm,
-          },
-        });
-        setLoader(false);
-      }, 1000);
-    }
-  }, [debouncedSearchTerm]);
-
   useEffect(() => {
     if (!showModal) {
       setLoader(true);
-      setFetchedUsers([]);
     }
   }, [showModal]);
+
+  useEffect(() => {
+    if (showModal) {
+      setInputValue(text);
+    }
+  }, [showModal, text]);
+
+  // Effect for API call simulation
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      setLoader(true);
+    }
+  }, [debouncedSearchTerm]);
+
+  const onApiCallComplete = () => {
+    setCompletedCalls((prevCount) => prevCount + 1);
+  };
+
+  useEffect(() => {
+    if (completedCalls === 2 && loader) {
+      setCompletedCalls(0);
+      setLoader(false);
+    }
+  }, [completedCalls, loader]);
 
   const openResult = (route: string, id?: string) => {
     navigate(`${route}/${id}`);
@@ -133,106 +105,53 @@ export default function SearchModal() {
             <ModalBody className="flex flex-col p-0 items-center px-4 pb-4 min-h-[150px]">
               <Divider />
               <div className="flex flex-col items-center justify-center min-h-[250px] w-full">
-                {!called || loader ? (
+                {loader && (
                   <Spinner label="Searching items" className="w-full" />
-                ) : (
-                  <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px]">
-                    {fetchedUsers && (
-                      <Listbox
-                        variant="flat"
-                        aria-label="Listbox menu with sections"
-                        className="max-h-[500px]"
-                      >
-                        <ListboxSection title="zkApps" showDivider>
-                          {data?.allProducts?.length ? (
-                            data?.allProducts?.map((app) => (
-                              <ListboxItem
-                                key={app?.title}
-                                description={app?.shortDescription}
-                                onClick={() =>
-                                  openResult(routes.PRODUCT, app?.id)
-                                }
-                                startContent={
-                                  <Image
-                                    src={app?.image}
-                                    className="w-[50px] h-[50px] object-cover"
-                                  />
-                                }
-                              >
-                                {app?.title}
-                              </ListboxItem>
-                            ))
-                          ) : (
-                            <ListboxItem key={"no-zkapps"}>
-                              No results
-                            </ListboxItem>
-                          )}
-                        </ListboxSection>
-                        <ListboxSection title="Users" showDivider>
-                          {fetchedUsers?.length ? (
-                            fetchedUsers?.map((app) => (
-                              <ListboxItem
-                                key={app?.username}
-                                description={`${app?.followerCount} Followers`}
-                                onClick={() =>
-                                  openResult(routes.PROFILE, app?.id)
-                                }
-                                startContent={
-                                  <Avatar
-                                    isBordered
-                                    as="button"
-                                    className="transition-transform"
-                                    color="default"
-                                    name={app?.username}
-                                    size="sm"
-                                    src={app?.profilePicture}
-                                    fallback={
-                                      <UserIcon
-                                        value={app?.username || ""}
-                                        size={30}
-                                      />
-                                    }
-                                  />
-                                }
-                              >
-                                {app?.username}
-                              </ListboxItem>
-                            ))
-                          ) : (
-                            <ListboxItem key={"no-users"}>
-                              No results
-                            </ListboxItem>
-                          )}
-                        </ListboxSection>
-                        <ListboxSection title="Categories" showDivider>
-                          {data?.allCategories?.length ? (
-                            data?.allCategories?.map((app) => (
-                              <ListboxItem
-                                key={app?.name}
-                                description={`${app?.Products?.length} zkApps`}
-                                onClick={() =>
-                                  openResult(routes.CATEGORY, app?.id)
-                                }
-                                startContent={
-                                  <Image
-                                    src={app?.thumbnails[0]}
-                                    className="w-[50px] h-[50px] object-cover"
-                                  />
-                                }
-                              >
-                                #{app?.name}
-                              </ListboxItem>
-                            ))
-                          ) : (
-                            <ListboxItem key={"no-categories"}>
-                              No results
-                            </ListboxItem>
-                          )}
-                        </ListboxSection>
-                      </Listbox>
-                    )}
-                  </ScrollShadow>
                 )}
+                <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px]">
+                  {/* <Listbox
+                    variant="flat"
+                    aria-label="Listbox menu with sections"
+                    className="max-h-[500px]"
+                  > */}
+                  {/* <ListboxSection title="zkApps" showDivider>
+                      {data?.allProducts?.length ? (
+                        data?.allProducts?.map((app) => (
+                          <ListboxItem
+                            key={app?.title}
+                            description={app?.shortDescription}
+                            onClick={() => openResult(routes.PRODUCT, app?.id)}
+                            startContent={
+                              <Image
+                                src={app?.image}
+                                className="w-[50px] h-[50px] object-cover"
+                              />
+                            }
+                          >
+                            {app?.title}
+                          </ListboxItem>
+                        ))
+                      ) : (
+                        <ListboxItem key={"no-zkapps"}>No results</ListboxItem>
+                      )}
+                    </ListboxSection> */}
+                  <UserSearch
+                    openResult={openResult}
+                    showModal={showModal}
+                    text={text}
+                    onApiCallComplete={onApiCallComplete}
+                    debouncedSearchTerm={debouncedSearchTerm}
+                    parentLoading={loader}
+                  />
+                  <CategorySearch
+                    openResult={openResult}
+                    showModal={showModal}
+                    text={text}
+                    onApiCallComplete={onApiCallComplete}
+                    debouncedSearchTerm={debouncedSearchTerm}
+                    parentLoading={loader}
+                  />
+                </ScrollShadow>
               </div>
             </ModalBody>
           </>
