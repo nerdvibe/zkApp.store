@@ -7,6 +7,7 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import UserIcon from "../User/UserIcon";
+import routes from "@/routes";
 
 interface IProps {
   openResult: (route: string, id?: string) => void;

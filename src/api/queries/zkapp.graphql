@@ -108,3 +108,13 @@ query trendingApps {
     icon
   }
 }
+
+query searchZkApp($name: String!) {
+  searchZkAppByName(name: $name) {
+    id
+    name
+    slug
+    subtitle
+    icon
+  }
+}

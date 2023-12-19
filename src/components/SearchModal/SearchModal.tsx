@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserSearch from "./UserSearch";
 import CategorySearch from "./CategorySearch";
+import ZkAppSearch from "./ZkAppSearch";
 
 export default function SearchModal() {
   const [inputValue, setInputValue] = useState("");
@@ -60,7 +61,7 @@ export default function SearchModal() {
   };
 
   useEffect(() => {
-    if (completedCalls === 2 && loader) {
+    if (completedCalls === 3 && loader) {
       setCompletedCalls(0);
       setLoader(false);
     }
@@ -109,32 +110,14 @@ export default function SearchModal() {
                   <Spinner label="Searching items" className="w-full" />
                 )}
                 <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px]">
-                  {/* <Listbox
-                    variant="flat"
-                    aria-label="Listbox menu with sections"
-                    className="max-h-[500px]"
-                  > */}
-                  {/* <ListboxSection title="zkApps" showDivider>
-                      {data?.allProducts?.length ? (
-                        data?.allProducts?.map((app) => (
-                          <ListboxItem
-                            key={app?.title}
-                            description={app?.shortDescription}
-                            onClick={() => openResult(routes.PRODUCT, app?.id)}
-                            startContent={
-                              <Image
-                                src={app?.image}
-                                className="w-[50px] h-[50px] object-cover"
-                              />
-                            }
-                          >
-                            {app?.title}
-                          </ListboxItem>
-                        ))
-                      ) : (
-                        <ListboxItem key={"no-zkapps"}>No results</ListboxItem>
-                      )}
-                    </ListboxSection> */}
+                  <ZkAppSearch
+                    openResult={openResult}
+                    showModal={showModal}
+                    text={text}
+                    onApiCallComplete={onApiCallComplete}
+                    debouncedSearchTerm={debouncedSearchTerm}
+                    parentLoading={loader}
+                  />
                   <UserSearch
                     openResult={openResult}
                     showModal={showModal}

@@ -465,6 +465,13 @@ export type TrendingAppsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type TrendingAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, icon?: string | null } | null> | null };
 
+export type SearchZkAppQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type SearchZkAppQuery = { __typename?: 'Query', searchZkAppByName?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null } | null> | null };
+
 
 export const HomepageCategoriesDocument = gql`
     query homepageCategories {
@@ -1331,6 +1338,50 @@ export type TrendingAppsQueryHookResult = ReturnType<typeof useTrendingAppsQuery
 export type TrendingAppsLazyQueryHookResult = ReturnType<typeof useTrendingAppsLazyQuery>;
 export type TrendingAppsSuspenseQueryHookResult = ReturnType<typeof useTrendingAppsSuspenseQuery>;
 export type TrendingAppsQueryResult = Apollo.QueryResult<TrendingAppsQuery, TrendingAppsQueryVariables>;
+export const SearchZkAppDocument = gql`
+    query searchZkApp($name: String!) {
+  searchZkAppByName(name: $name) {
+    id
+    name
+    slug
+    subtitle
+    icon
+  }
+}
+    `;
+
+/**
+ * __useSearchZkAppQuery__
+ *
+ * To run a query within a React component, call `useSearchZkAppQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchZkAppQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchZkAppQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useSearchZkAppQuery(baseOptions: Apollo.QueryHookOptions<SearchZkAppQuery, SearchZkAppQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchZkAppQuery, SearchZkAppQueryVariables>(SearchZkAppDocument, options);
+      }
+export function useSearchZkAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchZkAppQuery, SearchZkAppQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchZkAppQuery, SearchZkAppQueryVariables>(SearchZkAppDocument, options);
+        }
+export function useSearchZkAppSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchZkAppQuery, SearchZkAppQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchZkAppQuery, SearchZkAppQueryVariables>(SearchZkAppDocument, options);
+        }
+export type SearchZkAppQueryHookResult = ReturnType<typeof useSearchZkAppQuery>;
+export type SearchZkAppLazyQueryHookResult = ReturnType<typeof useSearchZkAppLazyQuery>;
+export type SearchZkAppSuspenseQueryHookResult = ReturnType<typeof useSearchZkAppSuspenseQuery>;
+export type SearchZkAppQueryResult = Apollo.QueryResult<SearchZkAppQuery, SearchZkAppQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

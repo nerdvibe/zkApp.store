@@ -1,4 +1,4 @@
-import { useSearchCategoriesLazyQuery } from "@/gql/generated";
+import { useSearchZkAppLazyQuery } from "@/gql/generated";
 import { Image, Listbox, ListboxItem, ListboxSection } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import routes from "@/routes";
@@ -12,28 +12,28 @@ interface IProps {
   parentLoading?: boolean;
 }
 
-export default function CategorySearch({
+export default function ZkAppSearch({
   debouncedSearchTerm,
   openResult,
   showModal,
   onApiCallComplete,
   parentLoading,
 }: IProps) {
-  const [searchCategory] = useSearchCategoriesLazyQuery();
+  const [searchCategory] = useSearchZkAppLazyQuery();
 
-  const [fetchedCategories, setFetchedCategories] = useState([]);
+  const [fetchedZkApps, setFetchedZkApps] = useState([]);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
       setTimeout(() => {
         searchCategory({
           variables: {
-            text: debouncedSearchTerm,
+            name: debouncedSearchTerm,
           },
         })
           .then((data) => {
-            if (data?.data?.zkAppCategoriesSearch) {
-              setFetchedCategories(data?.data?.zkAppCategoriesSearch);
+            if (data?.data?.searchZkAppByName) {
+              setFetchedZkApps(data?.data?.searchZkAppByName);
             }
           })
           .finally(() => {
@@ -45,7 +45,7 @@ export default function CategorySearch({
 
   useEffect(() => {
     if (!showModal) {
-      setFetchedCategories([]);
+      setFetchedZkApps([]);
     }
   }, [showModal]);
 
@@ -55,22 +55,22 @@ export default function CategorySearch({
       aria-label="Listbox menu with sections"
       className="max-h-[500px]"
     >
-      <ListboxSection title="Categories" showDivider>
-        {fetchedCategories?.length ? (
-          fetchedCategories?.map((app) => (
+      <ListboxSection title="ZkApps" showDivider>
+        {fetchedZkApps?.length ? (
+          fetchedZkApps?.map((app) => (
             <ListboxItem
               key={app?.name}
-              description={`${app?.zkAppCount} zkApps`}
-              onClick={() => openResult(routes.CATEGORY, app?.slug)}
+              description={app?.subtitle}
+              onClick={() => openResult(routes.PRODUCT, app?.slug)}
               startContent={
                 <Image
-                  // TODO: Add thumbnail
-                  src={"https://nextui.org/images/card-example-6.jpeg"}
+                  // TODO: Replace placeholder
+                  src={app?.icon || "https://nextui.org/images/hero-card.jpeg"}
                   className="w-[50px] h-[50px] object-cover"
                 />
               }
             >
-              #{app?.name}
+              {app?.name}
             </ListboxItem>
           ))
         ) : (
