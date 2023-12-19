@@ -97,6 +97,16 @@ export const Query = {
 
     return flattenZkAppsDocArrayToGQL(zkApps);
   },
+  zkApps: async (
+    parent: any,
+  ): Promise<ZkApp[]> => {
+
+    const zkApps = await ZkAppRepo.find({
+      deleted: { $exists: false },
+    }).limit(10);
+
+    return flattenZkAppsDocArrayToGQL(zkApps);
+  },
 };
 
 const flattenZkAppsDocArrayToGQL = (zkApps: ZkAppDoc[]): ZkApp[] => {
