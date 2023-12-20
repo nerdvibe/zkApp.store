@@ -65,11 +65,11 @@ export const schema = `
   }
 
   type Query {
-    zkApp(slug: String!): ZkApp @rateLimit(limit: 3, duration: 60)
-    zkApps: [ZkApp] @rateLimit(limit: 3, duration: 60)
-    zkAppsByUser(userId: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
-    searchZkAppByName(name: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
-    zkAppsByCategory(categorySlug: String!): [ZkApp] @rateLimit(limit: 15, duration: 60)
+    zkApp(slug: String!): ZkApp @rateLimit(limit: 50, duration: 60)
+    zkApps(skip: Int, limit: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
+    zkAppsByUser(userId: String!, limit: Int, skip: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
+    searchZkAppByName(name: String!, limit: Int, skip: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
+    zkAppsByCategory(categorySlug: String!, limit: Int, skip: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
   }
 
 

@@ -1,13 +1,16 @@
 import {
   type QueryZkAppArgs,
+  type QueryZkAppsArgs,
   type QueryZkAppsByUserArgs,
   type QuerySearchZkAppByNameArgs,
   type QueryZkAppsByCategoryArgs,
   type ZkApp,
 } from "@interfaces/graphql";
-import { isValidString } from "@modules/util";
+import { isValidNumber, isValidString } from "@modules/util";
 import { type ZkAppDoc, ZkAppRepo } from "../ZkAppModel";
 import { ZkAppCategoriesRepo } from "@modules/zkAppCategories/ZkAppCategoriesModel";
+
+const DEFAULT_LIMIT = 10;
 
 export const Query = {
   zkApp: async (parent: any, args: QueryZkAppArgs): Promise<ZkApp> => {
@@ -55,14 +58,20 @@ export const Query = {
     parent: any,
     args: QueryZkAppsByUserArgs
   ): Promise<ZkApp[]> => {
-    if (!isValidString(args.userId)) {
+    if (
+      !isValidString(args.userId) ||
+      !isValidNumber(args.limit, true) ||
+      !isValidNumber(args.skip, true)
+    ) {
       throw new Error("Unknown param");
     }
 
     const zkApps = await ZkAppRepo.find({
       owner: args.userId,
       deleted: { $exists: false },
-    });
+    })
+      .skip(args.skip ?? 0)
+      .limit(args.limit ?? DEFAULT_LIMIT);
 
     return flattenZkAppsDocArrayToGQL(zkApps);
   },
@@ -70,7 +79,11 @@ export const Query = {
     parent: any,
     args: QuerySearchZkAppByNameArgs
   ): Promise<ZkApp[]> => {
-    if (!isValidString(args.name)) {
+    if (
+      !isValidString(args.name) ||
+      !isValidNumber(args.limit, true) ||
+      !isValidNumber(args.skip, true)
+    ) {
       throw new Error("Unknown param");
     }
     const zkApps = await ZkAppRepo.find({
@@ -78,7 +91,9 @@ export const Query = {
         $search: args.name,
       },
       deleted: { $exists: false },
-    }).limit(10);
+    })
+      .skip(args.skip ?? 0)
+      .limit(args.limit ?? DEFAULT_LIMIT);
 
     return flattenZkAppsDocArrayToGQL(zkApps);
   },
@@ -86,24 +101,36 @@ export const Query = {
     parent: any,
     args: QueryZkAppsByCategoryArgs
   ): Promise<ZkApp[]> => {
-    if (!isValidString(args.categorySlug)) {
+    if (
+      !isValidString(args.categorySlug) ||
+      !isValidNumber(args.limit, true) ||
+      !isValidNumber(args.skip, true)
+    ) {
       throw new Error("Unknown param");
     }
 
     const zkApps = await ZkAppRepo.find({
       categorySlug: args.categorySlug,
       deleted: { $exists: false },
-    }).limit(10);
+    })
+      .skip(args.skip ?? 0)
+      .limit(args.limit ?? DEFAULT_LIMIT);
 
     return flattenZkAppsDocArrayToGQL(zkApps);
   },
   zkApps: async (
     parent: any,
+    { skip, limit }: QueryZkAppsArgs
   ): Promise<ZkApp[]> => {
+    if (!isValidNumber(limit, true) || !isValidNumber(skip, true)) {
+      throw new Error("Unknown param");
+    }
 
     const zkApps = await ZkAppRepo.find({
       deleted: { $exists: false },
-    }).limit(10);
+    })
+      .skip(skip ?? 0)
+      .limit(limit ?? DEFAULT_LIMIT);
 
     return flattenZkAppsDocArrayToGQL(zkApps);
   },

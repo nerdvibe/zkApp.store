@@ -15,6 +15,12 @@ export const isValidBoolean = (value: any, optional:boolean = false): boolean =>
   }
   return typeof value === "boolean";
 };
+export const isValidNumber = (value: any, optional:boolean = false): boolean => {
+  if(optional && value === undefined) {
+    return true
+  }
+  return typeof value === "number";
+};
 
 export const isValidEmail = (value: any, optional:boolean = false): boolean => {
   if(optional && value === undefined) {
