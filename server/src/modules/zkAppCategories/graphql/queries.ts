@@ -1,9 +1,14 @@
-import { type QueryZkAppCategoriesSearchArgs } from "@interfaces/graphql";
-import { isValidString } from "@modules/util";
+import {
+  type QueryZkAppCategoriesArgs,
+  type QueryZkAppCategoriesSearchArgs,
+} from "@interfaces/graphql";
+import { isValidNumber, isValidString } from "@modules/util";
 import {
   type ZkAppCategoriesDoc,
   ZkAppCategoriesRepo,
 } from "../ZkAppCategoriesModel";
+
+const DEFAULT_LIMIT = 10;
 
 // TODO: make this query accept part of words (partials)
 export const Query = {
@@ -11,7 +16,11 @@ export const Query = {
     parent: any,
     args: QueryZkAppCategoriesSearchArgs
   ): Promise<Partial<ZkAppCategoriesDoc[]>> => {
-    if (!isValidString(args.text)) {
+    if (
+      !isValidString(args.text) ||
+      !isValidNumber(args.limit, true) ||
+      !isValidNumber(args.skip, true)
+    ) {
       throw new Error("Unknown param");
     }
 
@@ -20,14 +29,25 @@ export const Query = {
         $search: args.text,
       },
       deleted: { $exists: false },
-    }).limit(10);
+    })
+      .skip(args.skip ?? 0)
+      .limit(args.limit ?? DEFAULT_LIMIT);
 
     return categories;
   },
-  zkAppCategories: async (): Promise<Partial<ZkAppCategoriesDoc[]>> => {
+  zkAppCategories: async (
+    parent: any,
+    args: QueryZkAppCategoriesArgs
+  ): Promise<Partial<ZkAppCategoriesDoc[]>> => {
+    if (!isValidNumber(args.limit, true) || !isValidNumber(args.skip, true)) {
+      throw new Error("Unknown param");
+    }
+
     const categories = await ZkAppCategoriesRepo.find({
       deleted: { $exists: false },
-    });
+    })
+      .skip(args.skip ?? 0)
+      .limit(args.limit ?? DEFAULT_LIMIT);
 
     return categories;
   },
