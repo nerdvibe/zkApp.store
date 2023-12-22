@@ -49,6 +49,7 @@ export const schema = `
     icon: String
     bannerImage: String
     category: ZkAppCategoryZkApp
+    featured: Int
 
     # TODO: Fix these two fields
     # createdAt: String
@@ -66,7 +67,7 @@ export const schema = `
 
   type Query {
     zkApp(slug: String!): ZkApp @rateLimit(limit: 50, duration: 60)
-    zkApps(skip: Int, limit: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
+    zkApps(sortByFeatured: Boolean, skip: Int, limit: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
     zkAppsByUser(userId: String!, limit: Int, skip: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
     searchZkAppByName(name: String!, limit: Int, skip: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)
     zkAppsByCategory(categorySlug: String!, limit: Int, skip: Int): [ZkApp] @rateLimit(limit: 50, duration: 60)

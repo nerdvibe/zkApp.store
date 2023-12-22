@@ -15,6 +15,7 @@ const zkAppSchema = new mongoose.Schema({
   categorySlug: { type: String, required: true },
   icon: { type: String },
   bannerImage: { type: String },
+  featured: { type: Number, default: undefined },
   deleted: { type: Boolean },
 }, {timestamps: true});
 

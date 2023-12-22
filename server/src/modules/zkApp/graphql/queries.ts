@@ -6,7 +6,7 @@ import {
   type QueryZkAppsByCategoryArgs,
   type ZkApp,
 } from "@interfaces/graphql";
-import { isValidNumber, isValidString } from "@modules/util";
+import { isValidBoolean, isValidNumber, isValidString } from "@modules/util";
 import { type ZkAppDoc, ZkAppRepo } from "../ZkAppModel";
 import { ZkAppCategoriesRepo } from "@modules/zkAppCategories/ZkAppCategoriesModel";
 
@@ -120,15 +120,20 @@ export const Query = {
   },
   zkApps: async (
     parent: any,
-    { skip, limit }: QueryZkAppsArgs
+    { sortByFeatured, skip, limit }: QueryZkAppsArgs
   ): Promise<ZkApp[]> => {
-    if (!isValidNumber(limit, true) || !isValidNumber(skip, true)) {
+    if (
+      !isValidNumber(limit, true) ||
+      !isValidNumber(skip, true) ||
+      !isValidBoolean(sortByFeatured, true)
+    ) {
       throw new Error("Unknown param");
     }
 
     const zkApps = await ZkAppRepo.find({
       deleted: { $exists: false },
     })
+      .sort(sortByFeatured ? { featured: "desc" } : {})
       .skip(skip ?? 0)
       .limit(limit ?? DEFAULT_LIMIT);
 
@@ -154,6 +159,7 @@ const flattenZkAppsDocArrayToGQL = (zkApps: ZkAppDoc[]): ZkApp[] => {
       categorySlug: zkApp.categorySlug,
       icon: zkApp.icon,
       bannerImage: zkApp.bannerImage,
+      featured: zkApp.featured,
     };
   });
 };
