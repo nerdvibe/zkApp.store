@@ -173,6 +173,7 @@ export type QueryZkAppCategoriesSearchArgs = {
 export type QueryZkAppsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+  sortByFeatured?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -252,6 +253,7 @@ export type ZkApp = {
   categorySlug?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
   discordUrl?: Maybe<Scalars['String']['output']>;
+  featured?: Maybe<Scalars['Int']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
   icon?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
@@ -513,6 +515,7 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
   categorySlug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  featured?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
