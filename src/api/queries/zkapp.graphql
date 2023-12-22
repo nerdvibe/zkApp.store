@@ -7,6 +7,7 @@ mutation createZkApp($zkApp: CreateZkApp!) {
 
 query appData($slug: String!) {
   zkApp(slug: $slug) {
+    slug
     name
     owner
     id

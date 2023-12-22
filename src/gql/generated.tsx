@@ -429,7 +429,7 @@ export type AppDataQueryVariables = Exact<{
 }>;
 
 
-export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null } | null } | null };
+export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', slug: string, name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null } | null } | null };
 
 export type UpdateZkAppMutationVariables = Exact<{
   zkApp: UpdateZkApp;
@@ -1047,6 +1047,7 @@ export type CreateZkAppMutationOptions = Apollo.BaseMutationOptions<CreateZkAppM
 export const AppDataDocument = gql`
     query appData($slug: String!) {
   zkApp(slug: $slug) {
+    slug
     name
     owner
     id

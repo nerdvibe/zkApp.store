@@ -70,7 +70,9 @@ export default function CustomCard({
       <CardBody className="overflow-visible py-2 gap-2 justify-between">
         <div className="flex flex-col">
           <p className="uppercase font-bold">{name || "ZkApp Name"}</p>
-          <small className="text-default-400">#{category || "Category"}</small>
+          <small className="text-default-400">
+            #{category?.name || "Uncategorized"}
+          </small>
           <div className="flex flex-row justify-between">
             <small className="text-default-400">
               {currentVersion || "Version"}

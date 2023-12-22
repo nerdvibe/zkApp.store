@@ -2,13 +2,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import CustomCard from "../components/Card";
 import EmptyState from "@/components/Favourites/EmptyState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
+import { useAppDataLazyQuery } from "@/gql/generated";
 
 export default function Favourites() {
-  // TODO: Add query
-  const [fetchProducts, { data }] = [(val: any) => null, { data: undefined }];
+  // TODO: Add new zkapp query asap
+  const [fetchProducts, { data }] = useAppDataLazyQuery();
+  const [zkApps, setZkApps] = useState([]);
+
   const navigate = useNavigate();
   const products = useSelector(
     (state: RootState) => state.favoriteProducts.products
@@ -16,10 +19,16 @@ export default function Favourites() {
 
   useEffect(() => {
     if (products) {
-      fetchProducts({
-        variables: {
-          ids: products,
-        },
+      products.map((slug) => {
+        fetchProducts({
+          variables: {
+            slug,
+          },
+        }).then(({ data, error }) => {
+          if (!error) {
+            setZkApps([...zkApps, data?.zkApp]);
+          }
+        });
       });
     }
   }, [products]);
@@ -28,10 +37,10 @@ export default function Favourites() {
     <div className="flex justify-center m-auto flex-col">
       <h1 className="text-4xl text-white font-bold my-8">{"> Favourites"}</h1>
       <div className="flex justify-center items-center flex-wrap gap-4">
-        {data?.allProducts?.map((product) => (
+        {zkApps?.map((zkApp) => (
           <CustomCard
-            {...product}
-            onClick={() => navigate(`${routes.PRODUCT}/${product.id}`)}
+            {...zkApp}
+            onClick={() => navigate(`${routes.PRODUCT}/${zkApp.slug}`)}
           />
         ))}
         {!data && <EmptyState />}
