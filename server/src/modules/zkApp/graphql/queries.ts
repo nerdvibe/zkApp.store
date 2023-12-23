@@ -120,20 +120,29 @@ export const Query = {
   },
   zkApps: async (
     parent: any,
-    { sortByFeatured, skip, limit }: QueryZkAppsArgs
+    { sortByFeatured, sortByTrending, skip, limit }: QueryZkAppsArgs
   ): Promise<ZkApp[]> => {
     if (
       !isValidNumber(limit, true) ||
       !isValidNumber(skip, true) ||
-      !isValidBoolean(sortByFeatured, true)
+      !isValidBoolean(sortByFeatured, true) ||
+      !isValidBoolean(sortByTrending, true)
     ) {
       throw new Error("Unknown param");
+    }
+
+    let sorting = {}
+    if(sortByFeatured) {
+      sorting = {featured: 'desc'}
+    }
+    if(sortByTrending) {
+      sorting = {trending: 'desc'}
     }
 
     const zkApps = await ZkAppRepo.find({
       deleted: { $exists: false },
     })
-      .sort(sortByFeatured ? { featured: "desc" } : {})
+      .sort(sorting)
       .skip(skip ?? 0)
       .limit(limit ?? DEFAULT_LIMIT);
 
