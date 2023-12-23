@@ -174,6 +174,7 @@ export type QueryZkAppsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   sortByFeatured?: InputMaybe<Scalars['Boolean']['input']>;
+  sortByTrending?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -263,6 +264,7 @@ export type ZkApp = {
   reviewScore?: Maybe<Scalars['Float']['output']>;
   slug: Scalars['String']['output'];
   subtitle?: Maybe<Scalars['String']['output']>;
+  trending?: Maybe<Scalars['Int']['output']>;
   url: Scalars['String']['output'];
 };
 
@@ -525,6 +527,7 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
   reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  trending?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
