@@ -3,32 +3,32 @@ import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 interface Props {
   white?: boolean;
   onClick?: () => void;
-  title?: string;
-  shortDescription?: string;
+  name?: string;
+  subtitle?: string;
   key?: string;
-  image?: string;
+  icon?: string;
 }
 
 export default function FeaturedCard({
   white,
   onClick,
-  title,
-  shortDescription,
+  name,
+  subtitle,
   key,
-  image,
+  icon,
 }: Props) {
   return (
     <Card
       key={key}
       className={`pb-4 w-[80%]  ${
         white && "bg-slate-200"
-      } min-w-[200px] max-w-[300px] ${onClick ? "cursor-pointer" : ""}`}
+      } w-[200px] max-w-[300px] ${onClick ? "cursor-pointer" : ""}`}
     >
       <CardHeader onClick={onClick} className="flex-col items-start p-0 w-full">
         <Image
           alt="Card background"
           className="object-cover w-full max-w-[300px] rounded-none"
-          src={image}
+          src={icon || "https://nextui.org/images/hero-card.jpeg"}
         />
       </CardHeader>
       <CardBody
@@ -40,14 +40,14 @@ export default function FeaturedCard({
             white && "text-black"
           }`}
         >
-          {title}
+          {name}
         </p>
         <small
           className={`text-default-400 text-center flex-wrap ${
             white && "text-black"
           }`}
         >
-          {shortDescription}
+          {subtitle}
         </small>
       </CardBody>
     </Card>

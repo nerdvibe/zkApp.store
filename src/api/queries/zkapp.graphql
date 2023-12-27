@@ -119,3 +119,22 @@ query searchZkApp($name: String!) {
     icon
   }
 }
+
+query featuredZkApps {
+  zkApps(sortByFeatured: true) {
+    id
+    name
+    slug
+    subtitle
+    owner
+    reviewScore
+    reviewCount
+    currentVersion
+    icon
+    category {
+      name
+      slug
+    }
+    featured
+  }
+}

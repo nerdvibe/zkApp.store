@@ -328,7 +328,7 @@ export type ZkAppsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type ZkAppsByCategoryQuery = { __typename?: 'Query', zkAppsByCategory?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null, currentVersion: string } | null> | null };
+export type ZkAppsByCategoryQuery = { __typename?: 'Query', zkAppsByCategory?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null, currentVersion: string, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null } | null } | null> | null };
 
 export type SearchCategoriesQueryVariables = Exact<{
   text: Scalars['String']['input'];
@@ -472,6 +472,11 @@ export type SearchZkAppQueryVariables = Exact<{
 
 export type SearchZkAppQuery = { __typename?: 'Query', searchZkAppByName?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, icon?: string | null } | null> | null };
 
+export type FeaturedZkAppsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeaturedZkAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, icon?: string | null, featured?: number | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
+
 
 export const HomepageCategoriesDocument = gql`
     query homepageCategories {
@@ -523,6 +528,9 @@ export const ZkAppsByCategoryDocument = gql`
     subtitle
     icon
     currentVersion
+    category {
+      name
+    }
   }
 }
     `;
@@ -1383,6 +1391,58 @@ export type SearchZkAppQueryHookResult = ReturnType<typeof useSearchZkAppQuery>;
 export type SearchZkAppLazyQueryHookResult = ReturnType<typeof useSearchZkAppLazyQuery>;
 export type SearchZkAppSuspenseQueryHookResult = ReturnType<typeof useSearchZkAppSuspenseQuery>;
 export type SearchZkAppQueryResult = Apollo.QueryResult<SearchZkAppQuery, SearchZkAppQueryVariables>;
+export const FeaturedZkAppsDocument = gql`
+    query featuredZkApps {
+  zkApps(sortByFeatured: true) {
+    id
+    name
+    slug
+    subtitle
+    owner
+    reviewScore
+    reviewCount
+    currentVersion
+    icon
+    category {
+      name
+      slug
+    }
+    featured
+  }
+}
+    `;
+
+/**
+ * __useFeaturedZkAppsQuery__
+ *
+ * To run a query within a React component, call `useFeaturedZkAppsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFeaturedZkAppsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFeaturedZkAppsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFeaturedZkAppsQuery(baseOptions?: Apollo.QueryHookOptions<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>(FeaturedZkAppsDocument, options);
+      }
+export function useFeaturedZkAppsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>(FeaturedZkAppsDocument, options);
+        }
+export function useFeaturedZkAppsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>(FeaturedZkAppsDocument, options);
+        }
+export type FeaturedZkAppsQueryHookResult = ReturnType<typeof useFeaturedZkAppsQuery>;
+export type FeaturedZkAppsLazyQueryHookResult = ReturnType<typeof useFeaturedZkAppsLazyQuery>;
+export type FeaturedZkAppsSuspenseQueryHookResult = ReturnType<typeof useFeaturedZkAppsSuspenseQuery>;
+export type FeaturedZkAppsQueryResult = Apollo.QueryResult<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
