@@ -111,7 +111,7 @@ export const Mutation = {
       _id: zkApp.id,
       owner: user._id,
     });
-    if (foundZkAppId) {
+    if (!foundZkAppId) {
       throw new Error("ZkApp not found");
     }
 
@@ -130,7 +130,8 @@ export const Mutation = {
           ...(zkApp.icon && { icon: zkApp.icon }),
           ...(zkApp.bannerImage && { bannerImage: zkApp.bannerImage }),
         },
-      }
+      }, 
+      {new: true}
     );
 
     return updatedZkApp;
