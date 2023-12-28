@@ -38,6 +38,7 @@ export const schema = `
     slug: String!
     subtitle: String
     owner: String!
+    ownerUsername: String
     body: String
     reviewScore: Float
     reviewCount: Float

@@ -260,6 +260,7 @@ export type ZkApp = {
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   owner: Scalars['String']['output'];
+  ownerUsername?: Maybe<Scalars['String']['output']>;
   reviewCount?: Maybe<Scalars['Float']['output']>;
   reviewScore?: Maybe<Scalars['Float']['output']>;
   slug: Scalars['String']['output'];
@@ -523,6 +524,7 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ownerUsername?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   reviewCount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   reviewScore?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

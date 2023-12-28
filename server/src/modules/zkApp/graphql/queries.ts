@@ -9,6 +9,7 @@ import {
 import { isValidBoolean, isValidNumber, isValidString } from "@modules/util";
 import { type ZkAppDoc, ZkAppRepo } from "../ZkAppModel";
 import { ZkAppCategoriesRepo } from "@modules/zkAppCategories/ZkAppCategoriesModel";
+import { UserRepo } from "@modules/user/UserModel";
 
 const DEFAULT_LIMIT = 10;
 
@@ -31,12 +32,17 @@ export const Query = {
       slug: zkApp.categorySlug,
     });
 
+    const user = await UserRepo.findOne({
+      _id: zkApp.owner,
+    },{username: 1});
+
     return {
       id: zkApp._id.toString(),
       name: zkApp.name,
       slug: zkApp.slug,
       subtitle: zkApp.subtitle,
       owner: zkApp.owner,
+      ownerUsername: user?.username,
       body: zkApp.body,
       reviewScore: zkApp.reviewScore,
       reviewCount: zkApp.reviewCount,
