@@ -18,20 +18,27 @@ export default function Favourites() {
   );
 
   useEffect(() => {
-    if (products) {
-      products.map((slug) => {
-        fetchProducts({
-          variables: {
-            slug,
-          },
-        }).then(({ data, error }) => {
-          if (!error) {
-            setZkApps([...zkApps, data?.zkApp]);
-          }
-        });
-      });
-    }
+    fetchApps(products);
   }, [products]);
+
+  const fetchApps = async (apps: string[]) => {
+    if (apps) {
+      const fetchedApps = await Promise.all(
+        apps.map((slug) => {
+          return fetchProducts({
+            variables: {
+              slug,
+            },
+          }).then(({ data }) => {
+            if (data?.zkApp) {
+              return data?.zkApp;
+            }
+          });
+        })
+      );
+      setZkApps([...zkApps, ...fetchedApps.filter((item) => !!item)]);
+    }
+  };
 
   return (
     <div className="flex justify-center m-auto flex-col">
