@@ -5,33 +5,38 @@ import {
   validatePublishApp,
 } from "./util";
 import DarkInput from "../DarkInput";
-import { Accordion, AccordionItem, Button, Textarea } from "@nextui-org/react";
-import { useDispatch } from "react-redux";
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@nextui-org/react";
+import { useDispatch, useSelector } from "react-redux";
 import { updateAppDetails } from "../../store/publishApp";
 import AdditionalData from "./AdditionalData";
-import { useCreateZkAppMutation } from "@/gql/generated";
+import {
+  useAllZkAppCategoriesQuery,
+  useCreateZkAppMutation,
+} from "@/gql/generated";
 import { toast } from "react-hot-toast";
 import MDEditor from "@uiw/react-md-editor";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
+import { RootState } from "@/store/store";
+import { useEffect } from "react";
 
 export default function PublishApp() {
   const dispatch = useDispatch();
   const [createZkApp] = useCreateZkAppMutation();
   const navigate = useNavigate();
+  const { data } = useAllZkAppCategoriesQuery();
+  const category = useSelector((state: RootState) => state.publishApp.category);
 
   const onSubmit = (value: any) => {
-    const {
-      name,
-      version,
-      slug,
-      url,
-      subtitle,
-      body,
-      category,
-      discordUrl,
-      githubUrl,
-    } = value;
+    const { name, version, slug, url, subtitle, body, discordUrl, githubUrl } =
+      value;
     toast
       .promise(
         createZkApp({
@@ -158,15 +163,39 @@ export default function PublishApp() {
                       </div>
                     );
                   }
+                  if (type === "CATEGORY") {
+                    return (
+                      <div
+                        className={`${
+                          small ? "w-full lg:w-[47.5%]" : "w-full"
+                        } mt-6`}
+                      >
+                        <Select
+                          label={label}
+                          variant="flat"
+                          labelPlacement="outside"
+                          className="w-full"
+                          onBlur={handleBlur}
+                          onChange={(val) => {
+                            handleFormUpdate(name, val.target.value);
+                            handleChange(val.target.value);
+                          }}
+                          value={values[name]}
+                        >
+                          {data?.zkAppCategories?.map((category) => (
+                            <SelectItem
+                              key={category.slug}
+                              value={category.slug}
+                            >
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      </div>
+                    );
+                  }
                 }
               )}
-              {/* <FileUploader
-                // handleChange={handleChange}
-                name="file"
-                types={fileTypes}
-                classes="drag-and-drop w-full min-h-[100px]"
-                label="Drop your zkApp banner here"
-              /> */}
               <Accordion>
                 <AccordionItem
                   key="1"

@@ -56,10 +56,12 @@ export const newAppFormSchema = {
     },
     {
       name: "category",
-      label: "Category",
+      label: "Category *",
       placeholder: "Enter a category",
-      type: "INPUT",
+      type: "CATEGORY",
       small: true,
+      required: true,
+      error: true,
     },
   ],
   accordion: [
