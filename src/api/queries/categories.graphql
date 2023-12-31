@@ -14,7 +14,7 @@ query zkAppsByCategory($categorySlug: String!) {
     subtitle
     icon
     currentVersion
-    category{
+    category {
       name
     }
   }
@@ -25,5 +25,12 @@ query searchCategories($text: String!) {
     name
     slug
     zkAppCount
+  }
+}
+
+query allZkAppCategories {
+  zkAppCategories {
+    name
+    slug
   }
 }

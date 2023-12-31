@@ -337,6 +337,11 @@ export type SearchCategoriesQueryVariables = Exact<{
 
 export type SearchCategoriesQuery = { __typename?: 'Query', zkAppCategoriesSearch?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null } | null> | null };
 
+export type AllZkAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllZkAppCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string } | null> | null };
+
 export type SearchUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
@@ -429,7 +434,7 @@ export type AppDataQueryVariables = Exact<{
 }>;
 
 
-export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', slug: string, name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null } | null } | null };
+export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', slug: string, name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null };
 
 export type UpdateZkAppMutationVariables = Exact<{
   zkApp: UpdateZkApp;
@@ -609,6 +614,46 @@ export type SearchCategoriesQueryHookResult = ReturnType<typeof useSearchCategor
 export type SearchCategoriesLazyQueryHookResult = ReturnType<typeof useSearchCategoriesLazyQuery>;
 export type SearchCategoriesSuspenseQueryHookResult = ReturnType<typeof useSearchCategoriesSuspenseQuery>;
 export type SearchCategoriesQueryResult = Apollo.QueryResult<SearchCategoriesQuery, SearchCategoriesQueryVariables>;
+export const AllZkAppCategoriesDocument = gql`
+    query allZkAppCategories {
+  zkAppCategories {
+    name
+    slug
+  }
+}
+    `;
+
+/**
+ * __useAllZkAppCategoriesQuery__
+ *
+ * To run a query within a React component, call `useAllZkAppCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllZkAppCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllZkAppCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllZkAppCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>(AllZkAppCategoriesDocument, options);
+      }
+export function useAllZkAppCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>(AllZkAppCategoriesDocument, options);
+        }
+export function useAllZkAppCategoriesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>(AllZkAppCategoriesDocument, options);
+        }
+export type AllZkAppCategoriesQueryHookResult = ReturnType<typeof useAllZkAppCategoriesQuery>;
+export type AllZkAppCategoriesLazyQueryHookResult = ReturnType<typeof useAllZkAppCategoriesLazyQuery>;
+export type AllZkAppCategoriesSuspenseQueryHookResult = ReturnType<typeof useAllZkAppCategoriesSuspenseQuery>;
+export type AllZkAppCategoriesQueryResult = Apollo.QueryResult<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>;
 export const SearchUserDocument = gql`
     query searchUser($username: String!) {
   userSearch(username: $username) {
@@ -1069,6 +1114,7 @@ export const AppDataDocument = gql`
     githubUrl
     category {
       name
+      slug
     }
     icon
     bannerImage

@@ -21,6 +21,7 @@ query appData($slug: String!) {
     githubUrl
     category {
       name
+      slug
     }
     icon
     bannerImage

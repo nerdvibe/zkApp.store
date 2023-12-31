@@ -1,4 +1,8 @@
-import { useDeleteAppMutation, useUpdateZkAppMutation } from "@/gql/generated";
+import {
+  useAllZkAppCategoriesQuery,
+  useDeleteAppMutation,
+  useUpdateZkAppMutation,
+} from "@/gql/generated";
 import { toggleEditProductModal } from "@/store/product";
 import { RootState } from "@/store/store";
 import {
@@ -9,8 +13,10 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../ConfirmationModal";
 import { toast } from "react-hot-toast";
@@ -27,7 +33,7 @@ export default function Edit({ refetchData, data }: any) {
   );
   const [version, setVersion] = useState(data?.zkApp?.currentVersion || "");
   const [link, setLink] = useState(data?.zkApp?.url || "");
-  const [category, setCategory] = useState(data?.zkApp?.category || "");
+  const [category, setCategory] = useState("");
   const [discordUrl, setDiscordUrl] = useState(data?.zkApp?.discordUrl || "");
   const [githubUrl, setGithubdUrl] = useState(data?.zkApp?.githubUrl || "");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -39,6 +45,13 @@ export default function Edit({ refetchData, data }: any) {
   const toggleShowConfirmation = () => setShowConfirmation(!showConfirmation);
   const [deleteAppMutation] = useDeleteAppMutation();
   const navigate = useNavigate();
+  const { data: categories } = useAllZkAppCategoriesQuery();
+
+  useEffect(() => {
+    if (categories) {
+      setCategory([data?.zkApp?.category.slug]);
+    }
+  }, [data, categories]);
 
   const closeModal = () => {
     dispatch(toggleEditProductModal({ active: false }));
@@ -76,7 +89,7 @@ export default function Edit({ refetchData, data }: any) {
             zkApp: {
               id: app.id,
               currentVersion: version,
-              category: category || undefined,
+              categorySlug: category || undefined,
               name: title,
               url: link,
               subtitle: shortDescription || undefined,
@@ -168,17 +181,24 @@ export default function Edit({ refetchData, data }: any) {
                     setVersion(val.currentTarget.value);
                   }}
                 />
-                <Input
-                  autoFocus
-                  labelPlacement="outside"
-                  placeholder="Category"
-                  label="Category"
-                  value={category}
-                  variant="bordered"
-                  onChange={(val) => {
-                    setCategory(val.currentTarget.value);
-                  }}
-                />
+                {categories && (
+                  <Select
+                    label="Category"
+                    variant="bordered"
+                    labelPlacement="outside"
+                    className="w-full"
+                    onChange={(val) => {
+                      setCategory(val.target.value);
+                    }}
+                    selectedKeys={category}
+                  >
+                    {categories?.zkAppCategories?.map((category) => (
+                      <SelectItem key={category.slug} value={category.slug}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
               </div>
               <Input
                 autoFocus
