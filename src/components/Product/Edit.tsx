@@ -33,7 +33,7 @@ export default function Edit({ refetchData, data }: any) {
   );
   const [version, setVersion] = useState(data?.zkApp?.currentVersion || "");
   const [link, setLink] = useState(data?.zkApp?.url || "");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState([data?.zkApp?.category?.slug] || "");
   const [discordUrl, setDiscordUrl] = useState(data?.zkApp?.discordUrl || "");
   const [githubUrl, setGithubdUrl] = useState(data?.zkApp?.githubUrl || "");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -46,12 +46,6 @@ export default function Edit({ refetchData, data }: any) {
   const [deleteAppMutation] = useDeleteAppMutation();
   const navigate = useNavigate();
   const { data: categories } = useAllZkAppCategoriesQuery();
-
-  useEffect(() => {
-    if (categories) {
-      setCategory([data?.zkApp?.category.slug]);
-    }
-  }, [data, categories]);
 
   const closeModal = () => {
     dispatch(toggleEditProductModal({ active: false }));

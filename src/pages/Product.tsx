@@ -1,4 +1,4 @@
-import { Button, Spinner, Tab, Tabs } from "@nextui-org/react";
+import { Button, Chip, Spinner, Tab, Tabs } from "@nextui-org/react";
 import Reviews from "../components/Product/ProductTabs/Reviews";
 import Stats from "../components/Product/ProductTabs/Stats";
 import Audits from "../components/Product/ProductTabs/Audits";
@@ -16,7 +16,7 @@ import { toggleFavorite } from "../store/favourites";
 import { useEffect, useState } from "react";
 import { toggleEditProductModal, updateSelectedApp } from "@/store/product";
 import Edit from "@/components/Product/Edit";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import routes from "@/routes";
 import EmptyStateCard from "@/components/EmptyStateCard";
 import { useAppDataQuery } from "@/gql/generated";
@@ -29,6 +29,7 @@ export default function Product() {
   const { id } = useParams();
   const state = useSelector((state: RootState) => state);
   const userData = useSelector((state: RootState) => state.session.user);
+  const navigate = useNavigate();
 
   const { data, loading, refetch } = useAppDataQuery({
     variables: {
@@ -146,6 +147,18 @@ export default function Product() {
                   onClick={toggleFavouriteProduct}
                 />
               </div>
+              {data?.zkApp?.category && (
+                <Chip
+                  className="cursor-pointer"
+                  onClick={() =>
+                    navigate(
+                      `${routes.CATEGORY}/${data?.zkApp?.category?.slug}`
+                    )
+                  }
+                >
+                  #{data?.zkApp?.category?.name}
+                </Chip>
+              )}
             </div>
             <p className="text-white text-lg flex flex-col md:flex-row gap-4 items-center">
               <Link
