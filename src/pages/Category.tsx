@@ -1,11 +1,13 @@
 import { Tab, Tabs } from "@nextui-org/react";
 import Trending from "../components/Category/CategoryTabs/Trending";
-import MostUsed from "../components/Category/CategoryTabs/MostUsed";
 import { useParams } from "react-router-dom";
 import FollowButton from "../components/FollowButton";
 import { useState } from "react";
 import EmptyStateCard from "@/components/EmptyStateCard";
-import { useZkAppsByCategoryQuery } from "@/gql/generated";
+import {
+  useSearchCategoriesQuery,
+  useZkAppsByCategoryQuery,
+} from "@/gql/generated";
 
 export default function Category() {
   const { id } = useParams();
@@ -13,6 +15,11 @@ export default function Category() {
   const onFollowClick = () => {
     setFollowing(!following);
   };
+  const { data: categoryData } = useSearchCategoriesQuery({
+    variables: {
+      text: id,
+    },
+  });
   const { data } = useZkAppsByCategoryQuery({
     variables: {
       categorySlug: id,
@@ -36,10 +43,12 @@ export default function Category() {
   return (
     <div className="flex flex-col gap-4 my-11 md:mx-8">
       <h1 className="text-4xl text-white font-bold">
-        {/* TODO: Add category query */}#{id}
+        {categoryData?.zkAppCategoriesSearch[0]?.name}
       </h1>
       <div className="flex text-white justify-between">
-        <p className="text-xl">{data?.zkAppsByCategory?.length} zkApp</p>
+        <p className="text-xl">
+          {categoryData?.zkAppCategoriesSearch[0]?.zkAppCount} zkApp
+        </p>
         <FollowButton onClick={onFollowClick} following={following} />
       </div>
       <div className="flex flex-col gap-4">
