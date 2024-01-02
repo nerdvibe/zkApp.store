@@ -117,8 +117,16 @@ export type MutationVerifyEmailArgs = {
   emailVerificationToken: Scalars['String']['input'];
 };
 
+export type News = {
+  __typename?: 'News';
+  banner: Scalars['String']['output'];
+  body: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getLastNews?: Maybe<Array<Maybe<News>>>;
   publicInfo?: Maybe<Scalars['String']['output']>;
   searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
   selfUser?: Maybe<SelfUser>;
@@ -393,6 +401,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Message: ResolverTypeWrapper<Message>;
   Mutation: ResolverTypeWrapper<{}>;
+  News: ResolverTypeWrapper<News>;
   Query: ResolverTypeWrapper<{}>;
   SelfUser: ResolverTypeWrapper<SelfUser>;
   Signup: Signup;
@@ -415,6 +424,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   Message: Message;
   Mutation: {};
+  News: News;
   Query: {};
   SelfUser: SelfUser;
   Signup: Signup;
@@ -451,7 +461,15 @@ export type MutationResolvers<ContextType = ModuleContext, ParentType extends Re
   verifyEmail?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'emailVerificationToken'>>;
 };
 
+export type NewsResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
+  banner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getLastNews?: Resolver<Maybe<Array<Maybe<ResolversTypes['News']>>>, ParentType, ContextType>;
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;
   selfUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
@@ -570,6 +588,7 @@ export type ZkAppUserResolvers<ContextType = ModuleContext, ParentType extends R
 export type Resolvers<ContextType = ModuleContext> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  News?: NewsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SelfUser?: SelfUserResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
