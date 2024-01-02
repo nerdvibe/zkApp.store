@@ -1,4 +1,15 @@
 export const schema = `
+
+  input UpdateUserInput {
+    username: String
+    xUsername: String
+    currentVersion: String
+    discordUrl: String
+    githubUrl: String
+    profilePicture: String
+    bannerPicture: String
+  }
+
   type ZkAppUser {
     id: String
     name: String!
@@ -63,5 +74,9 @@ export const schema = `
     userSearch(username: String!): [User] @rateLimit(limit: 10, duration: 5)
     usersSortedByFollowers: [User] @rateLimit(limit: 10, duration: 5)
     selfUser: SelfUser @rateLimit(limit: 40, duration: 20)
+  }
+
+  type Mutation {
+    updateUser(userEdit: UpdateUserInput): SelfUser @rateLimit(limit: 10, duration: 5)
   }
 `;

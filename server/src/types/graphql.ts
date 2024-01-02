@@ -50,6 +50,7 @@ export type Mutation = {
   signup?: Maybe<Token>;
   updatePassword?: Maybe<Message>;
   updateResetPassword?: Maybe<Message>;
+  updateUser?: Maybe<SelfUser>;
   updateZkApp: ZkApp;
   verifyEmail?: Maybe<Message>;
 };
@@ -105,6 +106,11 @@ export type MutationUpdatePasswordArgs = {
 export type MutationUpdateResetPasswordArgs = {
   newPassword: Scalars['String']['input'];
   resetToken: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  userEdit?: InputMaybe<UpdateUserInput>;
 };
 
 
@@ -227,6 +233,16 @@ export type Token = {
   __typename?: 'Token';
   accessToken: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
+};
+
+export type UpdateUserInput = {
+  bannerPicture?: InputMaybe<Scalars['String']['input']>;
+  currentVersion?: InputMaybe<Scalars['String']['input']>;
+  discordUrl?: InputMaybe<Scalars['String']['input']>;
+  githubUrl?: InputMaybe<Scalars['String']['input']>;
+  profilePicture?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+  xUsername?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -407,6 +423,7 @@ export type ResolversTypes = {
   Signup: Signup;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Token: ResolverTypeWrapper<Token>;
+  UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
   UserWithZkApp: ResolverTypeWrapper<UserWithZkApp>;
   ZkApp: ResolverTypeWrapper<ZkApp>;
@@ -430,6 +447,7 @@ export type ResolversParentTypes = {
   Signup: Signup;
   String: Scalars['String']['output'];
   Token: Token;
+  UpdateUserInput: UpdateUserInput;
   User: User;
   UserWithZkApp: UserWithZkApp;
   ZkApp: ZkApp;
@@ -457,6 +475,7 @@ export type MutationResolvers<ContextType = ModuleContext, ParentType extends Re
   signup?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'user'>>;
   updatePassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdatePasswordArgs, 'newPassword' | 'oldPassword'>>;
   updateResetPassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdateResetPasswordArgs, 'newPassword' | 'resetToken'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
   updateZkApp?: Resolver<ResolversTypes['ZkApp'], ParentType, ContextType, RequireFields<MutationUpdateZkAppArgs, 'zkApp'>>;
   verifyEmail?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'emailVerificationToken'>>;
 };
