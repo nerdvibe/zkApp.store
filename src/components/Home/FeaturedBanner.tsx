@@ -71,7 +71,7 @@ export default function FeaturedBanner() {
                     navigate(`${routes.PROFILE}/${data?.zkApps[0]?.owner}`)
                   }
                 >
-                  @{data?.zkApps[0]?.owner}
+                  @{data?.zkApps[0]?.ownerUsername}
                 </Chip>
               </div>
             </>
