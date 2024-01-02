@@ -145,3 +145,7 @@ query featuredZkApps {
     featured
   }
 }
+
+mutation checkSlug ($slug: String!) {
+  checkSlug(slug: $slug)
+}

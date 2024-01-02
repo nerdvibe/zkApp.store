@@ -490,6 +490,13 @@ export type FeaturedZkAppsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FeaturedZkAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, ownerUsername?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, icon?: string | null, featured?: number | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
 
+export type CheckSlugMutationVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type CheckSlugMutation = { __typename?: 'Mutation', checkSlug: boolean };
+
 
 export const HomepageCategoriesDocument = gql`
     query homepageCategories {
@@ -1503,6 +1510,37 @@ export type FeaturedZkAppsQueryHookResult = ReturnType<typeof useFeaturedZkAppsQ
 export type FeaturedZkAppsLazyQueryHookResult = ReturnType<typeof useFeaturedZkAppsLazyQuery>;
 export type FeaturedZkAppsSuspenseQueryHookResult = ReturnType<typeof useFeaturedZkAppsSuspenseQuery>;
 export type FeaturedZkAppsQueryResult = Apollo.QueryResult<FeaturedZkAppsQuery, FeaturedZkAppsQueryVariables>;
+export const CheckSlugDocument = gql`
+    mutation checkSlug($slug: String!) {
+  checkSlug(slug: $slug)
+}
+    `;
+export type CheckSlugMutationFn = Apollo.MutationFunction<CheckSlugMutation, CheckSlugMutationVariables>;
+
+/**
+ * __useCheckSlugMutation__
+ *
+ * To run a mutation, you first call `useCheckSlugMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckSlugMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkSlugMutation, { data, loading, error }] = useCheckSlugMutation({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useCheckSlugMutation(baseOptions?: Apollo.MutationHookOptions<CheckSlugMutation, CheckSlugMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckSlugMutation, CheckSlugMutationVariables>(CheckSlugDocument, options);
+      }
+export type CheckSlugMutationHookResult = ReturnType<typeof useCheckSlugMutation>;
+export type CheckSlugMutationResult = Apollo.MutationResult<CheckSlugMutation>;
+export type CheckSlugMutationOptions = Apollo.BaseMutationOptions<CheckSlugMutation, CheckSlugMutationVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

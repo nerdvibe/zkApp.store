@@ -27,7 +27,7 @@ export const newAppFormSchema = {
       name: "slug",
       label: "App identifier *",
       placeholder: "Enter an app identifier",
-      type: "INPUT",
+      type: "SLUG_INPUT",
       required: true,
       error: true,
     },
