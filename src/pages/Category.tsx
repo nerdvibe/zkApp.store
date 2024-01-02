@@ -20,13 +20,13 @@ export default function Category() {
       text: id,
     },
   });
-  const { data } = useZkAppsByCategoryQuery({
+  const { data, loading } = useZkAppsByCategoryQuery({
     variables: {
       categorySlug: id,
     },
   });
 
-  if (!data) {
+  if (!data && !loading) {
     return <EmptyStateCard title="Category not found" />;
   }
 

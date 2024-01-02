@@ -56,10 +56,10 @@ export default function FeaturedBanner() {
                     className="w-[100px] h-[100px] object-cover"
                   />
                   <div className="h-full flex justify-center flex-col">
-                    <h1 className="text-white text-xl font-bold">
+                    <h1 className="force-white-text text-xl font-bold">
                       #{data?.zkApps[0].name}
                     </h1>
-                    <h3 className="text-white text-lg">
+                    <h3 className="force-white-text text-lg">
                       {data?.zkApps[0]?.subtitle}
                     </h3>
                   </div>

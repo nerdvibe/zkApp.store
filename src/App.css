@@ -62,3 +62,19 @@ label {
 .light .wmde-markdown pre {
   background-color: #ffffff9b
 }
+
+.force-white-text {
+  color: #fff !important;
+}
+
+.light .force-white-text {
+  color: #fff !important;
+}
+
+.force-black-text {
+  color: #000 !important;
+}
+
+.light .force-black-text {
+  color: #000 !important;
+}

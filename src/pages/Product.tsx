@@ -147,7 +147,7 @@ export default function Product() {
                   onClick={toggleFavouriteProduct}
                 />
               </div>
-              {data?.zkApp?.category && (
+              {data?.zkApp?.category?.name && (
                 <Chip
                   className="cursor-pointer"
                   onClick={() =>
@@ -165,7 +165,7 @@ export default function Product() {
                 className="text-primary opacity-100 hover:opacity-80 transition-all duration-300"
                 to={`${routes.PROFILE}/${data?.zkApp?.owner}`}
               >
-                @{data?.zkApp?.owner}
+                @{data?.zkApp?.ownerUsername}
               </Link>
               {data?.zkApp?.subtitle}
             </p>

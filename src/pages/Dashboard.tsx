@@ -43,19 +43,19 @@ export default function Dashboard() {
       label: "zkApps",
       component: <UserApps apps={data?.user?.zkApps} />,
     },
-    {
-      label: "Analytics",
-      component: <Analytics apps={data?.user?.zkApps} />,
-    },
-    {
-      label: "Publish update",
-      component: (
-        <PublishUpdate
-          apps={data?.user?.zkApps}
-          updates={data?.User?.Updates}
-        />
-      ),
-    },
+    // {
+    //   label: "Analytics",
+    //   component: <Analytics apps={data?.user?.zkApps} />,
+    // },
+    // {
+    //   label: "Publish update",
+    //   component: (
+    //     <PublishUpdate
+    //       apps={data?.user?.zkApps}
+    //       updates={data?.User?.Updates}
+    //     />
+    //   ),
+    // },
   ];
   const nApps = data?.user?.zkApps?.length || 0;
 

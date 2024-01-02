@@ -10,6 +10,7 @@ query appData($slug: String!) {
     slug
     name
     owner
+    ownerUsername
     id
     subtitle
     body
@@ -102,12 +103,16 @@ query trendingApps {
     slug
     subtitle
     owner
+    ownerUsername
     body
     reviewScore
     reviewCount
     currentVersion
     url
     icon
+    category {
+      name
+    }
   }
 }
 
@@ -128,6 +133,7 @@ query featuredZkApps {
     slug
     subtitle
     owner
+    ownerUsername
     reviewScore
     reviewCount
     currentVersion

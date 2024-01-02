@@ -119,8 +119,16 @@ export type MutationVerifyEmailArgs = {
   emailVerificationToken: Scalars['String']['input'];
 };
 
+export type News = {
+  __typename?: 'News';
+  banner: Scalars['String']['output'];
+  body: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getLastNews?: Maybe<Array<Maybe<News>>>;
   publicInfo?: Maybe<Scalars['String']['output']>;
   searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
   selfUser?: Maybe<SelfUser>;
@@ -434,7 +442,7 @@ export type AppDataQueryVariables = Exact<{
 }>;
 
 
-export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', slug: string, name: string, owner: string, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null };
+export type AppDataQuery = { __typename?: 'Query', zkApp?: { __typename?: 'ZkApp', slug: string, name: string, owner: string, ownerUsername?: string | null, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null };
 
 export type UpdateZkAppMutationVariables = Exact<{
   zkApp: UpdateZkApp;
@@ -468,7 +476,7 @@ export type UserWithZkAppsQuery = { __typename?: 'Query', user?: { __typename?: 
 export type TrendingAppsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TrendingAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, icon?: string | null } | null> | null };
+export type TrendingAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, ownerUsername?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, icon?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null } | null } | null> | null };
 
 export type SearchZkAppQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -480,7 +488,7 @@ export type SearchZkAppQuery = { __typename?: 'Query', searchZkAppByName?: Array
 export type FeaturedZkAppsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FeaturedZkAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, icon?: string | null, featured?: number | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
+export type FeaturedZkAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, owner: string, ownerUsername?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, icon?: string | null, featured?: number | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
 
 
 export const HomepageCategoriesDocument = gql`
@@ -1103,6 +1111,7 @@ export const AppDataDocument = gql`
     slug
     name
     owner
+    ownerUsername
     id
     subtitle
     body
@@ -1352,12 +1361,16 @@ export const TrendingAppsDocument = gql`
     slug
     subtitle
     owner
+    ownerUsername
     body
     reviewScore
     reviewCount
     currentVersion
     url
     icon
+    category {
+      name
+    }
   }
 }
     `;
@@ -1445,6 +1458,7 @@ export const FeaturedZkAppsDocument = gql`
     slug
     subtitle
     owner
+    ownerUsername
     reviewScore
     reviewCount
     currentVersion
@@ -1566,6 +1580,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Message: ResolverTypeWrapper<Message>;
   Mutation: ResolverTypeWrapper<{}>;
+  News: ResolverTypeWrapper<News>;
   Query: ResolverTypeWrapper<{}>;
   SelfUser: ResolverTypeWrapper<SelfUser>;
   Signup: Signup;
@@ -1588,6 +1603,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   Message: Message;
   Mutation: {};
+  News: News;
   Query: {};
   SelfUser: SelfUser;
   Signup: Signup;
@@ -1624,7 +1640,15 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   verifyEmail?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'emailVerificationToken'>>;
 };
 
+export type NewsResolvers<ContextType = any, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
+  banner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getLastNews?: Resolver<Maybe<Array<Maybe<ResolversTypes['News']>>>, ParentType, ContextType>;
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;
   selfUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
@@ -1743,6 +1767,7 @@ export type ZkAppUserResolvers<ContextType = any, ParentType extends ResolversPa
 export type Resolvers<ContextType = any> = {
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  News?: NewsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SelfUser?: SelfUserResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;

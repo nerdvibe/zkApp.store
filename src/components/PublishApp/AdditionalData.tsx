@@ -15,7 +15,6 @@ export default function AdditionalData({
   return (
     <div className="px-4 pb-6 flex flex-col gap-4">
       {newAppFormSchema.accordion.map(({ type, name, label, placeholder }) => {
-        debugger;
         if (type === "INPUT") {
           return (
             <DarkInput

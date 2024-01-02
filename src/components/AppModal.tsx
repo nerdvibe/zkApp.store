@@ -61,7 +61,9 @@ export default function AppModal() {
                   />
                 ) : (
                   <div className="min-h-[200px] md:min-h-[300px] m-4 border-dashed border-[5px] border-[#ffffff66] rounded-2xl flex justify-center items-center">
-                    <p className="text-sm text-[#ffffff66]">Missing ZkApp icon</p>
+                    <p className="text-sm text-[#ffffff66]">
+                      Missing ZkApp icon
+                    </p>
                   </div>
                 )}
               </div>
@@ -73,7 +75,7 @@ export default function AppModal() {
                       className="text-primary hover:opacity-80 transition-all duration-300"
                       to={`${routes.PROFILE}/${data?.zkApp?.owner}`}
                     >
-                      {data?.zkApp?.owner}
+                      @{data?.zkApp?.ownerUsername}
                     </Link>
                     <p className="text-sm">
                       Score {data?.zkApp?.reviewScore || 5}/5 (
