@@ -24,6 +24,7 @@
     "@lottiefiles/react-lottie-player": "^3.5.3",
     "@nextui-org/react": "^2.1.12",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/node": "^20.6.2",
     "@uiw/react-md-editor": "^3.24.1",
     "apollo-link": "^1.2.14",

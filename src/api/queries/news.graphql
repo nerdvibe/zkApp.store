@@ -1,0 +1,7 @@
+query lastNews {
+  getLastNews {
+    title
+    body
+    banner
+  }
+}

@@ -2,7 +2,7 @@ import FeaturedBanner from "../components/Home/FeaturedBanner";
 import AppModal from "../components/AppModal";
 import TrendingAppsSlider from "../components/Home/TrendingAppsSlider";
 import Categories from "../components/Home/Categories";
-import BlurredCards from "../components/Home/BlurredCards";
+import NewsCards from "../components/Home/NewsCards";
 import Footer from "../components/Footer/Footer";
 import CreativeBanner from "../components/CreativeBanner/CreativeBanner";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div className="flex gap-2 flex-col">
-      <BlurredCards />
+      <NewsCards />
       <TrendingAppsSlider />
       <Categories />
       <FeaturedBanner />

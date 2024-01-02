@@ -1,33 +1,37 @@
-import { Button, Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { toggleProductModal } from "../store/product";
+import { showModal } from "@/store/newsModal";
+import { Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
+import { useDispatch } from "react-redux";
 
 export interface IBlurredCardProps {
   category: string;
   title: string;
-  description: string;
+  body: string;
   primaryButtonLabel: string;
   secondaryButtonLabel: string;
-  image: string;
+  banner: string;
 }
 
 export default function BlurredCard({
   category,
-  description,
+  body,
   title,
-  primaryButtonLabel,
-  image,
+  // primaryButtonLabel,
+  banner,
 }: IBlurredCardProps) {
   const dispatch = useDispatch();
-  const state = useSelector((state: RootState) => {
-    return state.product;
-  });
-
+  const openModal = () =>
+    dispatch(
+      showModal({
+        title,
+        body,
+        banner,
+      })
+    );
   return (
     <Card
       isFooterBlurred
-      className="w-full h-[300px] col-span-12 sm:col-span-7"
+      className="w-full h-[300px] col-span-12 sm:col-span-7 min-w-[300px] cursor-pointer"
+      onClick={openModal}
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
         <p className="text-tiny text-white-60-f uppercase font-bold">
@@ -37,30 +41,29 @@ export default function BlurredCard({
       </CardHeader>
       <Image
         removeWrapper
-        alt="Relaxing app background"
-        className="z-0 w-full h-full object-cover opacity-[20%]"
-        src={`/images/${image}`}
+        className="z-0 w-full h-full object-cover "
+        src={banner}
       />
       <div
-        className="z-0 w-full h-full object-cover absolute bg-white"
-        style={{ opacity: 0.1 }}
+        className="z-0 w-full h-full object-cover absolute bg-black transition-all duration-300 hover:opacity-[50%] opacity-[30%]"
+        onClick={openModal}
       />
       <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
         <div className="flex flex-grow gap-2 items-center">
           <div className="flex flex-col">
-            <p className="text-tiny text-white-60-f">{description}</p>
+            <p
+              className="text-tiny text-white-60-f line-clamp-3"
+              onClick={openModal}
+            >
+              {body}
+            </p>
           </div>
         </div>
-        <Button
-          radius="full"
-          size="sm"
-          onClick={() => {
-            // TODO: Fix this modal
-            // dispatch(toggleProductModal({ active: true, productId: "123" }));
-          }}
-        >
-          {primaryButtonLabel}
-        </Button>
+        {/* {primaryButtonLabel && (
+          <Button radius="full" size="sm">
+            {primaryButtonLabel}
+          </Button>
+        )} */}
       </CardFooter>
     </Card>
   );

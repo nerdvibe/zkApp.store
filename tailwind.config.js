@@ -91,7 +91,7 @@ export default {
       "light": {
         extend: "light", // <- inherit default values from dark theme
         colors: {
-          background:"#f3f2fc",
+          background: "#f3f2fc",
           // =~= Theme Properties =~=
           "--theme-font-family-base": `system-ui`,
           "--theme-font-family-heading": `system-ui`,

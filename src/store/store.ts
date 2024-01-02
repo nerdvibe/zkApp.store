@@ -10,7 +10,7 @@ import publishAppReducer from "./publishApp";
 import favoriteProductsReducer from "./favourites";
 import registrationReducer from "./registration";
 import searchReducer from "./search";
-import hardSet from "redux-persist/es/stateReconciler/hardSet";
+import newsModalReducer from "./newsModal";
 
 const persistConfig = {
   key: "root",
@@ -28,6 +28,7 @@ const rootReducer = combineReducers({
   publishApp: publishAppReducer,
   search: searchReducer,
   registration: registrationReducer,
+  newsModal: newsModalReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

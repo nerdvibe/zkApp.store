@@ -350,6 +350,11 @@ export type AllZkAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllZkAppCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string } | null> | null };
 
+export type LastNewsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LastNewsQuery = { __typename?: 'Query', getLastNews?: Array<{ __typename?: 'News', title: string, body: string, banner: string } | null> | null };
+
 export type SearchUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
@@ -669,6 +674,47 @@ export type AllZkAppCategoriesQueryHookResult = ReturnType<typeof useAllZkAppCat
 export type AllZkAppCategoriesLazyQueryHookResult = ReturnType<typeof useAllZkAppCategoriesLazyQuery>;
 export type AllZkAppCategoriesSuspenseQueryHookResult = ReturnType<typeof useAllZkAppCategoriesSuspenseQuery>;
 export type AllZkAppCategoriesQueryResult = Apollo.QueryResult<AllZkAppCategoriesQuery, AllZkAppCategoriesQueryVariables>;
+export const LastNewsDocument = gql`
+    query lastNews {
+  getLastNews {
+    title
+    body
+    banner
+  }
+}
+    `;
+
+/**
+ * __useLastNewsQuery__
+ *
+ * To run a query within a React component, call `useLastNewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLastNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLastNewsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLastNewsQuery(baseOptions?: Apollo.QueryHookOptions<LastNewsQuery, LastNewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LastNewsQuery, LastNewsQueryVariables>(LastNewsDocument, options);
+      }
+export function useLastNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LastNewsQuery, LastNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LastNewsQuery, LastNewsQueryVariables>(LastNewsDocument, options);
+        }
+export function useLastNewsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<LastNewsQuery, LastNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LastNewsQuery, LastNewsQueryVariables>(LastNewsDocument, options);
+        }
+export type LastNewsQueryHookResult = ReturnType<typeof useLastNewsQuery>;
+export type LastNewsLazyQueryHookResult = ReturnType<typeof useLastNewsLazyQuery>;
+export type LastNewsSuspenseQueryHookResult = ReturnType<typeof useLastNewsSuspenseQuery>;
+export type LastNewsQueryResult = Apollo.QueryResult<LastNewsQuery, LastNewsQueryVariables>;
 export const SearchUserDocument = gql`
     query searchUser($username: String!) {
   userSearch(username: $username) {
