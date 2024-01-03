@@ -262,6 +262,7 @@ export type User = {
 export type UserWithZkApp = {
   __typename?: 'UserWithZkApp';
   bannerPicture?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   discordUrl?: Maybe<Scalars['String']['output']>;
   followerCount?: Maybe<Scalars['Int']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
@@ -312,7 +313,6 @@ export type ZkAppCategoryZkApp = {
 export type ZkAppUser = {
   __typename?: 'ZkAppUser';
   bannerImage?: Maybe<Scalars['String']['output']>;
-  bio?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['String']['output']>;
   categorySlug?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
@@ -542,6 +542,7 @@ export type UserResolvers<ContextType = ModuleContext, ParentType extends Resolv
 
 export type UserWithZkAppResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['UserWithZkApp'] = ResolversParentTypes['UserWithZkApp']> = {
   bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -592,7 +593,6 @@ export type ZkAppCategoryZkAppResolvers<ContextType = ModuleContext, ParentType 
 
 export type ZkAppUserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppUser'] = ResolversParentTypes['ZkAppUser']> = {
   bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   categorySlug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
