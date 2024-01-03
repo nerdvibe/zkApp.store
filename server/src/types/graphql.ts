@@ -187,6 +187,7 @@ export type QueryZkAppCategoriesSearchArgs = {
 export type QueryZkAppsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+  slugs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   sortByFeatured?: InputMaybe<Scalars['Boolean']['input']>;
   sortByTrending?: InputMaybe<Scalars['Boolean']['input']>;
 };
