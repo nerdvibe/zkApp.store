@@ -3,7 +3,7 @@ export const schema = `
   input UpdateUserInput {
     username: String
     xUsername: String
-    currentVersion: String
+    bio: String
     discordUrl: String
     githubUrl: String
     profilePicture: String
@@ -41,6 +41,7 @@ export const schema = `
     profilePicture: String
     bannerPicture: String
     id: String
+    bio: String
     zkApps: [ZkAppUser]
   }
 
@@ -52,6 +53,7 @@ export const schema = `
     githubUrl: String
     profilePicture: String
     bannerPicture: String
+    bio: String
     id: String
   }
 
@@ -65,6 +67,7 @@ export const schema = `
     xUsername: String
     discordUrl: String
     githubUrl: String
+    bio: String
     profilePicture: String
     bannerPicture: String
   }

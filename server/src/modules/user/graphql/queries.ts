@@ -100,6 +100,7 @@ export const Query = {
       githubUrl: user.githubUrl,
       profilePicture: user.profilePicture,
       bannerPicture: user.bannerPicture,
+      bio: user.bio,
     };
   },
 };

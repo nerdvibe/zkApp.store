@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
     githubUrl: { type: String },
     profilePicture: { type: String },
     bannerPicture: { type: String },
+    bio: { type: String },
     role: { type: [String], required: true, default: ["user"] },
     resendVerifyEmailAttempts: { type: Number, default: 0 },
   },
@@ -42,4 +43,5 @@ export const PUBLIC_USER_FIELDS = {
   profilePicture: true,
   bannerPicture: true,
   role: true,
+  bio: true,
 }

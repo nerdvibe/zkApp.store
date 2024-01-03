@@ -1,6 +1,4 @@
-import {
-  type MutationUpdateUserArgs,
-} from "@interfaces/graphql";
+import { type MutationUpdateUserArgs } from "@interfaces/graphql";
 import { isValidString } from "@modules/util";
 import { UserRepo } from "../UserModel";
 import { isAuthenticated } from "@modules/auth/util";
@@ -12,13 +10,13 @@ export const Mutation = {
     { accessToken }: any
   ) => {
     const user = await isAuthenticated(accessToken);
-    if(!userEdit){
+    if (!userEdit) {
       throw new Error("Missing update object");
     }
     if (
       !isValidString(userEdit.username, true) ||
       !isValidString(userEdit.xUsername, true) ||
-      !isValidString(userEdit.currentVersion, true) ||
+      !isValidString(userEdit.bio, true) ||
       !isValidString(userEdit.discordUrl, true) ||
       !isValidString(userEdit.githubUrl, true) ||
       !isValidString(userEdit.profilePicture, true) ||
@@ -27,20 +25,41 @@ export const Mutation = {
       throw new Error("Unknown param");
     }
 
-    const updatedUser = await UserRepo.findOneAndUpdate(
-      { _id: user.id},
+    console.log({ _id: user.id },
       {
         $set: {
           ...(userEdit.username && { username: userEdit.username }),
           ...(userEdit.xUsername && { xUsername: userEdit.xUsername }),
-          ...(userEdit.currentVersion && { currentVersion: userEdit.currentVersion }),
+          ...(userEdit.bio && { bio: userEdit.bio }),
           ...(userEdit.discordUrl && { discordUrl: userEdit.discordUrl }),
           ...(userEdit.githubUrl && { githubUrl: userEdit.githubUrl }),
-          ...(userEdit.profilePicture && { profilePicture: userEdit.profilePicture }),
-          ...(userEdit.bannerPicture && { bannerPicture: userEdit.bannerPicture }),
+          ...(userEdit.profilePicture && {
+            profilePicture: userEdit.profilePicture,
+          }),
+          ...(userEdit.bannerPicture && {
+            bannerPicture: userEdit.bannerPicture,
+          }),
         },
-      }, 
-      {new: true}
+      });
+
+    const updatedUser = await UserRepo.findOneAndUpdate(
+      { _id: user.id },
+      {
+        $set: {
+          ...(userEdit.username && { username: userEdit.username }),
+          ...(userEdit.xUsername && { xUsername: userEdit.xUsername }),
+          ...(userEdit.bio && { bio: userEdit.bio }),
+          ...(userEdit.discordUrl && { discordUrl: userEdit.discordUrl }),
+          ...(userEdit.githubUrl && { githubUrl: userEdit.githubUrl }),
+          ...(userEdit.profilePicture && {
+            profilePicture: userEdit.profilePicture,
+          }),
+          ...(userEdit.bannerPicture && {
+            bannerPicture: userEdit.bannerPicture,
+          }),
+        },
+      },
+      { new: true }
     );
 
     return updatedUser;
