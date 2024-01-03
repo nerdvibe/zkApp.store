@@ -7,7 +7,7 @@ import {
   type ZkApp,
 } from "@interfaces/graphql";
 import { isValidBoolean, isValidNumber, isValidString } from "@modules/util";
-import { type ZkAppDoc, ZkAppRepo } from "../ZkAppModel";
+import { type ZkAppObject, ZkAppRepo } from "../ZkAppModel";
 import { ZkAppCategoriesRepo } from "@modules/zkAppCategories/ZkAppCategoriesModel";
 import { UserRepo } from "@modules/user/UserModel";
 
@@ -32,9 +32,12 @@ export const Query = {
       slug: zkApp.categorySlug,
     });
 
-    const user = await UserRepo.findOne({
-      _id: zkApp.owner,
-    },{username: 1});
+    const user = await UserRepo.findOne(
+      {
+        _id: zkApp.owner,
+      },
+      { username: 1 }
+    );
 
     return {
       id: zkApp._id.toString(),
@@ -77,9 +80,12 @@ export const Query = {
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
-      .limit(args.limit ?? DEFAULT_LIMIT);
+      .limit(args.limit ?? DEFAULT_LIMIT)
+      .lean();
 
-    return flattenZkAppsDocArrayToGQL(zkApps);
+    const zkAppsWithCategories = await addCategoriesToZkAppArray(zkApps);
+
+    return flattenZkAppsDocArrayToGQL(zkAppsWithCategories);
   },
   searchZkAppByName: async (
     parent: any,
@@ -120,9 +126,12 @@ export const Query = {
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
-      .limit(args.limit ?? DEFAULT_LIMIT);
+      .limit(args.limit ?? DEFAULT_LIMIT)
+      .lean();
 
-    return flattenZkAppsDocArrayToGQL(zkApps);
+    const zkAppsWithCategories = await addCategoriesToZkAppArray(zkApps);
+
+    return flattenZkAppsDocArrayToGQL(zkAppsWithCategories);
   },
   zkApps: async (
     parent: any,
@@ -137,12 +146,12 @@ export const Query = {
       throw new Error("Unknown param");
     }
 
-    let sorting = {}
-    if(sortByFeatured) {
-      sorting = {featured: 'desc'}
+    let sorting = {};
+    if (sortByFeatured) {
+      sorting = { featured: "desc" };
     }
-    if(sortByTrending) {
-      sorting = {trending: 'desc'}
+    if (sortByTrending) {
+      sorting = { trending: "desc" };
     }
 
     const zkApps = await ZkAppRepo.find({
@@ -150,13 +159,26 @@ export const Query = {
     })
       .sort(sorting)
       .skip(skip ?? 0)
-      .limit(limit ?? DEFAULT_LIMIT);
+      .limit(limit ?? DEFAULT_LIMIT)
+      .lean();
 
-    return flattenZkAppsDocArrayToGQL(zkApps);
+    const zkAppsWithCategories = await addCategoriesToZkAppArray(zkApps);
+
+    return flattenZkAppsDocArrayToGQL(zkAppsWithCategories);
   },
 };
 
-const flattenZkAppsDocArrayToGQL = (zkApps: ZkAppDoc[]): ZkApp[] => {
+interface ZkAppWithCategoryGQL extends ZkAppObject {
+  category?: {
+    name: string;
+    slug: string;
+    zkAppCount: string;
+  };
+}
+
+const flattenZkAppsDocArrayToGQL = (
+  zkApps: ZkAppWithCategoryGQL[]
+): ZkApp[] => {
   return zkApps.map((zkApp) => {
     return {
       id: zkApp._id.toString(),
@@ -175,6 +197,45 @@ const flattenZkAppsDocArrayToGQL = (zkApps: ZkAppDoc[]): ZkApp[] => {
       icon: zkApp.icon,
       bannerImage: zkApp.bannerImage,
       featured: zkApp.featured,
+      category: zkApp.category,
     };
   });
+};
+
+const addCategoriesToZkAppArray = async (
+  zkApps: ZkAppObject[]
+): Promise<ZkAppWithCategoryGQL[]> => {
+  const zkAppsWithCategories = [];
+
+  // used to "cache" the category in order to save db queries
+  const categories: Record<string, ZkAppWithCategoryGQL["category"]> = {};
+
+  for (const zkApp of zkApps) {
+    if (categories[zkApp.slug]) {
+      zkAppsWithCategories.push({
+        ...zkApp,
+        category: categories[zkApp.slug],
+      });
+      continue;
+    }
+    const category = await ZkAppCategoriesRepo.findOne({
+      slug: zkApp.categorySlug,
+    });
+    if (!category) {
+      continue;
+    }
+    const categorySanitized = {
+      name: category.name,
+      slug: category.slug,
+      zkAppCount: category.zkAppCount,
+    };
+    categories[category.slug] = categorySanitized;
+
+    zkAppsWithCategories.push({
+      ...zkApp,
+      category: categorySanitized,
+    });
+  }
+
+  return zkAppsWithCategories;
 };

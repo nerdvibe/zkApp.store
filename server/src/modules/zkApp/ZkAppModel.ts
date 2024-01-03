@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+export interface ZkAppObject {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  slug: string;
+  subtitle?: string;
+  owner: string;
+  body?: string;
+  reviewScore?: number;
+  reviewCount?: number;
+  currentVersion: string;
+  url: string;
+  discordUrl?: string;
+  githubUrl?: string;
+  categorySlug: string;
+  icon?: string;
+  bannerImage?: string;
+  featured?: number;
+  trending?: number;
+  deleted?: boolean;
+}
+
 const zkAppSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true, index: true },
   slug: { type: String, required: true, unique: true, index: true },
