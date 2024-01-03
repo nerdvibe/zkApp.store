@@ -22,7 +22,7 @@ export default function FeaturedCard({
       key={key}
       className={`pb-4 w-[80%]  ${
         white && "bg-slate-200"
-      } w-[200px] max-w-[300px] ${onClick ? "cursor-pointer" : ""}`}
+      } w-[200px] max-w-[300px] min-w-[150px] ${onClick ? "cursor-pointer" : ""}`}
     >
       <CardHeader onClick={onClick} className="flex-col items-start p-0 w-full">
         <Image

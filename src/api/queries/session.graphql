@@ -87,5 +87,12 @@ query userData {
     id
     email
     username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
   }
 }

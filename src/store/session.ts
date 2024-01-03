@@ -3,7 +3,11 @@ import type { RootState } from "./store";
 
 export interface IUser {
   id?: number;
-  username: string;
+  username?: string;
+  xUsername?: string;
+  githubUsername?: string;
+  discordUrl?: string;
+  bio?: string;
   email: string;
   avatar?: string;
   error?: any;

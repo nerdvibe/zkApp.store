@@ -1,0 +1,14 @@
+mutation updateUserDetails($userEdit: UpdateUserInput) {
+  updateUser(userEdit: $userEdit) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
+  }
+}

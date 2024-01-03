@@ -52,6 +52,7 @@ export type Mutation = {
   signup?: Maybe<Token>;
   updatePassword?: Maybe<Message>;
   updateResetPassword?: Maybe<Message>;
+  updateUser?: Maybe<SelfUser>;
   updateZkApp: ZkApp;
   verifyEmail?: Maybe<Message>;
 };
@@ -107,6 +108,11 @@ export type MutationUpdatePasswordArgs = {
 export type MutationUpdateResetPasswordArgs = {
   newPassword: Scalars['String']['input'];
   resetToken: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  userEdit?: InputMaybe<UpdateUserInput>;
 };
 
 
@@ -204,6 +210,7 @@ export type QueryZkAppsByUserArgs = {
 export type SelfUser = {
   __typename?: 'SelfUser';
   bannerPicture?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   discordUrl?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
@@ -231,9 +238,20 @@ export type Token = {
   refreshToken: Scalars['String']['output'];
 };
 
+export type UpdateUserInput = {
+  bannerPicture?: InputMaybe<Scalars['String']['input']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  discordUrl?: InputMaybe<Scalars['String']['input']>;
+  githubUrl?: InputMaybe<Scalars['String']['input']>;
+  profilePicture?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+  xUsername?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
   bannerPicture?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   discordUrl?: Maybe<Scalars['String']['output']>;
   followerCount?: Maybe<Scalars['Int']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
@@ -246,6 +264,7 @@ export type User = {
 export type UserWithZkApp = {
   __typename?: 'UserWithZkApp';
   bannerPicture?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   discordUrl?: Maybe<Scalars['String']['output']>;
   followerCount?: Maybe<Scalars['Int']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
@@ -433,7 +452,14 @@ export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword?:
 export type UserDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserDataQuery = { __typename?: 'Query', selfUser?: { __typename?: 'SelfUser', id: string, email: string, username: string } | null };
+export type UserDataQuery = { __typename?: 'Query', selfUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
+
+export type UpdateUserDetailsMutationVariables = Exact<{
+  userEdit?: InputMaybe<UpdateUserInput>;
+}>;
+
+
+export type UpdateUserDetailsMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'SelfUser', username: string } | null };
 
 export type CreateZkAppMutationVariables = Exact<{
   zkApp: CreateZkApp;
@@ -1089,6 +1115,13 @@ export const UserDataDocument = gql`
     id
     email
     username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
   }
 }
     `;
@@ -1124,6 +1157,39 @@ export type UserDataQueryHookResult = ReturnType<typeof useUserDataQuery>;
 export type UserDataLazyQueryHookResult = ReturnType<typeof useUserDataLazyQuery>;
 export type UserDataSuspenseQueryHookResult = ReturnType<typeof useUserDataSuspenseQuery>;
 export type UserDataQueryResult = Apollo.QueryResult<UserDataQuery, UserDataQueryVariables>;
+export const UpdateUserDetailsDocument = gql`
+    mutation updateUserDetails($userEdit: UpdateUserInput) {
+  updateUser(userEdit: $userEdit) {
+    username
+  }
+}
+    `;
+export type UpdateUserDetailsMutationFn = Apollo.MutationFunction<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
+
+/**
+ * __useUpdateUserDetailsMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserDetailsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserDetailsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserDetailsMutation, { data, loading, error }] = useUpdateUserDetailsMutation({
+ *   variables: {
+ *      userEdit: // value for 'userEdit'
+ *   },
+ * });
+ */
+export function useUpdateUserDetailsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>(UpdateUserDetailsDocument, options);
+      }
+export type UpdateUserDetailsMutationHookResult = ReturnType<typeof useUpdateUserDetailsMutation>;
+export type UpdateUserDetailsMutationResult = Apollo.MutationResult<UpdateUserDetailsMutation>;
+export type UpdateUserDetailsMutationOptions = Apollo.BaseMutationOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
 export const CreateZkAppDocument = gql`
     mutation createZkApp($zkApp: CreateZkApp!) {
   createZkApp(zkApp: $zkApp) {
@@ -1670,6 +1736,7 @@ export type ResolversTypes = {
   Signup: Signup;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Token: ResolverTypeWrapper<Token>;
+  UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
   UserWithZkApp: ResolverTypeWrapper<UserWithZkApp>;
   ZkApp: ResolverTypeWrapper<ZkApp>;
@@ -1693,6 +1760,7 @@ export type ResolversParentTypes = {
   Signup: Signup;
   String: Scalars['String']['output'];
   Token: Token;
+  UpdateUserInput: UpdateUserInput;
   User: User;
   UserWithZkApp: UserWithZkApp;
   ZkApp: ZkApp;
@@ -1720,6 +1788,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   signup?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'user'>>;
   updatePassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdatePasswordArgs, 'newPassword' | 'oldPassword'>>;
   updateResetPassword?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationUpdateResetPasswordArgs, 'newPassword' | 'resetToken'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
   updateZkApp?: Resolver<ResolversTypes['ZkApp'], ParentType, ContextType, RequireFields<MutationUpdateZkAppArgs, 'zkApp'>>;
   verifyEmail?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'emailVerificationToken'>>;
 };
@@ -1749,6 +1818,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type SelfUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['SelfUser'] = ResolversParentTypes['SelfUser']> = {
   bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -1769,6 +1839,7 @@ export type TokenResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1781,6 +1852,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserWithZkAppResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserWithZkApp'] = ResolversParentTypes['UserWithZkApp']> = {
   bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

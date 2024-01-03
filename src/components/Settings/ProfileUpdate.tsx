@@ -4,11 +4,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { initialWhoamiForm } from "../Registration/util";
 import { Button, Divider } from "@nextui-org/react";
+import { useUpdateUserDetailsMutation } from "@/gql/generated";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { IUser, setUserInfo } from "@/store/session";
 
 export default function ProfileUpdate() {
-  const onSubmit = (values: any) => {
-    console.log("🚀 ~ file: ProfileUpdate.tsx:10 ~ onSubmit ~ values:", values);
+  const [updateUser] = useUpdateUserDetailsMutation();
+  const currentUser = useSelector((state: RootState) => state.session.user);
+  const dispatch = useDispatch();
+
+  const onSubmit = async ({
+    bio,
+    xUsername,
+    githubUsername,
+    discordUrl,
+  }: IUser) => {
+    const { data } = await updateUser({
+      variables: {
+        userEdit: {
+          xUsername: xUsername || undefined,
+          discordUrl: discordUrl || undefined,
+          githubUrl: githubUsername || undefined,
+          bio,
+        },
+      },
+    });
+    if (data) {
+      dispatch(setUserInfo({ user: { ...data.updateUser } }));
+    }
   };
+
   return (
     <>
       <h1 className="text-2xl font-bold">
@@ -17,7 +43,7 @@ export default function ProfileUpdate() {
       <Divider className="my-4" />
       <h3 className="text-lg mb-2">Change details</h3>
       <Formik
-        initialValues={initialWhoamiForm}
+        initialValues={currentUser || initialWhoamiForm}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);
