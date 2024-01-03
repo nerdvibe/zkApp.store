@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 import express from "express";
 import stitchedSchema from "./graphql/schema";
 import { isValidString } from "./modules/util";
-import playground from "graphql-playground-middleware-express";
+import { useDisableIntrospection } from '@graphql-yoga/plugin-disable-introspection'
+import { blockFieldSuggestionsPlugin } from '@escape.tech/graphql-armor-block-field-suggestions'
 import { createYoga } from "graphql-yoga";
 import { log } from "@modules/logger";
 import helmet from "helmet";
@@ -26,23 +27,41 @@ app.use(
 
 app.use(cors());
 
-const yoga = createYoga({
-  schema: stitchedSchema,
-  graphiql: true,
-  context: ({ request }: any) => {
-    const token = request.headers.get("authorization");
-    if (!isValidString(token)) {
-      return;
-    }
-    const accessToken = token.split(" ")[1];
 
-    return { accessToken };
-  },
-});
+let yoga;
+if(process.env.NODE_ENV === 'development') {
+  yoga = createYoga({
+    schema: stitchedSchema,
+    graphiql: true,
+    context: ({ request }: any) => {
+      const token = request.headers.get("authorization");
+      if (!isValidString(token)) {
+        return;
+      }
+      const accessToken = token.split(" ")[1];
+  
+      return { accessToken };
+    },
+  });
+} else {
+  yoga = createYoga({
+    schema: stitchedSchema,
+    graphiql: false,
+    plugins: [useDisableIntrospection(), blockFieldSuggestionsPlugin()],
+    context: ({ request }: any) => {
+      const token = request.headers.get("authorization");
+      if (!isValidString(token)) {
+        return;
+      }
+      const accessToken = token.split(" ")[1];
+  
+      return { accessToken };
+    },
+  });
+}
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.use("/graphql", yoga);
-app.get("/playground", playground({ endpoint: "/graphql" }));
 
 app.listen(4000, () => {
   log.info("Server is running on port 4000");

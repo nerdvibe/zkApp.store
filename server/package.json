@@ -11,9 +11,11 @@
   "license": "GPLV3",
   "description": "",
   "dependencies": {
+    "@escape.tech/graphql-armor-block-field-suggestions": "^2.1.0",
     "@graphql-modules/core": "^0.7.17",
     "@graphql-tools/schema": "^10.0.0",
     "@graphql-tools/stitch": "^9.0.3",
+    "@graphql-yoga/plugin-disable-introspection": "^2.1.1",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
