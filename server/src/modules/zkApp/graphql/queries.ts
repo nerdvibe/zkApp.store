@@ -6,7 +6,7 @@ import {
   type QueryZkAppsByCategoryArgs,
   type ZkApp,
 } from "@interfaces/graphql";
-import { isValidBoolean, isValidNumber, isValidString } from "@modules/util";
+import { isValidArrayOfStrings, isValidBoolean, isValidNumber, isValidString } from "@modules/util";
 import { type ZkAppObject, ZkAppRepo } from "../ZkAppModel";
 import { ZkAppCategoriesRepo } from "@modules/zkAppCategories/ZkAppCategoriesModel";
 import { UserRepo } from "@modules/user/UserModel";
@@ -135,13 +135,14 @@ export const Query = {
   },
   zkApps: async (
     parent: any,
-    { sortByFeatured, sortByTrending, skip, limit }: QueryZkAppsArgs
+    { sortByFeatured, sortByTrending, skip, limit, slugs }: QueryZkAppsArgs
   ): Promise<ZkApp[]> => {
     if (
       !isValidNumber(limit, true) ||
       !isValidNumber(skip, true) ||
       !isValidBoolean(sortByFeatured, true) ||
-      !isValidBoolean(sortByTrending, true)
+      !isValidBoolean(sortByTrending, true) ||
+      !isValidArrayOfStrings(slugs, true)
     ) {
       throw new Error("Unknown param");
     }
@@ -156,6 +157,9 @@ export const Query = {
 
     const zkApps = await ZkAppRepo.find({
       deleted: { $exists: false },
+      ...(slugs && {
+        slug: {$in: slugs},
+      })
     })
       .sort(sorting)
       .skip(skip ?? 0)

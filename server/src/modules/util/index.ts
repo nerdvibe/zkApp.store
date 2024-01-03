@@ -53,6 +53,24 @@ export const isValidUsername = (value: any, optional:boolean = false): boolean =
   throw new Error("Username not valid");
 };
 
+const DEFAULT_MAX_ARRAY_LENGTH = 100;
+export const isValidArrayOfStrings = (value: any, optional:boolean = false, maxLengthOverride?: number): boolean => {
+  if(optional && value === undefined) {
+    return true
+  }
+  if(!Array.isArray(value)){
+    throw new Error("Not an array");
+  }
+  if(value.length > (maxLengthOverride || DEFAULT_MAX_ARRAY_LENGTH)) {
+    throw new Error("Array too big")
+  }
+  if (!value.every((item) => typeof item === 'string')) {
+    throw new Error('Array elements are not all strings.');
+  }
+
+  return true;
+};
+
 export const isValidDiscordInvite = (value: any, optional:boolean = false): boolean => {
   if(optional && value === undefined) {
     return true
