@@ -208,6 +208,7 @@ export type QueryZkAppsByUserArgs = {
 export type SelfUser = {
   __typename?: 'SelfUser';
   bannerPicture?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   discordUrl?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
@@ -237,7 +238,7 @@ export type Token = {
 
 export type UpdateUserInput = {
   bannerPicture?: InputMaybe<Scalars['String']['input']>;
-  currentVersion?: InputMaybe<Scalars['String']['input']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
   profilePicture?: InputMaybe<Scalars['String']['input']>;
@@ -248,6 +249,7 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   bannerPicture?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   discordUrl?: Maybe<Scalars['String']['output']>;
   followerCount?: Maybe<Scalars['Int']['output']>;
   githubUrl?: Maybe<Scalars['String']['output']>;
@@ -310,6 +312,7 @@ export type ZkAppCategoryZkApp = {
 export type ZkAppUser = {
   __typename?: 'ZkAppUser';
   bannerImage?: Maybe<Scalars['String']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['String']['output']>;
   categorySlug?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
@@ -505,6 +508,7 @@ export type QueryResolvers<ContextType = ModuleContext, ParentType extends Resol
 
 export type SelfUserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['SelfUser'] = ResolversParentTypes['SelfUser']> = {
   bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -525,6 +529,7 @@ export type TokenResolvers<ContextType = ModuleContext, ParentType extends Resol
 
 export type UserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bannerPicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   followerCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   githubUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -587,6 +592,7 @@ export type ZkAppCategoryZkAppResolvers<ContextType = ModuleContext, ParentType 
 
 export type ZkAppUserResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppUser'] = ResolversParentTypes['ZkAppUser']> = {
   bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   categorySlug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
