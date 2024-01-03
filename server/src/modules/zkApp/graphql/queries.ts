@@ -174,6 +174,7 @@ interface ZkAppWithCategoryGQL extends ZkAppObject {
     slug: string;
     zkAppCount: string;
   };
+  ownerUsername?: string;
 }
 
 const flattenZkAppsDocArrayToGQL = (
@@ -186,6 +187,7 @@ const flattenZkAppsDocArrayToGQL = (
       slug: zkApp.slug,
       subtitle: zkApp.subtitle,
       owner: zkApp.owner,
+      ownerUsername: zkApp.ownerUsername,
       body: zkApp.body,
       reviewScore: zkApp.reviewScore,
       reviewCount: zkApp.reviewCount,
@@ -203,7 +205,8 @@ const flattenZkAppsDocArrayToGQL = (
 };
 
 const addCategoriesToZkAppArray = async (
-  zkApps: ZkAppObject[]
+  zkApps: ZkAppObject[],
+  ownerUsernameOverride?: string
 ): Promise<ZkAppWithCategoryGQL[]> => {
   const zkAppsWithCategories = [];
 
@@ -211,10 +214,27 @@ const addCategoriesToZkAppArray = async (
   const categories: Record<string, ZkAppWithCategoryGQL["category"]> = {};
 
   for (const zkApp of zkApps) {
+    
+    // fetch username
+    let ownerUsername;
+    if(ownerUsernameOverride) {
+      ownerUsername = ownerUsernameOverride
+    } else {
+      const user = await UserRepo.findOne(
+        {
+          _id: zkApp.owner,
+        },
+        { username: 1 }
+      );
+      ownerUsername = user?.username
+    }
+
+    // fetch category, if it has already been found, use the "cached"
     if (categories[zkApp.slug]) {
       zkAppsWithCategories.push({
         ...zkApp,
         category: categories[zkApp.slug],
+        ownerUsername
       });
       continue;
     }
@@ -234,6 +254,7 @@ const addCategoriesToZkAppArray = async (
     zkAppsWithCategories.push({
       ...zkApp,
       category: categorySanitized,
+      ownerUsername
     });
   }
 
