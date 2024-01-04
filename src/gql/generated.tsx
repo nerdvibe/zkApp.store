@@ -459,7 +459,14 @@ export type UpdateUserDetailsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserDetailsMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'SelfUser', username: string } | null };
+export type UpdateUserDetailsMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
+
+export type UserImageQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type UserImageQuery = { __typename?: 'Query', user?: { __typename?: 'UserWithZkApp', profilePicture?: string | null } | null };
 
 export type CreateZkAppMutationVariables = Exact<{
   zkApp: CreateZkApp;
@@ -1160,7 +1167,16 @@ export type UserDataQueryResult = Apollo.QueryResult<UserDataQuery, UserDataQuer
 export const UpdateUserDetailsDocument = gql`
     mutation updateUserDetails($userEdit: UpdateUserInput) {
   updateUser(userEdit: $userEdit) {
+    id
+    email
     username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
   }
 }
     `;
@@ -1190,6 +1206,46 @@ export function useUpdateUserDetailsMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateUserDetailsMutationHookResult = ReturnType<typeof useUpdateUserDetailsMutation>;
 export type UpdateUserDetailsMutationResult = Apollo.MutationResult<UpdateUserDetailsMutation>;
 export type UpdateUserDetailsMutationOptions = Apollo.BaseMutationOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
+export const UserImageDocument = gql`
+    query userImage($id: String!) {
+  user(id: $id) {
+    profilePicture
+  }
+}
+    `;
+
+/**
+ * __useUserImageQuery__
+ *
+ * To run a query within a React component, call `useUserImageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserImageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserImageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserImageQuery(baseOptions: Apollo.QueryHookOptions<UserImageQuery, UserImageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserImageQuery, UserImageQueryVariables>(UserImageDocument, options);
+      }
+export function useUserImageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserImageQuery, UserImageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserImageQuery, UserImageQueryVariables>(UserImageDocument, options);
+        }
+export function useUserImageSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserImageQuery, UserImageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserImageQuery, UserImageQueryVariables>(UserImageDocument, options);
+        }
+export type UserImageQueryHookResult = ReturnType<typeof useUserImageQuery>;
+export type UserImageLazyQueryHookResult = ReturnType<typeof useUserImageLazyQuery>;
+export type UserImageSuspenseQueryHookResult = ReturnType<typeof useUserImageSuspenseQuery>;
+export type UserImageQueryResult = Apollo.QueryResult<UserImageQuery, UserImageQueryVariables>;
 export const CreateZkAppDocument = gql`
     mutation createZkApp($zkApp: CreateZkApp!) {
   createZkApp(zkApp: $zkApp) {

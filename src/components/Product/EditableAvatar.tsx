@@ -1,4 +1,7 @@
-import { useUpdateZkAppMutation } from "@/gql/generated";
+import {
+  useUpdateUserDetailsMutation,
+  useUpdateZkAppMutation,
+} from "@/gql/generated";
 import { RootState } from "@/store/store";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,6 +31,7 @@ export default function EditableAvatar({
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
   const [updateZkApp] = useUpdateZkAppMutation();
+  const [updateUserData] = useUpdateUserDetailsMutation();
   const [file, setFile] = useState();
   const [showChangeIconModal, setShowChangeIconModal] = useState(false);
   const handleFileUpload = async (file) => {
@@ -54,23 +58,41 @@ export default function EditableAvatar({
   };
 
   const uploadImage = async () => {
-    if (app && file) {
-      const result = await toast.promise(
-        updateZkApp({
-          variables: {
-            zkApp: {
-              id: app?.id,
-              icon: file as string,
+    if (file) {
+      let result = null;
+      if (!isUser && app) {
+        result = await toast.promise(
+          updateZkApp({
+            variables: {
+              zkApp: {
+                id: app?.id,
+                icon: file as string,
+              },
             },
-          },
-        }),
-        {
-          loading: "Uploading image",
-          success: <b>ZkApp updated!</b>,
-          error: (err) => <b>{err.message}</b>,
-        }
-      );
-      if (result.data && !result.errors) {
+          }),
+          {
+            loading: "Uploading image",
+            success: <b>ZkApp updated!</b>,
+            error: (err) => <b>{err.message}</b>,
+          }
+        );
+      } else if (isUser) {
+        result = await toast.promise(
+          updateUserData({
+            variables: {
+              userEdit: {
+                profilePicture: file as string,
+              },
+            },
+          }),
+          {
+            loading: "Uploading image",
+            success: <b>Profile picture updated!</b>,
+            error: (err) => <b>{err.message}</b>,
+          }
+        );
+      }
+      if (result?.data && !result?.errors) {
         refetch();
         setShowChangeIconModal(false);
       }
@@ -141,7 +163,7 @@ export default function EditableAvatar({
       >
         <ModalContent>
           <ModalHeader>
-            <h1>Change app icon</h1>
+            <h1>Change {!isUser ? "app icon" : "user profile image"}</h1>
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col items-center gap-6">

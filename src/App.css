@@ -78,3 +78,15 @@ label {
 .light .force-black-text {
   color: #000 !important;
 }
+
+.news-card{
+  background-color: rgb(30, 41, 59);
+}
+
+.light .news-card{
+  background-color: rgb(30,41,59);
+}
+
+.light .news-card-hover{
+  background-color: black;
+}

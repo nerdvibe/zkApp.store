@@ -5,6 +5,7 @@ interface Props {
   onClick?: () => void;
   name?: string;
   subtitle?: string;
+  slug?: string;
   key?: string;
   icon?: string;
 }
@@ -14,6 +15,7 @@ export default function FeaturedCard({
   onClick,
   name,
   subtitle,
+  slug,
   key,
   icon,
 }: Props) {
@@ -22,13 +24,15 @@ export default function FeaturedCard({
       key={key}
       className={`pb-4 w-[80%]  ${
         white && "bg-slate-200"
-      } w-[200px] max-w-[300px] min-w-[150px] ${onClick ? "cursor-pointer" : ""}`}
+      } w-[200px] max-w-[300px] min-w-[150px] ${
+        onClick ? "cursor-pointer" : ""
+      }`}
     >
       <CardHeader onClick={onClick} className="flex-col items-start p-0 w-full">
         <Image
           alt="Card background"
           className="object-cover w-full max-w-[300px] rounded-none"
-          src={icon || "https://nextui.org/images/hero-card.jpeg"}
+          src={icon || `https://picsum.photos/seed/${slug}/400/400`}
         />
       </CardHeader>
       <CardBody

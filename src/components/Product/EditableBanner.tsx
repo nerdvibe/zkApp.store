@@ -1,4 +1,7 @@
-import { useUpdateZkAppMutation } from "@/gql/generated";
+import {
+  useUpdateUserDetailsMutation,
+  useUpdateZkAppMutation,
+} from "@/gql/generated";
 import { RootState } from "@/store/store";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,10 +23,12 @@ export default function EditableBanner({
   bannerImage,
   isEditable,
   refetch,
+  isUser,
 }: any) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
   const [updateZkApp] = useUpdateZkAppMutation();
+  const [updateUserData] = useUpdateUserDetailsMutation();
   const [file, setFile] = useState();
   const [showChangeBannerModal, setShowChangeBannerModal] = useState(false);
   const handleFileUpload = async (file) => {
@@ -51,23 +56,41 @@ export default function EditableBanner({
   };
 
   const uploadImage = async () => {
-    if (app && file) {
-      const result = await toast.promise(
-        updateZkApp({
-          variables: {
-            zkApp: {
-              id: app?.id,
-              bannerImage: file as string,
+    if (file) {
+      let result = null;
+      if (!isUser && app) {
+        result = await toast.promise(
+          updateZkApp({
+            variables: {
+              zkApp: {
+                id: app?.id,
+                bannerImage: file as string,
+              },
             },
-          },
-        }),
-        {
-          loading: "Uploading image",
-          success: <b>ZkApp updated!</b>,
-          error: (err) => <b>{err.message}</b>,
-        }
-      );
-      if (result.data && !result.errors) {
+          }),
+          {
+            loading: "Uploading image",
+            success: <b>ZkApp updated!</b>,
+            error: (err) => <b>{err.message}</b>,
+          }
+        );
+      } else if (isUser) {
+        result = await toast.promise(
+          updateUserData({
+            variables: {
+              userEdit: {
+                bannerPicture: file as string,
+              },
+            },
+          }),
+          {
+            loading: "Uploading image",
+            success: <b>Banner picture updated!</b>,
+            error: (err) => <b>{err.message}</b>,
+          }
+        );
+      }
+      if (result?.data && !result?.errors) {
         refetch();
         setShowChangeBannerModal(false);
       }
@@ -115,7 +138,7 @@ export default function EditableBanner({
         </div>
       ) : (
         <div
-          className="flex justify-center items-center w-full h-[200px] bg-[#ffffff0d] rounded-lg  border-dashed border-2 text-white cursor-pointer responsive-border"
+          className="flex justify-center items-center w-full h-[200px] bg-[#ffffff0d] rounded-lg border-dashed border-2 text-white cursor-pointer responsive-border"
           onClick={() => setShowChangeBannerModal(true)}
         >
           Select banner image
@@ -171,7 +194,7 @@ export default function EditableBanner({
         </ModalContent>
       </Modal>
     </>
-  ) : (
+  ) : bannerImage ? (
     <Image
       src={bannerImage}
       width={1500}
@@ -180,5 +203,7 @@ export default function EditableBanner({
         wrapper: "w-full max-w-max bg-[#475569aa]",
       }}
     />
+  ) : (
+    <div className="flex justify-center items-center w-full h-[200px] bg-[#ffffff04] rounded-lg border-dashed border-2 text-white responsive-border" />
   );
 }

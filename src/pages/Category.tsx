@@ -42,8 +42,8 @@ export default function Category() {
 
   return (
     <div className="flex flex-col gap-4 my-11 md:mx-8">
-      <h1 className="text-4xl text-white font-bold">
-        {categoryData?.zkAppCategoriesSearch[0]?.name}
+      <h1 className="text-5xl text-white font-bold">
+        # {categoryData?.zkAppCategoriesSearch[0]?.name}
       </h1>
       <div className="flex text-white justify-between">
         <p className="text-xl">

@@ -12,3 +12,9 @@ mutation updateUserDetails($userEdit: UpdateUserInput) {
     bannerPicture
   }
 }
+
+query userImage($id: String!) {
+  user(id: $id) {
+    profilePicture
+  }
+}

@@ -25,7 +25,7 @@ export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
       >
         <div className="flex gap-[10%]">
           {!thumbnails ? (
-            <CategoriesPlaceholder />
+            <CategoriesPlaceholder slug={slug} />
           ) : (
             <>
               <Image

@@ -123,7 +123,10 @@ export default function Product() {
       <div className="flex flex-col md:flex-row gap-4 justify-between px-8">
         <div className="flex flex-col md:flex-row gap-4 items-center md:items-start">
           <EditableAvatar
-            icon={data?.zkApp?.icon}
+            icon={
+              data?.zkApp?.icon ||
+              `https://picsum.photos/seed/${data?.zkApp?.slug}/400/400`
+            }
             name={data?.zkApp?.name}
             isEditable={editableContent}
             refetch={refetch}

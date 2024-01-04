@@ -1,5 +1,6 @@
 import {
   Button,
+  Chip,
   Image,
   Modal,
   ModalBody,
@@ -38,6 +39,10 @@ export default function AppModal() {
     navigate(`${routes.PRODUCT}/${state.productId}`);
   };
 
+  const openApp = () => {
+    window.open(data?.zkApp?.url, "_blank", "noreferrer");
+  };
+
   return (
     <Modal
       backdrop={"blur"}
@@ -52,20 +57,15 @@ export default function AppModal() {
           <>
             <ModalBody className="flex flex-col md:flex-row p-0">
               <div className="flex-1 ">
-                {data?.zkApp?.icon ? (
-                  <Image
-                    alt="Card background"
-                    className="object-cover w-full rounded-none h-full max-h-[200px] md:max-h-fit md:min-w-[300px]"
-                    src={data?.zkApp?.icon}
-                    removeWrapper
-                  />
-                ) : (
-                  <div className="min-h-[200px] md:min-h-[300px] m-4 border-dashed border-[5px] border-[#ffffff66] rounded-2xl flex justify-center items-center">
-                    <p className="text-sm text-[#ffffff66]">
-                      Missing ZkApp icon
-                    </p>
-                  </div>
-                )}
+                <Image
+                  alt="Card background"
+                  className="object-cover w-full rounded-none h-full max-h-[200px] md:max-h-fit md:min-w-[300px]"
+                  src={
+                    data?.zkApp?.icon ||
+                    `https://picsum.photos/seed/${data?.zkApp?.slug}/400/400`
+                  }
+                  removeWrapper
+                />
               </div>
               <div className="flex-1 p-8 pr-4 flex flex-col justify-between items-center ">
                 <div className="w-full">
@@ -77,11 +77,17 @@ export default function AppModal() {
                     >
                       @{data?.zkApp?.ownerUsername}
                     </Link>
-                    <p className="text-sm">
+                    {/* <p className="text-sm">
                       Score {data?.zkApp?.reviewScore || 5}/5 (
                       {data?.zkApp?.reviewCount} Reviews)
-                    </p>
+                    </p> */}
+                    <Link
+                      to={`${routes.CATEGORY}/${data?.zkApp?.category?.slug}`}
+                    >
+                      <Chip>#{data?.zkApp?.category?.name}</Chip>
+                    </Link>
                   </div>
+                  <p>{data?.zkApp?.subtitle}</p>
                 </div>
                 <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px] my-5">
                   <MDEditor.Markdown
@@ -96,9 +102,14 @@ export default function AppModal() {
                     }}
                   />
                 </ScrollShadow>
-                <Button color="primary" onPress={onClick}>
-                  Show more
-                </Button>
+                <div className="flex flex-row gap-4 w-full justify-around">
+                  <Button color="primary" onPress={onClick} variant="light">
+                    Show more
+                  </Button>
+                  <Button color="primary" onPress={openApp}>
+                    Open ZkApp
+                  </Button>
+                </div>
               </div>
             </ModalBody>
           </>

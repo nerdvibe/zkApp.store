@@ -1,13 +1,25 @@
-import { Chip, Image, ScrollShadow } from "@nextui-org/react";
+import { Avatar, Chip, Image, ScrollShadow } from "@nextui-org/react";
 import "../style.css";
 import FeaturedCard from "../FeaturedCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
-import { useFeaturedZkAppsQuery } from "@/gql/generated";
+import { useFeaturedZkAppsQuery, useUserImageLazyQuery } from "@/gql/generated";
+import { useEffect } from "react";
 
 export default function FeaturedBanner() {
   const navigate = useNavigate();
   const { data } = useFeaturedZkAppsQuery();
+  const [fetchUserImage, { data: userImage }] = useUserImageLazyQuery();
+
+  useEffect(() => {
+    if (data?.zkApps && data?.zkApps[0]?.owner) {
+      fetchUserImage({
+        variables: {
+          id: data?.zkApps[0]?.owner,
+        },
+      });
+    }
+  }, [data]);
 
   if (!data) {
     return (
@@ -47,19 +59,24 @@ export default function FeaturedBanner() {
                     #{data?.zkApps[0]?.category?.name || "Uncategorized"}
                   </Chip>
                 )}
-                <div className="flex flex-row gap-4 md:items-start items-center">
+                <div
+                  className="flex flex-row gap-4 md:items-start items-center cursor-pointer hover:bg-[#00000044] transition-all duration-300 p-2 rounded-md"
+                  onClick={() =>
+                    navigate(`${routes.PRODUCT}/${data?.zkApps[0]?.slug}`)
+                  }
+                >
                   <Image
                     src={
                       data?.zkApps[0].icon ||
-                      "https://nextui.org/images/hero-card.jpeg"
+                      `https://picsum.photos/seed/${data?.zkApps[0].slug}/400/400`
                     }
                     className="w-[100px] h-[100px] object-cover"
                   />
                   <div className="h-full flex justify-center flex-col">
                     <h1 className="force-white-text text-xl font-bold">
-                      #{data?.zkApps[0].name}
+                      {data?.zkApps[0].name}
                     </h1>
-                    <h3 className="force-white-text text-lg">
+                    <h3 className="force-white-text text-md">
                       {data?.zkApps[0]?.subtitle}
                     </h3>
                   </div>
@@ -67,11 +84,18 @@ export default function FeaturedBanner() {
                 <Chip
                   className="cursor-pointer hover:text-secondary-500 transition-all"
                   size="lg"
+                  startContent={
+                    <Avatar
+                      size="sm"
+                      className="w-[20px] h-[20px]"
+                      src={userImage?.user?.profilePicture}
+                    />
+                  }
                   onClick={() =>
                     navigate(`${routes.PROFILE}/${data?.zkApps[0]?.owner}`)
                   }
                 >
-                  @{data?.zkApps[0]?.ownerUsername}
+                  <p>@{data?.zkApps[0]?.ownerUsername}</p>
                 </Chip>
               </div>
             </>

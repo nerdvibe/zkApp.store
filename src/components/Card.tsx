@@ -58,7 +58,7 @@ export default function CustomCard({
           alt="Card background"
           isBlurred
           className="object-cover rounded-xl z-0"
-          src={icon || "https://nextui.org/images/hero-card.jpeg"}
+          src={icon || `https://picsum.photos/seed/${slug}/400/400`}
           height={250}
           style={{
             height: "250px",
@@ -77,7 +77,7 @@ export default function CustomCard({
             <small className="text-default-400">
               {currentVersion || "Version"}
             </small>
-            <p className="text-tiny text-primary">Score {reviewScore || 5}/5</p>
+            {/* <p className="text-tiny text-primary">Score {reviewScore || 5}/5</p> */}
           </div>
           <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 h-[80px] max-w-[220px]">
             <small className="text-default-500 w-full flex-wrap text-md">

@@ -146,6 +146,6 @@ query featuredZkApps {
   }
 }
 
-mutation checkSlug ($slug: String!) {
+mutation checkSlug($slug: String!) {
   checkSlug(slug: $slug)
 }

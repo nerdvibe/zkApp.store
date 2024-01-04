@@ -30,7 +30,7 @@ export default function BlurredCard({
   return (
     <Card
       isFooterBlurred
-      className="w-full h-[300px] col-span-12 sm:col-span-7 min-w-[300px] cursor-pointer"
+      className="w-full h-[300px] col-span-12 sm:col-span-7 min-w-[300px] cursor-pointer news-card bg-sla"
       onClick={openModal}
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
@@ -45,7 +45,7 @@ export default function BlurredCard({
         src={banner}
       />
       <div
-        className="z-0 w-full h-full object-cover absolute bg-black transition-all duration-300 hover:opacity-[50%] opacity-[30%]"
+        className="z-0 w-full h-full object-cover absolute bg-black transition-all duration-300 hover:opacity-[50%] opacity-[30%] news-card-hover"
         onClick={openModal}
       />
       <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
