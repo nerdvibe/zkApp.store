@@ -135,6 +135,7 @@ export type News = {
 export type Query = {
   __typename?: 'Query';
   getLastNews?: Maybe<Array<Maybe<News>>>;
+  getNews?: Maybe<News>;
   publicInfo?: Maybe<Scalars['String']['output']>;
   searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
   selfUser?: Maybe<SelfUser>;
@@ -147,6 +148,11 @@ export type Query = {
   zkApps?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByCategory?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByUser?: Maybe<Array<Maybe<ZkApp>>>;
+};
+
+
+export type QueryGetNewsArgs = {
+  slug: Scalars['String']['input'];
 };
 
 
@@ -497,6 +503,7 @@ export type NewsResolvers<ContextType = ModuleContext, ParentType extends Resolv
 
 export type QueryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getLastNews?: Resolver<Maybe<Array<Maybe<ResolversTypes['News']>>>, ParentType, ContextType>;
+  getNews?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType, RequireFields<QueryGetNewsArgs, 'slug'>>;
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;
   selfUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
