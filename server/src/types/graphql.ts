@@ -127,6 +127,8 @@ export type News = {
   __typename?: 'News';
   banner: Scalars['String']['output'];
   body: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
+  textPreview: Scalars['String']['output'];
   title: Scalars['String']['output'];
 };
 
@@ -487,6 +489,8 @@ export type MutationResolvers<ContextType = ModuleContext, ParentType extends Re
 export type NewsResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
   banner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  textPreview?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
