@@ -1,18 +1,16 @@
-import {
-  NewsRepo,
-  type NewsDoc,
-} from "../NewsModel";
+import { NewsRepo, type NewsDoc } from "../NewsModel";
 
 const DEFAULT_LIMIT = 10;
 
 export const Query = {
   getLastNews: async (): Promise<Partial<NewsDoc[]>> => {
-
     const news = await NewsRepo.find({
       deleted: { $exists: false },
     })
-    .sort({createdAt: -1})
-    .limit(DEFAULT_LIMIT);
+      .sort({ createdAt: -1 })
+      .limit(DEFAULT_LIMIT);
+
+    console.log(news[0].textPreview);
 
     return news;
   },
