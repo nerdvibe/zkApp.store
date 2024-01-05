@@ -12,5 +12,7 @@ const newsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+export const NewsRepo = mongoose.model("news", newsSchema);
+
 export type NewsDoc = mongoose.InferSchemaType<typeof newsSchema> &
   mongoose.Document;
