@@ -3,6 +3,8 @@ export const schema = `
     title: String!
     body:  String!
     banner: String!
+    slug: String!
+    textPreview: String!
   }
 
   type Query {
