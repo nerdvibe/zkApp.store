@@ -9,5 +9,6 @@ export const schema = `
 
   type Query {
     getLastNews: [News]
+    getNews(slug: String!): News
   }
 `;
