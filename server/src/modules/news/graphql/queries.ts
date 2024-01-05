@@ -29,8 +29,6 @@ export const Query = {
       .sort({ createdAt: -1 })
       .limit(DEFAULT_LIMIT);
 
-    // console.log(news.textPreview);
-
     return news;
   },
 };
