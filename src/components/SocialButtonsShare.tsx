@@ -5,6 +5,9 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const X_URL = "https://x.com";
+const GITHUB_URL = "https://github.com";
+
 interface IProps {
   github?: string | null;
   discord?: string | null;
@@ -23,7 +26,7 @@ export default function SocialButtonsShare({
     <div className="flex gap-4">
       {twitter && (
         <FontAwesomeIcon
-          onClick={() => openLink(twitter)}
+          onClick={() => openLink(`${X_URL}/${twitter}`)}
           className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
           size="2xl"
           icon={faXTwitter}
@@ -39,7 +42,7 @@ export default function SocialButtonsShare({
       )}
       {github && (
         <FontAwesomeIcon
-          onClick={() => openLink(github)}
+          onClick={() => openLink(`${GITHUB_URL}/${github}`)}
           className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
           size="2xl"
           icon={faGithub}

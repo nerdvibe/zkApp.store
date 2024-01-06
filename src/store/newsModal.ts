@@ -5,6 +5,7 @@ interface NewsModalSlice {
   title: string;
   body: string;
   banner: string;
+  ctaLink?: string;
   showModal: boolean;
 }
 
@@ -13,6 +14,7 @@ const initialState: NewsModalSlice = {
   title: "",
   body: "",
   banner: "",
+  ctaLink: "",
   showModal: false,
 };
 
@@ -24,12 +26,14 @@ export const newsModalSlice = createSlice({
       state.title = payload.title;
       state.body = payload.body;
       state.banner = payload.banner;
+      state.ctaLink = payload.ctaLink;
       state.showModal = true;
     },
     hideModal: (state) => {
       state.title = "";
       state.body = "";
       state.banner = "";
+      state.ctaLink = "";
       state.showModal = false;
     },
   },

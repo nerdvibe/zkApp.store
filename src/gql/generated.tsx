@@ -129,6 +129,7 @@ export type News = {
   __typename?: 'News';
   banner: Scalars['String']['output'];
   body: Scalars['String']['output'];
+  ctaLink?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   textPreview: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -381,14 +382,14 @@ export type AllZkAppCategoriesQuery = { __typename?: 'Query', zkAppCategories?: 
 export type LastNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LastNewsQuery = { __typename?: 'Query', getLastNews?: Array<{ __typename?: 'News', title: string, body: string, banner: string, textPreview: string, slug: string } | null> | null };
+export type LastNewsQuery = { __typename?: 'Query', getLastNews?: Array<{ __typename?: 'News', title: string, body: string, banner: string, textPreview: string, slug: string, ctaLink?: string | null } | null> | null };
 
 export type GetNewsQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type GetNewsQuery = { __typename?: 'Query', getNews?: { __typename?: 'News', title: string, body: string, banner: string, textPreview: string, slug: string } | null };
+export type GetNewsQuery = { __typename?: 'Query', getNews?: { __typename?: 'News', title: string, body: string, banner: string, textPreview: string, slug: string, ctaLink?: string | null } | null };
 
 export type SearchUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -738,6 +739,7 @@ export const LastNewsDocument = gql`
     banner
     textPreview
     slug
+    ctaLink
   }
 }
     `;
@@ -781,6 +783,7 @@ export const GetNewsDocument = gql`
     banner
     textPreview
     slug
+    ctaLink
   }
 }
     `;
@@ -1973,6 +1976,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type NewsResolvers<ContextType = any, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
   banner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ctaLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   textPreview?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

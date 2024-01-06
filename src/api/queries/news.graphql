@@ -5,6 +5,7 @@ query lastNews {
     banner
     textPreview
     slug
+    ctaLink
   }
 }
 
@@ -15,5 +16,6 @@ query getNews($slug: String!){
     banner
     textPreview
     slug
+    ctaLink
   }
 }

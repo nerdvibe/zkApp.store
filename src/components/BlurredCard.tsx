@@ -7,7 +7,7 @@ export interface IBlurredCardProps {
   title: string;
   body: string;
   textPreview: string;
-  primaryButtonLabel: string;
+  ctaLink?: string;
   secondaryButtonLabel: string;
   banner: string;
 }
@@ -17,7 +17,7 @@ export default function BlurredCard({
   body,
   title,
   textPreview,
-  // primaryButtonLabel,
+  ctaLink,
   banner,
 }: IBlurredCardProps) {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ export default function BlurredCard({
         title,
         body,
         banner,
+        ctaLink
       })
     );
   return (

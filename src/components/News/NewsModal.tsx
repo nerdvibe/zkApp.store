@@ -1,6 +1,7 @@
 import { hideModal } from "@/store/newsModal";
 import { RootState } from "@/store/store";
 import {
+  Button,
   Image,
   Modal,
   ModalBody,
@@ -12,9 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function NewsModal() {
   const dispatch = useDispatch();
-  const { title, banner, body, showModal } = useSelector(
-    (state: RootState) => state.newsModal
-  );
+  const {
+    title,
+    banner,
+    body,
+    showModal,
+    ctaLink,
+  } = useSelector((state: RootState) => state.newsModal);
 
   return (
     <Modal
@@ -52,6 +57,16 @@ export default function NewsModal() {
                 }}
               />
             </ScrollShadow>
+            {ctaLink && (
+              <div className="flex w-full justify-center mt-2">
+                <Button
+                  color="primary"
+                  onClick={() => window.open(ctaLink, "_blank")}
+                >
+                  Learn more
+                </Button>
+              </div>
+            )}
           </div>
         </ModalBody>
       </ModalContent>
