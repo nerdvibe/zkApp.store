@@ -4,12 +4,13 @@ import mongoose from "mongoose";
 import express from "express";
 import stitchedSchema from "./graphql/schema";
 import { isValidString } from "./modules/util";
-import { useDisableIntrospection } from '@graphql-yoga/plugin-disable-introspection'
-import { blockFieldSuggestionsPlugin } from '@escape.tech/graphql-armor-block-field-suggestions'
+import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
+import { blockFieldSuggestionsPlugin } from "@escape.tech/graphql-armor-block-field-suggestions";
 import { createYoga } from "graphql-yoga";
 import { log } from "@modules/logger";
 import helmet from "helmet";
 import cors from "cors";
+import { startCronTasks } from "@modules/cron";
 
 dotenv.config();
 if (!process.env.MONGO_DB) {
@@ -27,9 +28,8 @@ app.use(
 
 app.use(cors());
 
-
 let yoga;
-if(process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   yoga = createYoga({
     schema: stitchedSchema,
     graphiql: true,
@@ -39,7 +39,7 @@ if(process.env.NODE_ENV === 'development') {
         return;
       }
       const accessToken = token.split(" ")[1];
-  
+
       return { accessToken };
     },
   });
@@ -54,7 +54,7 @@ if(process.env.NODE_ENV === 'development') {
         return;
       }
       const accessToken = token.split(" ")[1];
-  
+
       return { accessToken };
     },
   });
@@ -65,4 +65,5 @@ app.use("/graphql", yoga);
 
 app.listen(4000, () => {
   log.info("Server is running on port 4000");
+  startCronTasks()
 });
