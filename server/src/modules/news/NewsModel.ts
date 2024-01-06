@@ -8,6 +8,7 @@ const newsSchema = new mongoose.Schema(
     slug: { type: String, required: true },
     textPreview: { type: String, required: true },
     deleted: { type: Boolean },
+    ctaLink: { type: String },
   },
   { timestamps: true }
 );

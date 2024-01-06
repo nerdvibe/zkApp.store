@@ -5,6 +5,7 @@ export const schema = `
     banner: String!
     slug: String!
     textPreview: String!
+    ctaLink: String
   }
 
   type Query {
