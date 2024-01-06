@@ -11,6 +11,7 @@ import { log } from "@modules/logger";
 import helmet from "helmet";
 import cors from "cors";
 import { startCronTasks } from "@modules/cron";
+import { createAdmin, createAdminRouter } from "@modules/admin";
 
 dotenv.config();
 if (!process.env.MONGO_DB) {
@@ -63,7 +64,11 @@ if (process.env.NODE_ENV === "development") {
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.use("/graphql", yoga);
 
+const adminBro = createAdmin();
+const router = createAdminRouter(adminBro);
+app.use(adminBro.options.rootPath, router);
+
 app.listen(4000, () => {
   log.info("Server is running on port 4000");
-  startCronTasks()
+  startCronTasks();
 });
