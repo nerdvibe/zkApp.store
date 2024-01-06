@@ -2,7 +2,7 @@ import { Diamond } from "@/assets/icons/Diamond";
 import { Globe } from "@/assets/icons/Globe";
 import routes from "../../routes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faIcons } from "@fortawesome/free-solid-svg-icons";
 
 export const SIDEBAR_TABS = [
   {
@@ -20,6 +20,15 @@ export const SIDEBAR_TABS = [
     link: routes.DASHBOARD,
     disabled: false,
     icon: <Globe />,
+    suffix: null,
+    onClick: null,
+  },
+  {
+    label: "Categories",
+    key: "categories",
+    link: routes.CATEGORIES,
+    disabled: false,
+    icon: <FontAwesomeIcon icon={faIcons} />,
     suffix: null,
     onClick: null,
   },

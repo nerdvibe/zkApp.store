@@ -1,6 +1,8 @@
 import { Image } from "@nextui-org/react";
 import Logo from "@/assets/logo-white.svg";
 import "./style.css";
+import routes from "@/routes";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -9,21 +11,13 @@ export default function Footer() {
         <div>
           <Image src={Logo} alt="Logo" radius="none" className="sidebar-icon" />
         </div>
-        <div className="flex flex-col">
-          <a className="footer-link" href="http://google.com">
-            Privacy Policy
-          </a>
-          <a className="footer-link" href="http://google.com">
-            Terms of Service
-          </a>
-        </div>
       </div>
       <div className="flex flex-row flex-1 justify-center gap-10 min-h-[160px] items-end min-w-[300px]">
         <div className="flex flex-col">
           Learn
-          <a className="footer-link" href="http://google.com">
+          <Link className="footer-link" to={routes.PRIVACY}>
             Privacy Policy
-          </a>
+          </Link>
           <a className="footer-link" href="http://google.com">
             Terms of Service
           </a>

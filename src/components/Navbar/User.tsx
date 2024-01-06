@@ -66,7 +66,7 @@ export default function User() {
           color="default"
           name={user?.username}
           size="sm"
-          src={user?.avatar}
+          src={user?.profilePicture}
           fallback={
             <UserIcon value={user?.username || user?.email || ""} size={30} />
           }

@@ -13,4 +13,7 @@ export default {
   SETTINGS: "/settings",
   VERIFY_EMAIL: "/verify-email",
   PENDING_VERIFICATION: "/pending-verification",
+  CATEGORIES: "/categories",
+  PRIVACY: "/privacy-policy",
+  NEWS: "/news",
 };

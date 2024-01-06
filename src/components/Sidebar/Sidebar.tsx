@@ -40,7 +40,7 @@ export default function CustomSidebar() {
       >
         <div>
           <div className="flex w-full justify-center py-5">
-            <Image src={Logo} alt="Alternate Text" radius="none" />
+            <Image src={Logo} alt="ZkApp.store logo" radius="none" className="w-[100px] px-4" />
           </div>
 
           <Menu

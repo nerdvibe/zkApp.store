@@ -71,13 +71,12 @@ export default function Settings() {
   const Buttons = (
     <Listbox
       aria-label="Actions"
-      // onAction={(key) => alert(key)}
       selectionMode="single"
       selectedKeys={selectedKeys}
       onSelectionChange={setSelectedKeys}
     >
       {Object.keys(tabs).map((tab: string) => (
-        <ListboxSection title="User settings" showDivider>
+        <ListboxSection title={tab} showDivider>
           {tabs[tab].map((el) => (
             <ListboxItem
               className={el.classname}
@@ -102,7 +101,7 @@ export default function Settings() {
         <div className="flex flex-row gap-4 justify-between px-8">
           <div className="flex flex-row gap-4">
             <Avatar
-              src={user?.avatar}
+              src={user?.profilePicture}
               className="w-[100px] h-[100px] object-cover"
               fallback={
                 <UserIcon value={user?.username || user?.email || ""} />

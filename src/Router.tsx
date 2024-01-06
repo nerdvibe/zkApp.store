@@ -16,6 +16,8 @@ import ResetAccount from "./pages/ResetAccount";
 import Settings from "./pages/Settings";
 import VerifyEmail from "./pages/VerifyEmail";
 import PendingVerification from "./pages/PendingVerification";
+import Categories from "./pages/Categories";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 export const AppRoutes = () => {
   const isAuthenticated = useSelector((state: RootState) => {
@@ -83,7 +85,13 @@ export const AppRoutes = () => {
         path={`${ROUTES.VERIFY_EMAIL}/:verifyEmailToken`}
         element={<VerifyEmail />}
       />
-      <Route path={`${ROUTES.PENDING_VERIFICATION}`} element={<PendingVerification />} />
+      <Route
+        path={`${ROUTES.PENDING_VERIFICATION}`}
+        element={<PendingVerification />}
+      />
+      <Route path={`${ROUTES.CATEGORIES}`} element={<Categories />} />
+      <Route path={`${ROUTES.PRIVACY}`} element={<PrivacyPolicy />} />
+      <Route path={`${ROUTES.NEWS}/:id`} element={<Home />} />
       <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
     </Routes>
   );

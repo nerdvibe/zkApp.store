@@ -11,7 +11,7 @@ export default function TrendingAppsSlider() {
     navigate(`${routes.PRODUCT}/${id}`);
   };
 
-  if (!data?.zkApps) {
+  if (!data?.zkApps?.length) {
     return (
       <>
         <h1 className="text-white text-xl">Trending zkApps</h1>

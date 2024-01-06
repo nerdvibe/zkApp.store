@@ -8,6 +8,7 @@ query userDetails {
     xUsername
     discordUrl
     githubUrl
+    bio
     profilePicture
     bannerPicture
   }
@@ -91,6 +92,7 @@ query userData {
     followerCount
     xUsername
     discordUrl
+    bio
     githubUrl
     profilePicture
     bannerPicture

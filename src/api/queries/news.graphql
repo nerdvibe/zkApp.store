@@ -3,5 +3,17 @@ query lastNews {
     title
     body
     banner
+    textPreview
+    slug
+  }
+}
+
+query getNews($slug: String!){
+  getNews(slug: $slug){
+    title
+    body
+    banner
+    textPreview
+    slug
   }
 }

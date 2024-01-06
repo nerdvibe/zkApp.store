@@ -33,7 +33,7 @@ export default function Edit({ refetchData, data }: any) {
   );
   const [version, setVersion] = useState(data?.zkApp?.currentVersion || "");
   const [link, setLink] = useState(data?.zkApp?.url || "");
-  const [category, setCategory] = useState([data?.zkApp?.category?.slug] || "");
+  const [category, setCategory] = useState(data?.zkApp?.category?.slug || "");
   const [discordUrl, setDiscordUrl] = useState(data?.zkApp?.discordUrl || "");
   const [githubUrl, setGithubdUrl] = useState(data?.zkApp?.githubUrl || "");
   const [showDeleteModal, setShowDeleteModal] = useState(false);

@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 
@@ -19,8 +20,12 @@ export const favoriteProductsSlice = createSlice({
   reducers: {
     addFavorite: (state, action: PayloadAction<string>) => {
       // Add the product to the favorites list if it's not already there
-      if (!state.products.includes(action.payload)) {
-        state.products.push(action.payload);
+      if (state.products.length >= 100) {
+        toast.error("Cannot add more than 100 ZkApps");
+      } else {
+        if (!state.products.includes(action.payload)) {
+          state.products.push(action.payload);
+        }
       }
       // Mark the product as a favorite
       state.isProductFavorite[action.payload] = true;
@@ -35,6 +40,7 @@ export const favoriteProductsSlice = createSlice({
     },
     toggleFavorite: (state, action: PayloadAction<string>) => {
       // Toggle whether the product is a favorite or not
+
       const productId = action.payload;
       if (state.isProductFavorite[productId]) {
         // If it's currently a favorite, remove it
@@ -42,16 +48,26 @@ export const favoriteProductsSlice = createSlice({
           (productId) => productId !== action.payload
         );
         state.isProductFavorite[productId] = false;
+        toast.success("ZkApp removed from favourites");
       } else {
-        // If it's not a favorite, add it
-        state.products.push(productId);
-        state.isProductFavorite[productId] = true;
+        // If it's not a favorite, add i
+        if (state.products.length >= 100) {
+          toast.error("Cannot add more than 100 ZkApps");
+        } else {
+          state.products.push(productId);
+          state.isProductFavorite[productId] = true;
+          toast.success("ZkApp added to favourites");
+        }
       }
+    },
+    clearFavourites: (state) => {
+      state.products = [];
+      state.isProductFavorite = {};
     },
   },
 });
 
-export const { addFavorite, removeFavorite, toggleFavorite } =
+export const { addFavorite, removeFavorite, toggleFavorite, clearFavourites } =
   favoriteProductsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -149,3 +149,19 @@ query featuredZkApps {
 mutation checkSlug($slug: String!) {
   checkSlug(slug: $slug)
 }
+
+query zkAppsBySlug($slugs: [String]) {
+  zkApps(slugs: $slugs) {
+    id
+    name
+    slug
+    subtitle
+    ownerUsername
+    currentVersion
+    icon
+    category {
+      name
+      slug
+    }
+  }
+}

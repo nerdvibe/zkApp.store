@@ -44,6 +44,12 @@ export default function ZkAppSearch({
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
+    if (parentLoading) {
+      setFetchedZkApps([]);
+    }
+  }, [parentLoading]);
+
+  useEffect(() => {
     if (!showModal) {
       setFetchedZkApps([]);
     }
@@ -65,7 +71,10 @@ export default function ZkAppSearch({
               startContent={
                 <Image
                   // TODO: Replace placeholder
-                  src={app?.icon || "https://nextui.org/images/hero-card.jpeg"}
+                  src={
+                    app?.icon ||
+                    `https://picsum.photos/seed/${app?.slug}/400/400`
+                  }
                   className="w-[50px] h-[50px] object-cover"
                 />
               }

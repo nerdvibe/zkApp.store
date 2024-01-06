@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, Checkbox } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { EyeFilledIcon } from "../assets/icons/EyeFilled";
 import { EyeSlashFilledIcon } from "../assets/icons/EyeSlashed";
 import DarkInput from "../components/DarkInput";
@@ -10,9 +10,10 @@ import { useDispatch } from "react-redux";
 import routes from "../routes";
 import SocialButtons from "../components/SocialButtons";
 import { login } from "../store/session";
-import { useLoginMutation, useUserDetailsLazyQuery } from "../gql/generated";
+import { useLoginMutation } from "../gql/generated";
 import { toast } from "react-hot-toast";
 import { toggleLoader } from "@/store/config";
+import ComingSoonModal from "@/components/ComingSoonModal";
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,6 +22,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginUser] = useLoginMutation();
+  const [showModal, setShowModal] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const loginHandler = async () => {
@@ -110,12 +112,13 @@ export default function Login() {
                 Login
               </Button>
               <p className="opacity-70">or continue with</p>
-              <SocialButtons />
+              <SocialButtons onClick={() => setShowModal(true)} />
             </div>
           </CardBody>
         </Card>
         <AuthenticationImage login />
       </>
+      <ComingSoonModal show={showModal} onClose={() => setShowModal(false)} />
     </AuthenticationForm>
   );
 }

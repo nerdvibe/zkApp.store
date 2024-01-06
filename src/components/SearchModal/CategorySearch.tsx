@@ -44,6 +44,12 @@ export default function CategorySearch({
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
+    if (parentLoading) {
+      setFetchedCategories([]);
+    }
+  }, [parentLoading]);
+
+  useEffect(() => {
     if (!showModal) {
       setFetchedCategories([]);
     }

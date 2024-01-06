@@ -21,7 +21,7 @@ export default function FeaturedBanner() {
     }
   }, [data]);
 
-  if (!data) {
+  if (!data?.zkApps?.length) {
     return (
       <>
         <h1 className="text-white text-xl">Featured</h1>
@@ -39,7 +39,7 @@ export default function FeaturedBanner() {
       </div>
       <div className="flex">
         <div className="flex flex-col md:flex-row banner w-full p-4 gap-28">
-          {data?.zkApps && (
+          {!!data?.zkApps?.length && (
             <>
               <div className="flex flex-col gap-4 justify-center md:pl-10 min-w-[300px] items-center md:items-start mt-2 md:mt-0">
                 <h1 className="md:hidden text-3xl text-white font-bold mb-4 md:mb-0">

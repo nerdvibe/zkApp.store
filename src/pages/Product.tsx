@@ -82,11 +82,6 @@ export default function Product() {
   }, []);
 
   const toggleFavouriteProduct = () => {
-    toast.success(
-      isFavourite
-        ? "ZkApp removed from favourites"
-        : "ZkApp added to favourites"
-    );
     dispatch(toggleFavorite(`${id}`));
   };
 

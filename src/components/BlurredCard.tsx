@@ -6,6 +6,7 @@ export interface IBlurredCardProps {
   category: string;
   title: string;
   body: string;
+  textPreview: string;
   primaryButtonLabel: string;
   secondaryButtonLabel: string;
   banner: string;
@@ -15,6 +16,7 @@ export default function BlurredCard({
   category,
   body,
   title,
+  textPreview,
   // primaryButtonLabel,
   banner,
 }: IBlurredCardProps) {
@@ -55,7 +57,7 @@ export default function BlurredCard({
               className="text-tiny text-white-60-f line-clamp-3"
               onClick={openModal}
             >
-              {body}
+              {textPreview}
             </p>
           </div>
         </div>

@@ -49,6 +49,12 @@ export default function UserSearch({
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
+    if (parentLoading) {
+      setFetchedUsers([]);
+    }
+  }, [parentLoading]);
+
+  useEffect(() => {
     if (!showModal) {
       setFetchedUsers([]);
     }

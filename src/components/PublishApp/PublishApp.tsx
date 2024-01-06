@@ -54,6 +54,7 @@ export default function PublishApp() {
     values,
     setFieldValue,
     handleSubmit,
+    isValid,
   } = useFormik({
     initialValues: initialPublishAppForm,
     validate: validatePublishApp,
@@ -267,7 +268,8 @@ export default function PublishApp() {
               color="primary"
               className="w-full"
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isSlugValid}
+              isDisabled={!isValid || !isSlugValid}
             >
               Publish ZkApp
             </Button>

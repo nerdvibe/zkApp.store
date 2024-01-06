@@ -17,10 +17,10 @@ export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
   };
 
   return (
-    <div onClick={onCardClick} className="w-full">
+    <div onClick={onCardClick}>
       <Card
         isFooterBlurred
-        className="col-span-12 sm:col-span-7 bg-[none] cursor-pointer hover:-translate-y-3 duration-250 relative select-none min-w-[350px] min-h-[200px]"
+        className="col-span-12 sm:col-span-7 bg-[none] cursor-pointer hover:-translate-y-3 duration-250 relative select-none min-w-[350px] min-h-[200px] max-w-[300px]"
         key={id}
       >
         <div className="flex gap-[10%]">

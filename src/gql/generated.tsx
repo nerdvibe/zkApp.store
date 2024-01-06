@@ -129,12 +129,15 @@ export type News = {
   __typename?: 'News';
   banner: Scalars['String']['output'];
   body: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
+  textPreview: Scalars['String']['output'];
   title: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
   getLastNews?: Maybe<Array<Maybe<News>>>;
+  getNews?: Maybe<News>;
   publicInfo?: Maybe<Scalars['String']['output']>;
   searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
   selfUser?: Maybe<SelfUser>;
@@ -147,6 +150,11 @@ export type Query = {
   zkApps?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByCategory?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByUser?: Maybe<Array<Maybe<ZkApp>>>;
+};
+
+
+export type QueryGetNewsArgs = {
+  slug: Scalars['String']['input'];
 };
 
 
@@ -189,6 +197,7 @@ export type QueryZkAppCategoriesSearchArgs = {
 export type QueryZkAppsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+  slugs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   sortByFeatured?: InputMaybe<Scalars['Boolean']['input']>;
   sortByTrending?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -372,7 +381,14 @@ export type AllZkAppCategoriesQuery = { __typename?: 'Query', zkAppCategories?: 
 export type LastNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LastNewsQuery = { __typename?: 'Query', getLastNews?: Array<{ __typename?: 'News', title: string, body: string, banner: string } | null> | null };
+export type LastNewsQuery = { __typename?: 'Query', getLastNews?: Array<{ __typename?: 'News', title: string, body: string, banner: string, textPreview: string, slug: string } | null> | null };
+
+export type GetNewsQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type GetNewsQuery = { __typename?: 'Query', getNews?: { __typename?: 'News', title: string, body: string, banner: string, textPreview: string, slug: string } | null };
 
 export type SearchUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -384,7 +400,7 @@ export type SearchUserQuery = { __typename?: 'Query', userSearch?: Array<{ __typ
 export type UserDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserDetailsQuery = { __typename?: 'Query', selfUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
+export type UserDetailsQuery = { __typename?: 'Query', selfUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, bio?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
 
 export type SignupMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -452,7 +468,7 @@ export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword?:
 export type UserDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserDataQuery = { __typename?: 'Query', selfUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
+export type UserDataQuery = { __typename?: 'Query', selfUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, bio?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
 
 export type UpdateUserDetailsMutationVariables = Exact<{
   userEdit?: InputMaybe<UpdateUserInput>;
@@ -534,6 +550,13 @@ export type CheckSlugMutationVariables = Exact<{
 
 
 export type CheckSlugMutation = { __typename?: 'Mutation', checkSlug: boolean };
+
+export type ZkAppsBySlugQueryVariables = Exact<{
+  slugs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+}>;
+
+
+export type ZkAppsBySlugQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, ownerUsername?: string | null, currentVersion: string, icon?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
 
 
 export const HomepageCategoriesDocument = gql`
@@ -713,6 +736,8 @@ export const LastNewsDocument = gql`
     title
     body
     banner
+    textPreview
+    slug
   }
 }
     `;
@@ -748,6 +773,50 @@ export type LastNewsQueryHookResult = ReturnType<typeof useLastNewsQuery>;
 export type LastNewsLazyQueryHookResult = ReturnType<typeof useLastNewsLazyQuery>;
 export type LastNewsSuspenseQueryHookResult = ReturnType<typeof useLastNewsSuspenseQuery>;
 export type LastNewsQueryResult = Apollo.QueryResult<LastNewsQuery, LastNewsQueryVariables>;
+export const GetNewsDocument = gql`
+    query getNews($slug: String!) {
+  getNews(slug: $slug) {
+    title
+    body
+    banner
+    textPreview
+    slug
+  }
+}
+    `;
+
+/**
+ * __useGetNewsQuery__
+ *
+ * To run a query within a React component, call `useGetNewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewsQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetNewsQuery(baseOptions: Apollo.QueryHookOptions<GetNewsQuery, GetNewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNewsQuery, GetNewsQueryVariables>(GetNewsDocument, options);
+      }
+export function useGetNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNewsQuery, GetNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNewsQuery, GetNewsQueryVariables>(GetNewsDocument, options);
+        }
+export function useGetNewsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetNewsQuery, GetNewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNewsQuery, GetNewsQueryVariables>(GetNewsDocument, options);
+        }
+export type GetNewsQueryHookResult = ReturnType<typeof useGetNewsQuery>;
+export type GetNewsLazyQueryHookResult = ReturnType<typeof useGetNewsLazyQuery>;
+export type GetNewsSuspenseQueryHookResult = ReturnType<typeof useGetNewsSuspenseQuery>;
+export type GetNewsQueryResult = Apollo.QueryResult<GetNewsQuery, GetNewsQueryVariables>;
 export const SearchUserDocument = gql`
     query searchUser($username: String!) {
   userSearch(username: $username) {
@@ -802,6 +871,7 @@ export const UserDetailsDocument = gql`
     xUsername
     discordUrl
     githubUrl
+    bio
     profilePicture
     bannerPicture
   }
@@ -1126,6 +1196,7 @@ export const UserDataDocument = gql`
     followerCount
     xUsername
     discordUrl
+    bio
     githubUrl
     profilePicture
     bannerPicture
@@ -1709,6 +1780,56 @@ export function useCheckSlugMutation(baseOptions?: Apollo.MutationHookOptions<Ch
 export type CheckSlugMutationHookResult = ReturnType<typeof useCheckSlugMutation>;
 export type CheckSlugMutationResult = Apollo.MutationResult<CheckSlugMutation>;
 export type CheckSlugMutationOptions = Apollo.BaseMutationOptions<CheckSlugMutation, CheckSlugMutationVariables>;
+export const ZkAppsBySlugDocument = gql`
+    query zkAppsBySlug($slugs: [String]) {
+  zkApps(slugs: $slugs) {
+    id
+    name
+    slug
+    subtitle
+    ownerUsername
+    currentVersion
+    icon
+    category {
+      name
+      slug
+    }
+  }
+}
+    `;
+
+/**
+ * __useZkAppsBySlugQuery__
+ *
+ * To run a query within a React component, call `useZkAppsBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useZkAppsBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useZkAppsBySlugQuery({
+ *   variables: {
+ *      slugs: // value for 'slugs'
+ *   },
+ * });
+ */
+export function useZkAppsBySlugQuery(baseOptions?: Apollo.QueryHookOptions<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>(ZkAppsBySlugDocument, options);
+      }
+export function useZkAppsBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>(ZkAppsBySlugDocument, options);
+        }
+export function useZkAppsBySlugSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>(ZkAppsBySlugDocument, options);
+        }
+export type ZkAppsBySlugQueryHookResult = ReturnType<typeof useZkAppsBySlugQuery>;
+export type ZkAppsBySlugLazyQueryHookResult = ReturnType<typeof useZkAppsBySlugLazyQuery>;
+export type ZkAppsBySlugSuspenseQueryHookResult = ReturnType<typeof useZkAppsBySlugSuspenseQuery>;
+export type ZkAppsBySlugQueryResult = Apollo.QueryResult<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -1852,12 +1973,15 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type NewsResolvers<ContextType = any, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
   banner?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  textPreview?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getLastNews?: Resolver<Maybe<Array<Maybe<ResolversTypes['News']>>>, ParentType, ContextType>;
+  getNews?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType, RequireFields<QueryGetNewsArgs, 'slug'>>;
   publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;
   selfUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;

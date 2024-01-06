@@ -8,6 +8,7 @@ import CreativeBanner from "../components/CreativeBanner/CreativeBanner";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toggleProductModal } from "@/store/product";
+import NewsRouteHandler from "@/components/NewsRouteHandler";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export default function Home() {
 
   return (
     <div className="flex gap-2 flex-col">
+      <NewsRouteHandler />
       <NewsCards />
       <TrendingAppsSlider />
       <Categories />

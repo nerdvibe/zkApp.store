@@ -9,6 +9,7 @@ import { toggleLoader } from "./store/config";
 import { Toaster } from "react-hot-toast";
 import useTokenExpirationChecker from "./hooks/refreshToken";
 import SearchModal from "./components/SearchModal/SearchModal";
+import { CookieBanner } from "./components/CookieBanner";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
         <Sidebar />
       </div>
       <main className="w-full overflow-auto">
+        <CookieBanner />
         <GlobalLoader />
         <CustomNavbar />
         <SearchModal />

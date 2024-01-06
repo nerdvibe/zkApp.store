@@ -1,7 +1,7 @@
 import {
   faDiscord,
   faGithub,
-  faTwitter,
+  faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -26,7 +26,7 @@ export default function SocialButtonsShare({
           onClick={() => openLink(twitter)}
           className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
           size="2xl"
-          icon={faTwitter}
+          icon={faXTwitter}
         />
       )}
       {discord && (
