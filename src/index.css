@@ -52,11 +52,18 @@ a.link {
   bottom: 50px;
   right: 2em;
   display: flex;
-  /* opacity: 0; */
+  opacity: 0;
   z-index: 30;
   animation: fadeInAnimationDelayed ease 8s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+}
+
+.fade-out {
+  animation: fadeOutAnimation ease 0.3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  opacity: 1;
 }
 
 .alt-message {
@@ -278,4 +285,43 @@ a.link {
 
 .top45 {
   margin-top: 45px;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    z-index: 1033;
+  }
+}
+
+@keyframes fadeInAnimationDelayed {
+  0% {
+    opacity: 0;
+  }
+
+  90% {
+    z-index: -1;
+    display: flex;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    z-index: 1033;
+  }
+}
+
+@keyframes fadeOutAnimation {
+  0% {
+    z-index: 1033;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
