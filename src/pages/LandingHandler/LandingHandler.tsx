@@ -20,7 +20,7 @@ export default function LandingHandler() {
         navigate(ROUTES.DASHBOARD);
       }
     } else {
-      navigate(ROUTES.LOGIN);
+      navigate(ROUTES.HOME);
     }
   }, [state]);
 

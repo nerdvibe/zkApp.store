@@ -59,7 +59,7 @@ export default function ForgotPassword() {
           </div>
         </CardBody>
       </Card>
-      <AuthenticationImage />
+      <AuthenticationImage noText />
     </AuthenticationForm>
   );
 }

@@ -73,17 +73,21 @@ export default function User() {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        <DropdownItem
-          key="profile"
-          className="h-14 gap-2"
-          onClick={goToProfile}
-        >
-          <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{user?.username || user?.email}</p>
-        </DropdownItem>
-        <DropdownItem key="settings" onClick={goToSettings}>
-          My Settings
-        </DropdownItem>
+        {userData && (
+          <DropdownItem
+            key="profile"
+            className="h-14 gap-2"
+            onClick={goToProfile}
+          >
+            <p className="font-semibold">Signed in as</p>
+            <p className="font-semibold">{user?.username || user?.email}</p>
+          </DropdownItem>
+        )}
+        {userData && (
+          <DropdownItem key="settings" onClick={goToSettings}>
+            My Settings
+          </DropdownItem>
+        )}
         {/* <DropdownItem key="analytics">Analytics</DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
         <DropdownItem key="logout" color="danger" onClick={logoutHandler}>

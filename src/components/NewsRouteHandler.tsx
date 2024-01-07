@@ -9,18 +9,20 @@ export default function NewsRouteHandler() {
   const [fetchNewsData] = useGetNewsLazyQuery();
   const dispatch = useDispatch();
   useEffect(() => {
-    fetchNewsData({
-      variables: {
-        slug: newsId,
-      },
-    }).then(({ data }) => {
-      if (data?.getNews) {
-        dispatch(
-          showModal({
-            ...data?.getNews,
-          })
-        );
-      }
-    });
+    if (newsId) {
+      fetchNewsData({
+        variables: {
+          slug: newsId,
+        },
+      }).then(({ data }) => {
+        if (data?.getNews) {
+          dispatch(
+            showModal({
+              ...data?.getNews,
+            })
+          );
+        }
+      });
+    }
   }, [newsId]);
 }

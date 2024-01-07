@@ -39,10 +39,12 @@ export default function VerifyEmail() {
         }, 1000);
       } else {
         setTimeout(() => {
+          toast.dismiss(loadingToast);
           toast.success(<b>Email verified!</b>);
         }, 1000);
       }
       setTimeout(() => {
+        toast.dismiss(loadingToast);
         setLoader(false);
       }, 1000);
     }

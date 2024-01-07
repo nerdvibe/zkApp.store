@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IconWrapper } from "../components/IconWrapper";
 import Security from "../components/Settings/Security";
 import Profile from "@/components/Settings/Profile";
@@ -18,6 +18,8 @@ import { RootState } from "@/store/store";
 import UserIcon from "@/components/User/UserIcon";
 import Lottie from "react-lottie-player";
 import verified from "@/assets/animations/verified.json";
+import { useNavigate } from "react-router-dom";
+import routes from "@/routes";
 
 enum TABS {
   PROFILE = "PROFILE",
@@ -63,6 +65,13 @@ const tabs = {
 export default function Settings() {
   const [selectedKeys, setSelectedKeys] = useState(new Set([TABS.PROFILE]));
   const user = useSelector((state: RootState) => state.session.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate(routes.HOME, { replace: true });
+    }
+  }, [user]);
+
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", "),
     [selectedKeys]
@@ -95,7 +104,7 @@ export default function Settings() {
     </Listbox>
   );
 
-  return (
+  return user ? (
     <div className="flex w-full justify-center">
       <div className="w-full flex flex-col gap-8 max-w-[1200px]">
         <div className="flex flex-row gap-4 justify-between px-8">
@@ -144,5 +153,7 @@ export default function Settings() {
         </div>
       </div>
     </div>
+  ) : (
+    <></>
   );
 }

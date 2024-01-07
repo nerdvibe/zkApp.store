@@ -3,7 +3,8 @@ import { Menu, MenuItem, Sidebar, sidebarClasses } from "react-pro-sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
-import Logo from "@/assets/logo.svg";
+import Logo from "@/assets/sidebar-logo.svg";
+import LogoSmall from "@/assets/sidebar-logo-small.svg";
 import { SIDEBAR_TABS } from "./util";
 import { toggleBroken, toggle } from "@/store/sidebar";
 import ThemeButton from "../Navbar/ThemeButton";
@@ -40,7 +41,12 @@ export default function CustomSidebar() {
       >
         <div>
           <div className="flex w-full justify-center py-5">
-            <Image src={Logo} alt="ZkApp.store logo" radius="none" className="w-[100px] px-4" />
+            <Image
+              src={!state.collapsed ? Logo : LogoSmall}
+              alt="ZkApp.store logo"
+              radius="none"
+              className={`px-4 ${!state.collapsed ? "w-[190px]" : "w-[100px] "}`}
+            />
           </div>
 
           <Menu

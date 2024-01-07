@@ -175,7 +175,7 @@ export default function ResetAccount() {
           </div>
         </CardBody>
       </Card>
-      <AuthenticationImage />
+      <AuthenticationImage noText />
     </AuthenticationForm>
   );
 }
