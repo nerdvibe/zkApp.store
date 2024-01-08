@@ -15,6 +15,7 @@ import routes from "@/routes";
 import MDEditor from "@uiw/react-md-editor";
 import { useEffect } from "react";
 import { useAppDataLazyQuery } from "@/gql/generated";
+import MockedDataBanner from "./MockedDataBanner";
 
 export default function AppModal() {
   const state = useSelector((state: RootState) => {
@@ -89,6 +90,7 @@ export default function AppModal() {
                   </div>
                   <p>{data?.zkApp?.subtitle}</p>
                 </div>
+                <MockedDataBanner />
                 <ScrollShadow className="w-full flex gap-4 flex-wrap left-0 max-h-[325px] my-5">
                   <MDEditor.Markdown
                     className="text-white md:min-w-[350px] md:max-w-[350px] lg:max-w-[450px]"

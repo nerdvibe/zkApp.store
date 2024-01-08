@@ -24,6 +24,7 @@ import EditableBanner from "@/components/Product/EditableBanner";
 import EditableAvatar from "@/components/Product/EditableAvatar";
 import EditableCard from "@/components/Card/EditableCard";
 import { toast } from "react-hot-toast";
+import MockedDataBanner from "@/components/MockedDataBanner";
 
 export default function Product() {
   const { id } = useParams();
@@ -181,6 +182,7 @@ export default function Product() {
           />
         </div>
       </div>
+      <MockedDataBanner />
       <div className="flex flex-col gap-4">
         <Tabs
           className="flex justify-center w-full"

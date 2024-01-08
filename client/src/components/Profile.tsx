@@ -96,6 +96,9 @@ export default function Profile() {
             <p className="text-white text-lg">
               {data?.user?.followerCount || 0} Followers
             </p>
+            <p className="text-white text-lg">
+              {data?.user?.bio}
+            </p>
           </div>
         </div>
         <div className="flex flex-col items-center gap-4 my-4">

@@ -24,7 +24,7 @@ export default function FeaturedCard({
       key={key}
       className={`pb-4 w-[80%]  ${
         white && "bg-slate-200"
-      } w-[200px] max-w-[300px] min-w-[150px] ${
+      } w-[200px] max-w-[320px] min-w-[200px] ${
         onClick ? "cursor-pointer" : ""
       }`}
     >
@@ -40,7 +40,7 @@ export default function FeaturedCard({
         onClick={onClick}
       >
         <p
-          className={`font-bold text-md text-center flex-wrap ${
+          className={`font-bold text-md flex-wrap w-full text-center max-w-[180px] truncate ${
             white && "text-black"
           }`}
         >

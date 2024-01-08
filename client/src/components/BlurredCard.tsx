@@ -37,7 +37,7 @@ export default function BlurredCard({
       onClick={openModal}
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
-        <p className="text-tiny text-white-60-f uppercase font-bold">
+        <p className="text-tiny text-white-60-f font-bold">
           {category}
         </p>
         <h4 className="text-white-f font-medium text-xl">{title}</h4>

@@ -78,6 +78,7 @@ query userWithZkApps($username: String, $id: String) {
     profilePicture
     bannerPicture
     id
+    bio
     zkApps {
       id
       name

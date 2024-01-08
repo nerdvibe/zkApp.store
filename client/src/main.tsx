@@ -1,11 +1,11 @@
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App.js";
 import "./index.css";
 import { NextUIProvider } from "@nextui-org/react";
 import { BrowserRouter } from "react-router-dom";
-import { persistor, store } from "./store/store";
+import { persistor, store } from "./store/store.js";
 import { Provider } from "react-redux";
-import { apolloClient } from "./api/api.ts";
+import { apolloClient } from "./api/api.js";
 import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { PersistGate } from "redux-persist/integration/react";

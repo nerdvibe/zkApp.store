@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import { SearchIcon } from "../SearchIcon.js";
 import User from "./User.js";
-import { collapse, toggle } from "../../store/sidebar";
+import { collapse, toggle } from "../../store/sidebar.js";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowLeft from "@/assets/icons/arrow-left-to-line.svg";
 import { RootState } from "../../store/store.js";
