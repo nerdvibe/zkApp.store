@@ -59,9 +59,7 @@ export const Query = {
 
     const user = await UserRepo.find(
       {
-        $text: {
-          $search: args.username,
-        },
+        username: { $regex: args.username, $options: 'i' },
         deleted: { $exists: false },
       },
       PUBLIC_USER_FIELDS

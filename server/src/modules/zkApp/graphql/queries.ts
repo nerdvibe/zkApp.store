@@ -99,9 +99,7 @@ export const Query = {
       throw new Error("Unknown param");
     }
     const zkApps = await ZkAppRepo.find({
-      $text: {
-        $search: args.name,
-      },
+      name:  { $regex: args.name, $options: 'i' },
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
