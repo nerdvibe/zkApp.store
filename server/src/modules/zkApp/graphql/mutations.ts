@@ -76,11 +76,18 @@ export const Mutation = {
       ...(zkApp.categorySlug && { categorySlug: zkApp.categorySlug }),
     });
 
-    if(zkApp.icon || zkApp.bannerImage) {
+    if (zkApp.icon || zkApp.bannerImage) {
       let uploadedIconURL;
-      let uploadedBannerPictureURL ;
-      if(zkApp.icon) {uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.zkapp_icon)}
-      if(zkApp.bannerImage) {uploadedBannerPictureURL = await uploadImage(zkApp.bannerImage, IMG_KIND.zkapp_banner)}
+      let uploadedBannerPictureURL;
+      if (zkApp.icon) {
+        uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.zkapp_icon);
+      }
+      if (zkApp.bannerImage) {
+        uploadedBannerPictureURL = await uploadImage(
+          zkApp.bannerImage,
+          IMG_KIND.zkapp_banner
+        );
+      }
       const updatedZkApp = await ZkAppRepo.findOneAndUpdate(
         { _id: user.id },
         {
@@ -145,17 +152,24 @@ export const Mutation = {
           ...(zkApp.githubUrl && { githubUrl: zkApp.githubUrl }),
           ...(zkApp.categorySlug && { categorySlug: zkApp.categorySlug }),
         },
-      }, 
-      {new: true}
+      },
+      { new: true }
     );
 
-    if(zkApp.icon || zkApp.bannerImage) {
+    if (zkApp.icon || zkApp.bannerImage) {
       let uploadedIconURL;
-      let uploadedBannerPictureURL ;
-      if(zkApp.icon) {uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.user_avatar)}
-      if(zkApp.bannerImage) {uploadedBannerPictureURL = await uploadImage(zkApp.bannerImage, IMG_KIND.user_banner)}
+      let uploadedBannerPictureURL;
+      if (zkApp.icon) {
+        uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.user_avatar);
+      }
+      if (zkApp.bannerImage) {
+        uploadedBannerPictureURL = await uploadImage(
+          zkApp.bannerImage,
+          IMG_KIND.user_banner
+        );
+      }
       const updatedZkApp = await ZkAppRepo.findOneAndUpdate(
-        { _id: user.id },
+        { _id: zkApp.id, owner: user._id },
         {
           $set: {
             ...(uploadedIconURL && {
@@ -168,6 +182,7 @@ export const Mutation = {
         },
         { new: true }
       );
+
       return updatedZkApp;
     }
 
