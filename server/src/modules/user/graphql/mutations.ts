@@ -37,12 +37,23 @@ export const Mutation = {
       },
       { new: true }
     );
-    
-    if(userEdit.profilePicture || userEdit.bannerPicture) {
+
+    if (userEdit.profilePicture || userEdit.bannerPicture) {
+      console.log(userEdit.profilePicture);
       let uploadedProfilePictureURL;
-      let uploadedBannerPictureURL ;
-      if(userEdit.profilePicture) {uploadedProfilePictureURL = await uploadImage(userEdit.profilePicture, IMG_KIND.user_avatar)}
-      if(userEdit.bannerPicture) {uploadedBannerPictureURL = await uploadImage(userEdit.profilePicture, IMG_KIND.user_banner)}
+      let uploadedBannerPictureURL;
+      if (userEdit.profilePicture) {
+        uploadedProfilePictureURL = await uploadImage(
+          userEdit.profilePicture,
+          IMG_KIND.user_avatar
+        );
+      }
+      if (userEdit.bannerPicture) {
+        uploadedBannerPictureURL = await uploadImage(
+          userEdit.profilePicture,
+          IMG_KIND.user_banner
+        );
+      }
       const updatedUser = await UserRepo.findOneAndUpdate(
         { _id: user.id },
         {
