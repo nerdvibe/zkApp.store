@@ -30,6 +30,7 @@ import {
   type MutationVerifyEmailArgs,
   type MutationResendVerifyEmailArgs,
 } from "@interfaces/graphql";
+import { IMG_KIND, uploadImage } from "@modules/util/uploadImage";
 
 export const Mutation = {
   signup: async (_: any, { user: signupObj }: MutationSignupArgs) => {
@@ -90,6 +91,19 @@ export const Mutation = {
       { email: signupObj.email },
       { refreshToken }
     );
+
+    if(signupObj.profilePicture) {
+      const uploadedProfilePictureURL = await uploadImage(signupObj.profilePicture, IMG_KIND.user_avatar)
+      await UserRepo.findOneAndUpdate(
+        { _id: newUser._id.toString() },
+        {
+          $set: {
+              profilePicture: uploadedProfilePictureURL,
+          },
+        },
+        { new: true }
+      );
+    }
 
     return { accessToken, refreshToken };
   },

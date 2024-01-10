@@ -8,6 +8,7 @@ import { isValidString } from "@modules/util";
 import { ZkAppRepo } from "../ZkAppModel";
 import { isAuthenticated } from "@modules/auth/util";
 import { isValidSlug, isValidVersion } from "../utils";
+import { IMG_KIND, uploadImage } from "@modules/util/uploadImage";
 
 export const Mutation = {
   checkSlug: async (
@@ -39,9 +40,7 @@ export const Mutation = {
       !isValidString(zkApp.subtitle, true) ||
       !isValidString(zkApp.body, true) ||
       !isValidString(zkApp.discordUrl, true) ||
-      !isValidString(zkApp.githubUrl, true) ||
-      !isValidString(zkApp.icon, true) ||
-      !isValidString(zkApp.bannerImage, true)
+      !isValidString(zkApp.githubUrl, true)
     ) {
       throw new Error("Unknown param");
     }
@@ -75,9 +74,29 @@ export const Mutation = {
       ...(zkApp.discordUrl && { discordUrl: zkApp.discordUrl }),
       ...(zkApp.githubUrl && { githubUrl: zkApp.githubUrl }),
       ...(zkApp.categorySlug && { categorySlug: zkApp.categorySlug }),
-      ...(zkApp.icon && { icon: zkApp.icon }),
-      ...(zkApp.bannerImage && { bannerImage: zkApp.bannerImage }),
     });
+
+    if(zkApp.icon || zkApp.bannerImage) {
+      let uploadedIconURL;
+      let uploadedBannerPictureURL ;
+      if(zkApp.icon) {uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.zkapp_icon)}
+      if(zkApp.bannerImage) {uploadedBannerPictureURL = await uploadImage(zkApp.bannerImage, IMG_KIND.zkapp_banner)}
+      const updatedZkApp = await ZkAppRepo.findOneAndUpdate(
+        { _id: user.id },
+        {
+          $set: {
+            ...(uploadedIconURL && {
+              icon: uploadedIconURL,
+            }),
+            ...(uploadedBannerPictureURL && {
+              bannerPicture: uploadedBannerPictureURL,
+            }),
+          },
+        },
+        { new: true }
+      );
+      return updatedZkApp;
+    }
 
     return createdZkApp;
   },
@@ -133,6 +152,28 @@ export const Mutation = {
       }, 
       {new: true}
     );
+
+    if(zkApp.icon || zkApp.bannerImage) {
+      let uploadedIconURL;
+      let uploadedBannerPictureURL ;
+      if(zkApp.icon) {uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.user_avatar)}
+      if(zkApp.bannerImage) {uploadedBannerPictureURL = await uploadImage(zkApp.bannerImage, IMG_KIND.user_banner)}
+      const updatedZkApp = await ZkAppRepo.findOneAndUpdate(
+        { _id: user.id },
+        {
+          $set: {
+            ...(uploadedIconURL && {
+              icon: uploadedIconURL,
+            }),
+            ...(uploadedBannerPictureURL && {
+              bannerPicture: uploadedBannerPictureURL,
+            }),
+          },
+        },
+        { new: true }
+      );
+      return updatedZkApp;
+    }
 
     return updatedZkApp;
   },

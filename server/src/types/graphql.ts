@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { ModuleContext } from '@graphql-modules/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -15,16 +15,17 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  File: { input: any; output: any; }
 };
 
 export type CreateZkApp = {
-  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  bannerImage?: InputMaybe<Scalars['File']['input']>;
   body?: InputMaybe<Scalars['String']['input']>;
   categorySlug?: InputMaybe<Scalars['String']['input']>;
   currentVersion: Scalars['String']['input'];
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
-  icon?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['File']['input']>;
   name: Scalars['String']['input'];
   slug: Scalars['String']['input'];
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -236,6 +237,7 @@ export type Signup = {
   githubUsername?: InputMaybe<Scalars['String']['input']>;
   isDeveloper: Scalars['Boolean']['input'];
   password: Scalars['String']['input'];
+  profilePicture?: InputMaybe<Scalars['File']['input']>;
   username: Scalars['String']['input'];
   xUsername?: InputMaybe<Scalars['String']['input']>;
 };
@@ -247,11 +249,11 @@ export type Token = {
 };
 
 export type UpdateUserInput = {
-  bannerPicture?: InputMaybe<Scalars['String']['input']>;
+  bannerPicture?: InputMaybe<Scalars['File']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
-  profilePicture?: InputMaybe<Scalars['String']['input']>;
+  profilePicture?: InputMaybe<Scalars['File']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
   xUsername?: InputMaybe<Scalars['String']['input']>;
 };
@@ -340,13 +342,13 @@ export type ZkAppUser = {
 };
 
 export type UpdateZkApp = {
-  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  bannerImage?: InputMaybe<Scalars['File']['input']>;
   body?: InputMaybe<Scalars['String']['input']>;
   categorySlug?: InputMaybe<Scalars['String']['input']>;
   currentVersion?: InputMaybe<Scalars['String']['input']>;
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
-  icon?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['File']['input']>;
   id: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -426,6 +428,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateZkApp: CreateZkApp;
+  File: ResolverTypeWrapper<Scalars['File']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Message: ResolverTypeWrapper<Message>;
@@ -450,6 +453,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   CreateZkApp: CreateZkApp;
+  File: Scalars['File']['output'];
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
   Message: Message;
@@ -469,6 +473,10 @@ export type ResolversParentTypes = {
   ZkAppUser: ZkAppUser;
   updateZkApp: UpdateZkApp;
 };
+
+export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
+  name: 'File';
+}
 
 export type MessageResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   error?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -625,6 +633,7 @@ export type ZkAppUserResolvers<ContextType = ModuleContext, ParentType extends R
 };
 
 export type Resolvers<ContextType = ModuleContext> = {
+  File?: GraphQLScalarType;
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   News?: NewsResolvers<ContextType>;

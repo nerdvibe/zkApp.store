@@ -1,4 +1,6 @@
 export const schema = `
+  scalar File
+
   input Signup {
     email: String!, 
     password: String!
@@ -7,6 +9,7 @@ export const schema = `
     discordUrl: String
     githubUsername: String
     isDeveloper: Boolean!
+    profilePicture: File
   }
 
   type Token {
