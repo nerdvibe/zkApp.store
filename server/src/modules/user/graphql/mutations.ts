@@ -49,7 +49,7 @@ export const Mutation = {
       }
       if (userEdit.bannerPicture) {
         uploadedBannerPictureURL = await uploadImage(
-          userEdit.profilePicture,
+          userEdit.bannerPicture,
           IMG_KIND.user_banner
         );
       }
