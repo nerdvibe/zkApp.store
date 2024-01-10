@@ -156,7 +156,6 @@ export const Mutation = {
       { new: true }
     );
 
-    console.log(zkApp.icon || zkApp.bannerImage)
     if (zkApp.icon || zkApp.bannerImage) {
       let uploadedIconURL;
       let uploadedBannerPictureURL;
