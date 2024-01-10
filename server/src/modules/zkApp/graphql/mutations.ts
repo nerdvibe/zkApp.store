@@ -156,16 +156,17 @@ export const Mutation = {
       { new: true }
     );
 
+    console.log(zkApp.icon || zkApp.bannerImage)
     if (zkApp.icon || zkApp.bannerImage) {
       let uploadedIconURL;
       let uploadedBannerPictureURL;
       if (zkApp.icon) {
-        uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.user_avatar);
+        uploadedIconURL = await uploadImage(zkApp.icon, IMG_KIND.zkapp_icon);
       }
       if (zkApp.bannerImage) {
         uploadedBannerPictureURL = await uploadImage(
           zkApp.bannerImage,
-          IMG_KIND.user_banner
+          IMG_KIND.zkapp_banner
         );
       }
       const updatedZkApp = await ZkAppRepo.findOneAndUpdate(
@@ -176,7 +177,7 @@ export const Mutation = {
               icon: uploadedIconURL,
             }),
             ...(uploadedBannerPictureURL && {
-              bannerPicture: uploadedBannerPictureURL,
+              bannerImage: uploadedBannerPictureURL,
             }),
           },
         },
