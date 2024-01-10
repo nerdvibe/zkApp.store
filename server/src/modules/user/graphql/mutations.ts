@@ -39,7 +39,6 @@ export const Mutation = {
     );
 
     if (userEdit.profilePicture || userEdit.bannerPicture) {
-      console.log(userEdit.profilePicture);
       let uploadedProfilePictureURL;
       let uploadedBannerPictureURL;
       if (userEdit.profilePicture) {
