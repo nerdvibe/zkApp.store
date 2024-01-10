@@ -115,9 +115,7 @@ export const Mutation = {
       !isValidString(zkApp.body, true) ||
       !isValidString(zkApp.discordUrl, true) ||
       !isValidString(zkApp.githubUrl, true) ||
-      !isValidString(zkApp.categorySlug, true) ||
-      !isValidString(zkApp.icon, true) ||
-      !isValidString(zkApp.bannerImage, true)
+      !isValidString(zkApp.categorySlug, true)
     ) {
       throw new Error("Unknown param");
     }
@@ -146,8 +144,6 @@ export const Mutation = {
           ...(zkApp.discordUrl && { discordUrl: zkApp.discordUrl }),
           ...(zkApp.githubUrl && { githubUrl: zkApp.githubUrl }),
           ...(zkApp.categorySlug && { categorySlug: zkApp.categorySlug }),
-          ...(zkApp.icon && { icon: zkApp.icon }),
-          ...(zkApp.bannerImage && { bannerImage: zkApp.bannerImage }),
         },
       }, 
       {new: true}
