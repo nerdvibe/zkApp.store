@@ -136,6 +136,7 @@ export type News = {
 
 export type Query = {
   __typename?: 'Query';
+  _?: Maybe<Scalars['String']['output']>;
   getLastNews?: Maybe<Array<Maybe<News>>>;
   getNews?: Maybe<News>;
   searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
@@ -520,6 +521,7 @@ export type NewsResolvers<ContextType = ModuleContext, ParentType extends Resolv
 };
 
 export type QueryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   getLastNews?: Resolver<Maybe<Array<Maybe<ResolversTypes['News']>>>, ParentType, ContextType>;
   getNews?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType, RequireFields<QueryGetNewsArgs, 'slug'>>;
   searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;

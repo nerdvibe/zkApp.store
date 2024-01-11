@@ -21,6 +21,8 @@ export const schema = `
     error: Boolean
   }
 
+  type Query { _: String }
+
   type Mutation {
     signup(user: Signup!): Token  @rateLimit(limit: 5, duration: 60)
     login(email: String!, password: String!): Token  @rateLimit(limit: 7, duration: 60)

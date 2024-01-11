@@ -8,10 +8,10 @@ import { schema as newsSchema } from "../modules/news/graphql"; // Import your e
 
 const stitchedSchema: GraphQLSchema = stitchSchemas({
   subschemas: [
+    { schema: userSchema },
     { schema: authSchema },
     { schema: zkAppSchema },
     { schema: zkAppCategoriesSchema },
-    { schema: userSchema },
     { schema: newsSchema }
   ],
 });
