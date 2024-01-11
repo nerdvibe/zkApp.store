@@ -31,7 +31,7 @@ export const schema = `
   type ZkAppCategoryZkApp {
     name: String
     slug: String
-    zkAppCount: String
+    zkAppCount: Int
   }
 
   type ZkApp {

@@ -327,7 +327,7 @@ export type ZkAppCategoryZkApp = {
   __typename?: 'ZkAppCategoryZkApp';
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-  zkAppCount?: Maybe<Scalars['String']['output']>;
+  zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ZkAppUser = {
@@ -618,7 +618,7 @@ export type ZkAppCategoryResolvers<ContextType = ModuleContext, ParentType exten
 export type ZkAppCategoryZkAppResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppCategoryZkApp'] = ResolversParentTypes['ZkAppCategoryZkApp']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  zkAppCount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -34,11 +34,16 @@ export const countZkAppsCategory = async (): Promise<void> => {
         },
         { zkAppCount: categoryCountObject[category] }
       );
-      categoriesWithZKApps.push(categoryCountObject[category]._id)
+      categoriesWithZKApps.push(categoryCountObject[category]._id.toString());
     }
-    await ZkAppCategoriesRepo.updateMany({_id: {$nin: categoriesWithZKApps}}, {$set: {
-      zkAppCount: "0"
-    }})
+    await ZkAppCategoriesRepo.updateMany(
+      { _id: { $nin: categoriesWithZKApps } },
+      {
+        $set: {
+          zkAppCount: 0,
+        },
+      }
+    );
   } catch (err) {
     log.error(`Error during aggregation: ${err}`);
   }

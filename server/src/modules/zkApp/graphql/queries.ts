@@ -174,7 +174,7 @@ interface ZkAppWithCategoryGQL extends ZkAppObject {
   category?: {
     name: string;
     slug: string;
-    zkAppCount: string;
+    zkAppCount: number;
   };
   ownerUsername?: string;
 }
