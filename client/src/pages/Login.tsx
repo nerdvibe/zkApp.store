@@ -9,8 +9,8 @@ import AuthenticationImage from "../components/AuthenticationImage";
 import { useDispatch } from "react-redux";
 import routes from "../routes";
 import SocialButtons from "../components/SocialButtons";
-import { login } from "../store/session";
-import { useLoginMutation } from "../gql/generated";
+import { login, setUserInfo } from "../store/session";
+import { useLoginMutation, useUserDataLazyQuery } from "../gql/generated";
 import { toast } from "react-hot-toast";
 import { toggleLoader } from "@/store/config";
 import ComingSoonModal from "@/components/ComingSoonModal";
@@ -23,6 +23,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginUser] = useLoginMutation();
   const [showModal, setShowModal] = useState(false);
+  const [fetchUserData] = useUserDataLazyQuery();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const loginHandler = async () => {
@@ -42,8 +43,12 @@ export default function Login() {
         );
         toast.success("Logged-in");
         dispatch(toggleLoader({ show: true }));
+        const userData = await fetchUserData();
+        if (userData?.data?.selfUser) {
+          dispatch(setUserInfo({ user: userData.data?.selfUser }));
+        }
         setTimeout(() => {
-          navigate(routes.LANDING);
+          navigate(routes.DASHBOARD);
           dispatch(toggleLoader({ show: false }));
         }, 500);
         return;
@@ -118,7 +123,11 @@ export default function Login() {
         </Card>
         <AuthenticationImage login />
       </>
-      <ComingSoonModal show={showModal} onClose={() => setShowModal(false)} section="Social login" />
+      <ComingSoonModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        section="Social login"
+      />
     </AuthenticationForm>
   );
 }

@@ -35,11 +35,35 @@ export default function EditableAvatar({
   const [updateZkAppIcon] = useUpdateZkAppIconMutation();
   const [uploadImageMutation] = useUploadUserImageMutation();
   const [file, setFile] = useState();
+  const [b64File, setB64File] = useState("");
   const [showChangeIconModal, setShowChangeIconModal] = useState(false);
 
   const handleFileUpload = async (rawFile) => {
     setFile(rawFile);
   };
+
+  const getBase64 = async (file) => {
+    return await new Promise((resolve) => {
+      let baseURL = "";
+      // Make new FileReader
+      const reader = new FileReader();
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        baseURL = reader.result;
+        console.log(baseURL);
+        resolve(baseURL);
+      };
+    });
+  };
+
+  useEffect(() => {
+    getBase64(file).then((b64) => {
+      setB64File(b64);
+    });
+  }, [file]);
 
   const uploadImage = async () => {
     if (file) {
@@ -147,9 +171,9 @@ export default function EditableAvatar({
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col items-center gap-6">
-              {file || icon ? (
+              {b64File || icon ? (
                 <Image
-                  src={file || icon}
+                  src={b64File || icon}
                   className="object-cover rounded-full w-[100px] h-[100px]"
                   width={100}
                   height={100}
@@ -166,23 +190,6 @@ export default function EditableAvatar({
                 types={fileTypes}
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
-              />
-              <input
-                type="file"
-                required
-                onChange={({
-                  target: {
-                    validity,
-                    files: [file],
-                  },
-                }) => {
-                  if (validity.valid)
-                    uploadImageMutation({
-                      variables: {
-                        file,
-                      },
-                    });
-                }}
               />
 
               <div className="flex gap-4">

@@ -15,7 +15,7 @@ import {
   ModalContent,
   ModalHeader,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -33,9 +33,33 @@ export default function EditableBanner({
   const [updateUserDataBanner] = useUploadUserBannerMutation();
   const [file, setFile] = useState();
   const [showChangeBannerModal, setShowChangeBannerModal] = useState(false);
+  const [b64File, setB64File] = useState("");
   const handleFileUpload = async (file) => {
     setFile(file);
   };
+
+  const getBase64 = async (file) => {
+    return await new Promise((resolve) => {
+      let baseURL = "";
+      // Make new FileReader
+      const reader = new FileReader();
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        baseURL = reader.result;
+        console.log(baseURL);
+        resolve(baseURL);
+      };
+    });
+  };
+
+  useEffect(() => {
+    getBase64(file).then((b64) => {
+      setB64File(b64);
+    });
+  }, [file]);
 
   const uploadImage = async () => {
     if (file) {
@@ -136,9 +160,9 @@ export default function EditableBanner({
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col items-center gap-6">
-              {file || bannerImage ? (
+              {b64File || bannerImage ? (
                 <Image
-                  src={file || bannerImage}
+                  src={b64File || bannerImage}
                   width={1500}
                   className="w-full max-h-[200px] object-cover min-h-[150px] h-[200px]"
                   classNames={{
