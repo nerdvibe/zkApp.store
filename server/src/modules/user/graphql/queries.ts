@@ -8,6 +8,7 @@ import { isValidString } from "@modules/util";
 import { type UserDoc, UserRepo, PUBLIC_USER_FIELDS } from "../UserModel";
 import { ZkAppRepo } from "@modules/zkApp/ZkAppModel";
 import { isAuthenticated } from "@modules/auth/util";
+import { addCategoriesToZkAppArray } from "@modules/zkApp/lib/addCategoriesToZkAppArray";
 
 export const Query = {
   user: async (
@@ -39,12 +40,14 @@ export const Query = {
     const zkApps = await ZkAppRepo.find({
       owner: user.id,
       deleted: { $exists: false },
-    });
+    }).lean();
+
+    const zkAppsWithCategories = await addCategoriesToZkAppArray(zkApps);
 
     return {
       ...user.toJSON(),
       id: user._id.toString(),
-      ...(zkApps && { zkApps }),
+      ...(zkAppsWithCategories && { zkApps: zkAppsWithCategories }),
     };
   },
 

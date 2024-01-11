@@ -25,12 +25,19 @@ export const schema = `
     discordUrl: String
     githubUrl: String
     categorySlug: String
+    category: ZkAppUserCategory
     icon: String
     bannerImage: String
 
     # TODO: Fix these two fields
     # createdAt: String
     # updatedAt: String
+  }
+
+  type ZkAppUserCategory {
+    name: String
+    slug: String
+    zkAppCount: Int
   }
 
   type UserWithZkApp {
