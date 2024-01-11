@@ -1,0 +1,218 @@
+import {
+  useUpdateUserDetailsMutation,
+  useUpdateZkAppIconMutation,
+  useUpdateZkAppMutation,
+  useUploadUserImageMutation,
+} from "@/gql/generated";
+import { RootState } from "@/store/store";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Avatar,
+  Button,
+  Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+} from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
+import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import UserIcon from "../User/UserIcon";
+const fileTypes = ["JPG", "PNG", "GIF"];
+
+export default function EditableAvatar({
+  icon,
+  name,
+  isEditable,
+  refetch,
+  isUser,
+}: any) {
+  const [showEditButton, setShowEditButton] = useState(false);
+  const app = useSelector((state: RootState) => state.product.selectedApp);
+  const [updateZkAppIcon] = useUpdateZkAppIconMutation();
+  const [uploadImageMutation] = useUploadUserImageMutation();
+  const [file, setFile] = useState();
+  const [showChangeIconModal, setShowChangeIconModal] = useState(false);
+
+  const handleFileUpload = async (rawFile) => {
+    setFile(rawFile);
+  };
+
+  const uploadImage = async () => {
+    if (file) {
+      let result = null;
+      if (!isUser && app) {
+        result = await toast.promise(
+          updateZkAppIcon({
+            variables: {
+              id: app?.id,
+              file: file,
+            },
+          }),
+          {
+            loading: "Uploading image",
+            success: <b>ZkApp updated!</b>,
+            error: (err) => <b>{err.message}</b>,
+          }
+        );
+      } else if (isUser) {
+        result = await toast.promise(
+          uploadImageMutation({
+            variables: {
+              file: file,
+            },
+          }),
+          {
+            loading: "Uploading image",
+            success: <b>Profile picture updated!</b>,
+            error: (err) => <b>{err.message}</b>,
+          }
+        );
+      }
+      if (result?.data && !result?.errors) {
+        refetch();
+        setShowChangeIconModal(false);
+      }
+    }
+  };
+
+  const cancelUpload = () => {
+    setFile(undefined);
+    setShowChangeIconModal(false);
+  };
+
+  useEffect(() => {
+    if (!showChangeIconModal) {
+      setFile(undefined);
+    }
+  }, [showChangeIconModal]);
+
+  return isEditable ? (
+    <>
+      {icon ? (
+        <div className="cursor-pointer flex items-center">
+          <Avatar
+            src={icon}
+            className={`w-[100px] h-[100px] object-cover opacity-100 transition-all duration-300 ${
+              showEditButton ? "opacity-70" : ""
+            }`}
+            name={name}
+            onClick={() => setShowChangeIconModal(true)}
+            onMouseEnter={() => {
+              setShowEditButton(true);
+            }}
+            onMouseLeave={() => {
+              setShowEditButton(false);
+            }}
+          />
+          <FontAwesomeIcon
+            icon={faPen}
+            className={`relative z-10 -left-[60px] opacity-0 transition-all duration-300 ${
+              showEditButton ? "opacity-100" : ""
+            }`}
+            color="white"
+            size="xl"
+            onClick={() => setShowChangeIconModal(true)}
+            onMouseEnter={() => {
+              setShowEditButton(true);
+            }}
+          />
+        </div>
+      ) : (
+        <div
+          className="flex justify-center items-center h-[100px] w-[100px] bg-[#ffffff0d] rounded-full border-dashed border-2 text-white cursor-pointer responsive-border"
+          onClick={() => setShowChangeIconModal(true)}
+        >
+          <FontAwesomeIcon
+            icon={faPen}
+            className={`transition-all duration-300`}
+            size="xl"
+          />
+        </div>
+      )}
+      <Modal
+        backdrop={"blur"}
+        isOpen={showChangeIconModal}
+        onClose={() => {
+          setShowChangeIconModal(false);
+        }}
+        className="max-w-[900px] p-0"
+      >
+        <ModalContent>
+          <ModalHeader>
+            <h1>Change {!isUser ? "app icon" : "user profile image"}</h1>
+          </ModalHeader>
+          <ModalBody>
+            <div className="flex flex-col items-center gap-6">
+              {file || icon ? (
+                <Image
+                  src={file || icon}
+                  className="object-cover rounded-full w-[100px] h-[100px]"
+                  width={100}
+                  height={100}
+                  classNames={{
+                    wrapper: "w-full max-w-max",
+                  }}
+                />
+              ) : (
+                <h1>No image selected yet</h1>
+              )}
+              <FileUploader
+                handleChange={handleFileUpload}
+                name="file"
+                types={fileTypes}
+                classes="drag-and-drop w-full min-h-[80px]"
+                label="Drop your profile picture here"
+              />
+              <input
+                type="file"
+                required
+                onChange={({
+                  target: {
+                    validity,
+                    files: [file],
+                  },
+                }) => {
+                  if (validity.valid)
+                    uploadImageMutation({
+                      variables: {
+                        file,
+                      },
+                    });
+                }}
+              />
+
+              <div className="flex gap-4">
+                <Button
+                  color="danger"
+                  variant="bordered"
+                  onPress={cancelUpload}
+                >
+                  Cancel
+                </Button>
+                <Button color="primary" onPress={uploadImage}>
+                  Save
+                </Button>
+              </div>
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  ) : isUser ? (
+    <Avatar
+      src={icon}
+      className="w-[100px] h-[100px] object-cover"
+      fallback={<UserIcon value={name || ""} size={100} />}
+    />
+  ) : (
+    <Avatar
+      src={icon}
+      className="w-[100px] h-[100px] object-cover"
+      name={name}
+    />
+  );
+}

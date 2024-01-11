@@ -1,0 +1,21 @@
+query lastNews {
+  getLastNews {
+    title
+    body
+    banner
+    textPreview
+    slug
+    ctaLink
+  }
+}
+
+query getNews($slug: String!){
+  getNews(slug: $slug){
+    title
+    body
+    banner
+    textPreview
+    slug
+    ctaLink
+  }
+}

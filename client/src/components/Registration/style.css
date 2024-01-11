@@ -1,0 +1,6 @@
+.drag-and-drop {
+  border: 2px dashed #6F4FF2 !important;
+}
+.drag-and-drop>svg>path{
+  fill: #6F4FF2;
+}

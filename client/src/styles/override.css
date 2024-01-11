@@ -1,0 +1,7 @@
+.no-bg-tab {
+  background: none;
+}
+
+.w-md-editor-preview>.wmde-markdown {
+  background: none;
+}

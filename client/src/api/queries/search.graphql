@@ -1,0 +1,8 @@
+query searchUser($username: String!) {
+  userSearch(username: $username) {
+    username
+    followerCount
+    profilePicture
+    id
+  }
+}
