@@ -1,22 +1,27 @@
-import { Button } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent } from "@nextui-org/react";
 import Lottie from "react-lottie-player";
 import bell from "@/assets/animations/bell.json";
 import { useState } from "react";
+import ComingSoonModal from "./ComingSoonModal";
 
 interface IProps {
   following?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function FollowButton({ following, onClick }: IProps) {
+  const [showModal, setShowModal] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
   return (
     <Button
       color={following ? "primary" : "default"}
-      className={`pr-0 w-[120px] delay-150 ${following ? "scale-[110%] w-[140px]" : "" } transion-all ease-in-out transition-width duration-300`}
+      className={`pr-0 w-[120px] delay-150 ${
+        following ? "scale-[110%] w-[140px]" : ""
+      } transion-all ease-in-out transition-width duration-300`}
       onClick={() => {
-        onClick();
         setPlayAnimation(true);
+        setShowModal(true);
+        // onClick();
       }}
     >
       {following ? "Following" : "Follow"}
@@ -27,9 +32,13 @@ export default function FollowButton({ following, onClick }: IProps) {
         play={playAnimation}
         // onLoopComplete={}
         onLoopComplete={() => {
-          console.log("🚀 ~ file: FollowButton.tsx:29 ~ onComplete ~ false:");
           setPlayAnimation(false);
         }}
+      />
+      <ComingSoonModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        section="Feature"
       />
     </Button>
   );

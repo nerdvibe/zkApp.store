@@ -38,7 +38,7 @@ export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
         <Formik
           initialValues={initialWhoamiForm}
           onSubmit={(values, { setSubmitting }) => {
-            onSubmit(values);
+            onSubmit({ ...values, file: file });
             setSubmitting(false);
           }}
         >
@@ -98,14 +98,19 @@ export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
                 value={values.discordUrl}
               />
               <FileUploader
-                handleChange={handleChange}
+                handleChange={handleFileUpload}
                 name="file"
                 types={fileTypes}
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
               />
               <div className="flex flex-row w-full gap-4">
-                <Button color="default" variant="bordered" className="w-full" onClick={goBack}>
+                <Button
+                  color="default"
+                  variant="bordered"
+                  className="w-full"
+                  onClick={goBack}
+                >
                   Go back
                 </Button>
                 <Button

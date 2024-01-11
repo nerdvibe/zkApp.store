@@ -42,7 +42,7 @@ export default function Register() {
 
   const onWhoamiSubmit = async (values: IWhoamiForm) => {
     try {
-      const { discordUrl, githubUsername, xUsername } = values;
+      const { discordUrl, githubUsername, xUsername, file } = values;
       setRegistrationForm({ ...registrationForm, ...values });
       const { email, password, isDeveloper, username } = registrationForm;
       const result = await signup({
@@ -54,6 +54,7 @@ export default function Register() {
           discordUrl: discordUrl || undefined,
           githubUsername: githubUsername || undefined,
           xUsername: xUsername || undefined,
+          file,
         },
       });
       if (result.data) {

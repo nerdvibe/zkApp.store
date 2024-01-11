@@ -118,7 +118,7 @@ export default function Login() {
         </Card>
         <AuthenticationImage login />
       </>
-      <ComingSoonModal show={showModal} onClose={() => setShowModal(false)} />
+      <ComingSoonModal show={showModal} onClose={() => setShowModal(false)} section="Social login" />
     </AuthenticationForm>
   );
 }

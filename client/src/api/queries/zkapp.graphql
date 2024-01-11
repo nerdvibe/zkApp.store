@@ -166,3 +166,51 @@ query zkAppsBySlug($slugs: [String]) {
     }
   }
 }
+
+mutation updateZkAppIcon($file: File, $id: String!) {
+  updateZkApp(zkApp: { icon: $file, id: $id }) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+
+mutation updateZkAppBanner($file: File, $id: String!) {
+  updateZkApp(zkApp: { bannerImage: $file, id: $id }) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}

@@ -1,6 +1,6 @@
 import { ApolloLink } from "apollo-link";
 import { onError } from "apollo-link-error";
-import { HttpLink, createHttpLink } from "apollo-link-http";
+// import { HttpLink, createHttpLink } from "apollo-link-http";
 import {
   ApolloClient,
   InMemoryCache,
@@ -10,10 +10,11 @@ import { store } from "../store/store";
 import { REFRESH } from "./queries";
 import { isTokenExpired, parseJwt } from "../util/jwt";
 import { login } from "../store/session";
+import { createUploadLink } from "apollo-upload-client";
 
 const renewTokenApiClient = (oldToken: string) =>
   new ApolloClient({
-    link: createHttpLink({
+    link: createUploadLink({
       uri: import.meta.env.VITE_REACT_APP_GQL_SERVER,
       headers: {
         authorization: oldToken ? `Bearer ${oldToken}` : "",
@@ -52,7 +53,7 @@ const httpLink = ApolloLink.from([
       );
     if (networkError) console.log(`[Network error]: ${networkError}`);
   }),
-  new HttpLink({
+  new createUploadLink({
     uri: import.meta.env.VITE_REACT_APP_GQL_SERVER,
     credentials: "same-origin",
     fetchOptions: {

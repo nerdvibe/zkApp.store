@@ -38,11 +38,11 @@ export default function FeaturedBanner() {
         <h1 className="text-white text-xl">Featured</h1>
       </div>
       <div className="flex">
-        <div className="flex flex-col md:flex-row banner w-full p-4 gap-28">
+        <div className="flex flex-col lg:flex-row banner w-full p-4 gap-28">
           {!!data?.zkApps?.length && (
             <>
-              <div className="flex flex-col gap-4 justify-center md:pl-10 min-w-[300px] items-center md:items-start mt-2 md:mt-0">
-                <h1 className="md:hidden text-3xl text-white font-bold mb-4 md:mb-0">
+              <div className="flex flex-col gap-4 justify-center lg:pl-10 min-w-[300px] items-center lg:items-start mt-2 lg:mt-0">
+                <h1 className="lg:hidden text-3xl text-white font-bold mb-4 lg:mb-0">
                   Highlighted ZkApp
                 </h1>
                 {data?.zkApps[0]?.category?.slug && (
@@ -60,7 +60,7 @@ export default function FeaturedBanner() {
                   </Chip>
                 )}
                 <div
-                  className="flex flex-row gap-4 md:items-start items-center cursor-pointer hover:bg-[#00000044] transition-all duration-300 p-2 rounded-md"
+                  className="flex flex-row gap-4 lg:items-start items-center cursor-pointer hover:bg-[#00000044] transition-all duration-300 p-2 rounded-md"
                   onClick={() =>
                     navigate(`${routes.PRODUCT}/${data?.zkApps[0]?.slug}`)
                   }
@@ -70,7 +70,7 @@ export default function FeaturedBanner() {
                       data?.zkApps[0].icon ||
                       `https://picsum.photos/seed/${data?.zkApps[0].slug}/400/400`
                     }
-                    className="w-[100px] h-[100px] object-cover"
+                    className="min-w-[100px] h-[100px] object-cover"
                   />
                   <div className="h-full flex justify-center flex-col">
                     <h1 className="force-white-text text-xl font-bold">

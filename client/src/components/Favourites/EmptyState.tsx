@@ -20,7 +20,7 @@ export default function EmptyState() {
                 There are no favourites, yet...
               </h1>
               <p className="text-sm text-gray-500 ">
-                Click on the ❤️ button on an zkApp to add to favourites
+                Click on the ❤️ button on an zkApp to add it to the favourites
               </p>
             </div>
           </div>

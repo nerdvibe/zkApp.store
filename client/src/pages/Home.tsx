@@ -28,7 +28,6 @@ export default function Home() {
       <Categories />
       <FeaturedBanner />
       <CreativeBanner />
-      <Footer />
       <AppModal />
     </div>
   );

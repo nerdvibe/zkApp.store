@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import useTokenExpirationChecker from "./hooks/refreshToken";
 import SearchModal from "./components/SearchModal/SearchModal";
 import { CookieBanner } from "./components/CookieBanner";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
             className="max-w-[1400px] w-full"
           >
             <AppRoutes />
+            <Footer />
           </div>
         </div>
       </main>

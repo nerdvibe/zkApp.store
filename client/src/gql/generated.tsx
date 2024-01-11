@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -17,16 +17,17 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  File: { input: any; output: any; }
 };
 
 export type CreateZkApp = {
-  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  bannerImage?: InputMaybe<Scalars['File']['input']>;
   body?: InputMaybe<Scalars['String']['input']>;
   categorySlug?: InputMaybe<Scalars['String']['input']>;
   currentVersion: Scalars['String']['input'];
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
-  icon?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['File']['input']>;
   name: Scalars['String']['input'];
   slug: Scalars['String']['input'];
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -238,6 +239,7 @@ export type Signup = {
   githubUsername?: InputMaybe<Scalars['String']['input']>;
   isDeveloper: Scalars['Boolean']['input'];
   password: Scalars['String']['input'];
+  profilePicture?: InputMaybe<Scalars['File']['input']>;
   username: Scalars['String']['input'];
   xUsername?: InputMaybe<Scalars['String']['input']>;
 };
@@ -249,11 +251,11 @@ export type Token = {
 };
 
 export type UpdateUserInput = {
-  bannerPicture?: InputMaybe<Scalars['String']['input']>;
+  bannerPicture?: InputMaybe<Scalars['File']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
-  profilePicture?: InputMaybe<Scalars['String']['input']>;
+  profilePicture?: InputMaybe<Scalars['File']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
   xUsername?: InputMaybe<Scalars['String']['input']>;
 };
@@ -342,13 +344,13 @@ export type ZkAppUser = {
 };
 
 export type UpdateZkApp = {
-  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  bannerImage?: InputMaybe<Scalars['File']['input']>;
   body?: InputMaybe<Scalars['String']['input']>;
   categorySlug?: InputMaybe<Scalars['String']['input']>;
   currentVersion?: InputMaybe<Scalars['String']['input']>;
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<Scalars['String']['input']>;
-  icon?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['File']['input']>;
   id: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -411,6 +413,7 @@ export type SignupMutationVariables = Exact<{
   discordUrl?: InputMaybe<Scalars['String']['input']>;
   githubUsername?: InputMaybe<Scalars['String']['input']>;
   xUsername?: InputMaybe<Scalars['String']['input']>;
+  file?: InputMaybe<Scalars['File']['input']>;
 }>;
 
 
@@ -485,6 +488,20 @@ export type UserImageQueryVariables = Exact<{
 
 export type UserImageQuery = { __typename?: 'Query', user?: { __typename?: 'UserWithZkApp', profilePicture?: string | null } | null };
 
+export type UploadUserImageMutationVariables = Exact<{
+  file?: InputMaybe<Scalars['File']['input']>;
+}>;
+
+
+export type UploadUserImageMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, bio?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
+
+export type UploadUserBannerMutationVariables = Exact<{
+  file?: InputMaybe<Scalars['File']['input']>;
+}>;
+
+
+export type UploadUserBannerMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'SelfUser', id: string, email: string, username: string, emailVerified: boolean, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, bio?: string | null, profilePicture?: string | null, bannerPicture?: string | null } | null };
+
 export type CreateZkAppMutationVariables = Exact<{
   zkApp: CreateZkApp;
 }>;
@@ -558,6 +575,22 @@ export type ZkAppsBySlugQueryVariables = Exact<{
 
 
 export type ZkAppsBySlugQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', id: string, name: string, slug: string, subtitle?: string | null, ownerUsername?: string | null, currentVersion: string, icon?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
+
+export type UpdateZkAppIconMutationVariables = Exact<{
+  file?: InputMaybe<Scalars['File']['input']>;
+  id: Scalars['String']['input'];
+}>;
+
+
+export type UpdateZkAppIconMutation = { __typename?: 'Mutation', updateZkApp: { __typename?: 'ZkApp', slug: string, name: string, owner: string, ownerUsername?: string | null, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } };
+
+export type UpdateZkAppBannerMutationVariables = Exact<{
+  file?: InputMaybe<Scalars['File']['input']>;
+  id: Scalars['String']['input'];
+}>;
+
+
+export type UpdateZkAppBannerMutation = { __typename?: 'Mutation', updateZkApp: { __typename?: 'ZkApp', slug: string, name: string, owner: string, ownerUsername?: string | null, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } };
 
 
 export const HomepageCategoriesDocument = gql`
@@ -913,9 +946,9 @@ export type UserDetailsLazyQueryHookResult = ReturnType<typeof useUserDetailsLaz
 export type UserDetailsSuspenseQueryHookResult = ReturnType<typeof useUserDetailsSuspenseQuery>;
 export type UserDetailsQueryResult = Apollo.QueryResult<UserDetailsQuery, UserDetailsQueryVariables>;
 export const SignupDocument = gql`
-    mutation signup($email: String!, $password: String!, $username: String!, $isDeveloper: Boolean!, $discordUrl: String, $githubUsername: String, $xUsername: String) {
+    mutation signup($email: String!, $password: String!, $username: String!, $isDeveloper: Boolean!, $discordUrl: String, $githubUsername: String, $xUsername: String, $file: File) {
   signup(
-    user: {email: $email, password: $password, username: $username, isDeveloper: $isDeveloper, discordUrl: $discordUrl, githubUsername: $githubUsername, xUsername: $xUsername}
+    user: {email: $email, password: $password, username: $username, isDeveloper: $isDeveloper, discordUrl: $discordUrl, githubUsername: $githubUsername, xUsername: $xUsername, profilePicture: $file}
   ) {
     accessToken
     refreshToken
@@ -944,6 +977,7 @@ export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMut
  *      discordUrl: // value for 'discordUrl'
  *      githubUsername: // value for 'githubUsername'
  *      xUsername: // value for 'xUsername'
+ *      file: // value for 'file'
  *   },
  * });
  */
@@ -1320,6 +1354,92 @@ export type UserImageQueryHookResult = ReturnType<typeof useUserImageQuery>;
 export type UserImageLazyQueryHookResult = ReturnType<typeof useUserImageLazyQuery>;
 export type UserImageSuspenseQueryHookResult = ReturnType<typeof useUserImageSuspenseQuery>;
 export type UserImageQueryResult = Apollo.QueryResult<UserImageQuery, UserImageQueryVariables>;
+export const UploadUserImageDocument = gql`
+    mutation uploadUserImage($file: File) {
+  updateUser(userEdit: {profilePicture: $file}) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
+    `;
+export type UploadUserImageMutationFn = Apollo.MutationFunction<UploadUserImageMutation, UploadUserImageMutationVariables>;
+
+/**
+ * __useUploadUserImageMutation__
+ *
+ * To run a mutation, you first call `useUploadUserImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadUserImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadUserImageMutation, { data, loading, error }] = useUploadUserImageMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUploadUserImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadUserImageMutation, UploadUserImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadUserImageMutation, UploadUserImageMutationVariables>(UploadUserImageDocument, options);
+      }
+export type UploadUserImageMutationHookResult = ReturnType<typeof useUploadUserImageMutation>;
+export type UploadUserImageMutationResult = Apollo.MutationResult<UploadUserImageMutation>;
+export type UploadUserImageMutationOptions = Apollo.BaseMutationOptions<UploadUserImageMutation, UploadUserImageMutationVariables>;
+export const UploadUserBannerDocument = gql`
+    mutation uploadUserBanner($file: File) {
+  updateUser(userEdit: {bannerPicture: $file}) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
+    `;
+export type UploadUserBannerMutationFn = Apollo.MutationFunction<UploadUserBannerMutation, UploadUserBannerMutationVariables>;
+
+/**
+ * __useUploadUserBannerMutation__
+ *
+ * To run a mutation, you first call `useUploadUserBannerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadUserBannerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadUserBannerMutation, { data, loading, error }] = useUploadUserBannerMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUploadUserBannerMutation(baseOptions?: Apollo.MutationHookOptions<UploadUserBannerMutation, UploadUserBannerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadUserBannerMutation, UploadUserBannerMutationVariables>(UploadUserBannerDocument, options);
+      }
+export type UploadUserBannerMutationHookResult = ReturnType<typeof useUploadUserBannerMutation>;
+export type UploadUserBannerMutationResult = Apollo.MutationResult<UploadUserBannerMutation>;
+export type UploadUserBannerMutationOptions = Apollo.BaseMutationOptions<UploadUserBannerMutation, UploadUserBannerMutationVariables>;
 export const CreateZkAppDocument = gql`
     mutation createZkApp($zkApp: CreateZkApp!) {
   createZkApp(zkApp: $zkApp) {
@@ -1834,6 +1954,110 @@ export type ZkAppsBySlugQueryHookResult = ReturnType<typeof useZkAppsBySlugQuery
 export type ZkAppsBySlugLazyQueryHookResult = ReturnType<typeof useZkAppsBySlugLazyQuery>;
 export type ZkAppsBySlugSuspenseQueryHookResult = ReturnType<typeof useZkAppsBySlugSuspenseQuery>;
 export type ZkAppsBySlugQueryResult = Apollo.QueryResult<ZkAppsBySlugQuery, ZkAppsBySlugQueryVariables>;
+export const UpdateZkAppIconDocument = gql`
+    mutation updateZkAppIcon($file: File, $id: String!) {
+  updateZkApp(zkApp: {icon: $file, id: $id}) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+    `;
+export type UpdateZkAppIconMutationFn = Apollo.MutationFunction<UpdateZkAppIconMutation, UpdateZkAppIconMutationVariables>;
+
+/**
+ * __useUpdateZkAppIconMutation__
+ *
+ * To run a mutation, you first call `useUpdateZkAppIconMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateZkAppIconMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateZkAppIconMutation, { data, loading, error }] = useUpdateZkAppIconMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateZkAppIconMutation(baseOptions?: Apollo.MutationHookOptions<UpdateZkAppIconMutation, UpdateZkAppIconMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateZkAppIconMutation, UpdateZkAppIconMutationVariables>(UpdateZkAppIconDocument, options);
+      }
+export type UpdateZkAppIconMutationHookResult = ReturnType<typeof useUpdateZkAppIconMutation>;
+export type UpdateZkAppIconMutationResult = Apollo.MutationResult<UpdateZkAppIconMutation>;
+export type UpdateZkAppIconMutationOptions = Apollo.BaseMutationOptions<UpdateZkAppIconMutation, UpdateZkAppIconMutationVariables>;
+export const UpdateZkAppBannerDocument = gql`
+    mutation updateZkAppBanner($file: File, $id: String!) {
+  updateZkApp(zkApp: {bannerImage: $file, id: $id}) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+    `;
+export type UpdateZkAppBannerMutationFn = Apollo.MutationFunction<UpdateZkAppBannerMutation, UpdateZkAppBannerMutationVariables>;
+
+/**
+ * __useUpdateZkAppBannerMutation__
+ *
+ * To run a mutation, you first call `useUpdateZkAppBannerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateZkAppBannerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateZkAppBannerMutation, { data, loading, error }] = useUpdateZkAppBannerMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateZkAppBannerMutation(baseOptions?: Apollo.MutationHookOptions<UpdateZkAppBannerMutation, UpdateZkAppBannerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateZkAppBannerMutation, UpdateZkAppBannerMutationVariables>(UpdateZkAppBannerDocument, options);
+      }
+export type UpdateZkAppBannerMutationHookResult = ReturnType<typeof useUpdateZkAppBannerMutation>;
+export type UpdateZkAppBannerMutationResult = Apollo.MutationResult<UpdateZkAppBannerMutation>;
+export type UpdateZkAppBannerMutationOptions = Apollo.BaseMutationOptions<UpdateZkAppBannerMutation, UpdateZkAppBannerMutationVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -1907,6 +2131,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateZkApp: CreateZkApp;
+  File: ResolverTypeWrapper<Scalars['File']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Message: ResolverTypeWrapper<Message>;
@@ -1931,6 +2156,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   CreateZkApp: CreateZkApp;
+  File: Scalars['File']['output'];
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
   Message: Message;
@@ -1950,6 +2176,10 @@ export type ResolversParentTypes = {
   ZkAppUser: ZkAppUser;
   updateZkApp: UpdateZkApp;
 };
+
+export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
+  name: 'File';
+}
 
 export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   error?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2106,6 +2336,7 @@ export type ZkAppUserResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type Resolvers<ContextType = any> = {
+  File?: GraphQLScalarType;
   Message?: MessageResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   News?: NewsResolvers<ContextType>;

@@ -1,6 +1,8 @@
 import {
   useUpdateUserDetailsMutation,
+  useUpdateZkAppIconMutation,
   useUpdateZkAppMutation,
+  useUploadUserImageMutation,
 } from "@/gql/generated";
 import { RootState } from "@/store/store";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
@@ -30,31 +32,13 @@ export default function EditableAvatar({
 }: any) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
-  const [updateZkApp] = useUpdateZkAppMutation();
-  const [updateUserData] = useUpdateUserDetailsMutation();
+  const [updateZkAppIcon] = useUpdateZkAppIconMutation();
+  const [uploadImageMutation] = useUploadUserImageMutation();
   const [file, setFile] = useState();
   const [showChangeIconModal, setShowChangeIconModal] = useState(false);
-  const handleFileUpload = async (file) => {
-    setFile((await getBase64(file)) as string);
-  };
 
-  const getBase64 = (file) => {
-    return new Promise((resolve) => {
-      let baseURL = "";
-      // Make new FileReader
-      const reader = new FileReader();
-
-      // Convert the file to base64 text
-      reader.readAsDataURL(file);
-
-      // on reader load somthing...
-      reader.onload = () => {
-        // Make a fileInfo Object
-        baseURL = reader.result;
-        console.log(baseURL);
-        resolve(baseURL);
-      };
-    });
+  const handleFileUpload = async (rawFile) => {
+    setFile(rawFile);
   };
 
   const uploadImage = async () => {
@@ -62,12 +46,10 @@ export default function EditableAvatar({
       let result = null;
       if (!isUser && app) {
         result = await toast.promise(
-          updateZkApp({
+          updateZkAppIcon({
             variables: {
-              zkApp: {
-                id: app?.id,
-                icon: file as string,
-              },
+              id: app?.id,
+              file: file,
             },
           }),
           {
@@ -78,11 +60,9 @@ export default function EditableAvatar({
         );
       } else if (isUser) {
         result = await toast.promise(
-          updateUserData({
+          uploadImageMutation({
             variables: {
-              userEdit: {
-                profilePicture: file as string,
-              },
+              file: file,
             },
           }),
           {
@@ -187,6 +167,24 @@ export default function EditableAvatar({
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
               />
+              <input
+                type="file"
+                required
+                onChange={({
+                  target: {
+                    validity,
+                    files: [file],
+                  },
+                }) => {
+                  if (validity.valid)
+                    uploadImageMutation({
+                      variables: {
+                        file,
+                      },
+                    });
+                }}
+              />
+
               <div className="flex gap-4">
                 <Button
                   color="danger"

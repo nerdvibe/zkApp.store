@@ -22,6 +22,7 @@ mutation signup(
   $discordUrl: String
   $githubUsername: String
   $xUsername: String
+  $file: File
 ) {
   signup(
     user: {
@@ -32,6 +33,7 @@ mutation signup(
       discordUrl: $discordUrl
       githubUsername: $githubUsername
       xUsername: $xUsername
+      profilePicture: $file
     }
   ) {
     accessToken

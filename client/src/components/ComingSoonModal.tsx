@@ -5,9 +5,11 @@ import catAnimation from "@/assets/animations/cat.json";
 export default function ComingSoonModal({
   show,
   onClose,
+  section,
 }: {
   show: boolean;
   onClose: () => void;
+  section?: string;
 }) {
   return (
     <Modal isOpen={show} onClose={onClose}>
@@ -22,7 +24,7 @@ export default function ComingSoonModal({
           />
           <div className="mt-4 flex flex-col gap-4 justify-center">
             <h1 className="text-4xl text-white font-bold text-center">
-              Social login <br />
+              {section} <br />
               coming soon
             </h1>
             <p className="text-sm text-gray-500 text-center">Stay tuned</p>

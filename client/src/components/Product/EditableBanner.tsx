@@ -1,6 +1,8 @@
 import {
   useUpdateUserDetailsMutation,
+  useUpdateZkAppBannerMutation,
   useUpdateZkAppMutation,
+  useUploadUserBannerMutation,
 } from "@/gql/generated";
 import { RootState } from "@/store/store";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
@@ -27,32 +29,12 @@ export default function EditableBanner({
 }: any) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
-  const [updateZkApp] = useUpdateZkAppMutation();
-  const [updateUserData] = useUpdateUserDetailsMutation();
+  const [updateZkAppBanner] = useUpdateZkAppBannerMutation();
+  const [updateUserDataBanner] = useUploadUserBannerMutation();
   const [file, setFile] = useState();
   const [showChangeBannerModal, setShowChangeBannerModal] = useState(false);
   const handleFileUpload = async (file) => {
-    setFile((await getBase64(file)) as string);
-  };
-
-  const getBase64 = (file) => {
-    return new Promise((resolve) => {
-      let baseURL = "";
-      // Make new FileReader
-      const reader = new FileReader();
-
-      // Convert the file to base64 text
-      reader.readAsDataURL(file);
-
-      // on reader load somthing...
-      reader.onload = () => {
-        // Make a fileInfo Object
-        console.log("Called", reader);
-        baseURL = reader.result;
-        console.log(baseURL);
-        resolve(baseURL);
-      };
-    });
+    setFile(file);
   };
 
   const uploadImage = async () => {
@@ -60,12 +42,10 @@ export default function EditableBanner({
       let result = null;
       if (!isUser && app) {
         result = await toast.promise(
-          updateZkApp({
+          updateZkAppBanner({
             variables: {
-              zkApp: {
-                id: app?.id,
-                bannerImage: file as string,
-              },
+              id: app?.id,
+              file: file,
             },
           }),
           {
@@ -76,11 +56,9 @@ export default function EditableBanner({
         );
       } else if (isUser) {
         result = await toast.promise(
-          updateUserData({
+          updateUserDataBanner({
             variables: {
-              userEdit: {
-                bannerPicture: file as string,
-              },
+              file: file,
             },
           }),
           {

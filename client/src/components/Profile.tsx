@@ -12,6 +12,7 @@ import EmptyStateCard from "./EmptyStateCard";
 import { useUserWithZkAppsLazyQuery } from "@/gql/generated";
 import EditableBanner from "./Product/EditableBanner";
 import EditableAvatar from "./Product/EditableAvatar";
+import FollowButton from "./FollowButton";
 
 export default function Profile() {
   const { id: urlId } = useParams();
@@ -102,13 +103,14 @@ export default function Profile() {
           </div>
         </div>
         <div className="flex flex-col items-center gap-4 my-4">
-          <Button
+          <FollowButton />
+          {/* <Button
             className="ml-5 w-full disabled:opacity-50"
             color="primary"
             disabled={!isAuthenticated || isCurrentUser}
           >
             Follow
-          </Button>
+          </Button> */}
           <SocialButtonsShare
             discord={data?.user?.discordUrl}
             github={data?.user?.githubUrl}

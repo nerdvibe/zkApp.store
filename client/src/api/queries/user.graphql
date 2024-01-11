@@ -18,3 +18,35 @@ query userImage($id: String!) {
     profilePicture
   }
 }
+
+mutation uploadUserImage($file: File) {
+  updateUser(userEdit: { profilePicture: $file }) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
+
+mutation uploadUserBanner($file: File) {
+  updateUser(userEdit: { bannerPicture: $file }) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
