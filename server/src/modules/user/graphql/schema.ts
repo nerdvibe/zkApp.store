@@ -1,13 +1,14 @@
 export const schema = `
-
+  scalar File
+  
   input UpdateUserInput {
     username: String
     xUsername: String
     bio: String
     discordUrl: String
     githubUrl: String
-    profilePicture: String
-    bannerPicture: String
+    profilePicture: File
+    bannerPicture: File
   }
 
   type ZkAppUser {

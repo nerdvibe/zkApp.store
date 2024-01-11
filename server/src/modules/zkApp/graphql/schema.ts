@@ -1,4 +1,6 @@
 export const schema = `
+  scalar File
+
   input CreateZkApp {
     name: String!
     slug: String!
@@ -9,8 +11,8 @@ export const schema = `
     discordUrl: String
     githubUrl: String
     categorySlug: String
-    icon: String
-    bannerImage: String
+    icon: File
+    bannerImage: File
   }
   input updateZkApp {
     id: String!
@@ -22,8 +24,8 @@ export const schema = `
     discordUrl: String
     githubUrl: String
     categorySlug: String
-    icon: String
-    bannerImage: String
+    icon: File
+    bannerImage: File
   }
 
   type ZkAppCategoryZkApp {
