@@ -27,6 +27,7 @@ export const Query = {
 
     const categories = await ZkAppCategoriesRepo.find({
       name: { $regex: args.text, $options: "i" },
+      zkAppCount: {$gt: 0},
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
@@ -43,6 +44,7 @@ export const Query = {
     }
 
     const categories = await ZkAppCategoriesRepo.find({
+      zkAppCount: {$gt: 0},
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)

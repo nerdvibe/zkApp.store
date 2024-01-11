@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const zkAppCategoriesSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true, index: true },
   slug: { type: String, required: true, unique: true, index: true },
-  zkAppCount: { type: String, required: true, default: 0 },
+  zkAppCount: { type: Number, required: true, default: 0 },
   deleted: { type: Boolean },
   topIcons: [{
     type: String
