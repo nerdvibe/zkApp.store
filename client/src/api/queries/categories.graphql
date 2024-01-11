@@ -3,6 +3,7 @@ query homepageCategories {
     name
     slug
     zkAppCount
+    topIcons
   }
 }
 
@@ -25,6 +26,16 @@ query searchCategories($text: String!) {
     name
     slug
     zkAppCount
+    topIcons
+  }
+}
+
+query zkAppCategoriesBySlug($slug: String!) {
+  zkAppCategoriesBySlug(slug: $slug) {
+    name
+    slug
+    zkAppCount
+    topIcons
   }
 }
 
@@ -32,5 +43,6 @@ query allZkAppCategories {
   zkAppCategories {
     name
     slug
+    topIcons
   }
 }

@@ -71,7 +71,11 @@ export default function CategorySearch({
               startContent={
                 <Image
                   // TODO: Add thumbnail
-                  src={"https://nextui.org/images/card-example-6.jpeg"}
+                  src={
+                    app?.topIcons && app?.topIcons.length > 0
+                      ? app?.topIcons[0]
+                      : "https://nextui.org/images/card-example-6.jpeg"
+                  }
                   className="w-[50px] h-[50px] object-cover"
                 />
               }

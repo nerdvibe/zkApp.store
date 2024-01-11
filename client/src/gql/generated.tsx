@@ -148,6 +148,7 @@ export type Query = {
   usersSortedByFollowers?: Maybe<Array<Maybe<User>>>;
   zkApp?: Maybe<ZkApp>;
   zkAppCategories?: Maybe<Array<Maybe<ZkAppCategory>>>;
+  zkAppCategoriesBySlug?: Maybe<Array<Maybe<ZkAppCategory>>>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
   zkApps?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByCategory?: Maybe<Array<Maybe<ZkApp>>>;
@@ -186,6 +187,13 @@ export type QueryZkAppArgs = {
 export type QueryZkAppCategoriesArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryZkAppCategoriesBySlugArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  slug: Scalars['String']['input'];
 };
 
 
@@ -314,6 +322,7 @@ export type ZkAppCategory = {
   __typename?: 'ZkAppCategory';
   name: Scalars['String']['output'];
   slug: Scalars['String']['output'];
+  topIcons?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -360,7 +369,7 @@ export type UpdateZkApp = {
 export type HomepageCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomepageCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null } | null> | null };
+export type HomepageCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null, topIcons?: Array<string | null> | null } | null> | null };
 
 export type ZkAppsByCategoryQueryVariables = Exact<{
   categorySlug: Scalars['String']['input'];
@@ -374,12 +383,19 @@ export type SearchCategoriesQueryVariables = Exact<{
 }>;
 
 
-export type SearchCategoriesQuery = { __typename?: 'Query', zkAppCategoriesSearch?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null } | null> | null };
+export type SearchCategoriesQuery = { __typename?: 'Query', zkAppCategoriesSearch?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null, topIcons?: Array<string | null> | null } | null> | null };
+
+export type ZkAppCategoriesBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ZkAppCategoriesBySlugQuery = { __typename?: 'Query', zkAppCategoriesBySlug?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null, topIcons?: Array<string | null> | null } | null> | null };
 
 export type AllZkAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllZkAppCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string } | null> | null };
+export type AllZkAppCategoriesQuery = { __typename?: 'Query', zkAppCategories?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, topIcons?: Array<string | null> | null } | null> | null };
 
 export type LastNewsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -599,6 +615,7 @@ export const HomepageCategoriesDocument = gql`
     name
     slug
     zkAppCount
+    topIcons
   }
 }
     `;
@@ -688,6 +705,7 @@ export const SearchCategoriesDocument = gql`
     name
     slug
     zkAppCount
+    topIcons
   }
 }
     `;
@@ -724,11 +742,55 @@ export type SearchCategoriesQueryHookResult = ReturnType<typeof useSearchCategor
 export type SearchCategoriesLazyQueryHookResult = ReturnType<typeof useSearchCategoriesLazyQuery>;
 export type SearchCategoriesSuspenseQueryHookResult = ReturnType<typeof useSearchCategoriesSuspenseQuery>;
 export type SearchCategoriesQueryResult = Apollo.QueryResult<SearchCategoriesQuery, SearchCategoriesQueryVariables>;
+export const ZkAppCategoriesBySlugDocument = gql`
+    query zkAppCategoriesBySlug($slug: String!) {
+  zkAppCategoriesBySlug(slug: $slug) {
+    name
+    slug
+    zkAppCount
+    topIcons
+  }
+}
+    `;
+
+/**
+ * __useZkAppCategoriesBySlugQuery__
+ *
+ * To run a query within a React component, call `useZkAppCategoriesBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useZkAppCategoriesBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useZkAppCategoriesBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useZkAppCategoriesBySlugQuery(baseOptions: Apollo.QueryHookOptions<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>(ZkAppCategoriesBySlugDocument, options);
+      }
+export function useZkAppCategoriesBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>(ZkAppCategoriesBySlugDocument, options);
+        }
+export function useZkAppCategoriesBySlugSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>(ZkAppCategoriesBySlugDocument, options);
+        }
+export type ZkAppCategoriesBySlugQueryHookResult = ReturnType<typeof useZkAppCategoriesBySlugQuery>;
+export type ZkAppCategoriesBySlugLazyQueryHookResult = ReturnType<typeof useZkAppCategoriesBySlugLazyQuery>;
+export type ZkAppCategoriesBySlugSuspenseQueryHookResult = ReturnType<typeof useZkAppCategoriesBySlugSuspenseQuery>;
+export type ZkAppCategoriesBySlugQueryResult = Apollo.QueryResult<ZkAppCategoriesBySlugQuery, ZkAppCategoriesBySlugQueryVariables>;
 export const AllZkAppCategoriesDocument = gql`
     query allZkAppCategories {
   zkAppCategories {
     name
     slug
+    topIcons
   }
 }
     `;
@@ -2225,6 +2287,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   usersSortedByFollowers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
   zkAppCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, Partial<QueryZkAppCategoriesArgs>>;
+  zkAppCategoriesBySlug?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesBySlugArgs, 'slug'>>;
   zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
   zkApps?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, Partial<QueryZkAppsArgs>>;
   zkAppsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByCategoryArgs, 'categorySlug'>>;
@@ -2305,6 +2368,7 @@ export type ZkAppResolvers<ContextType = any, ParentType extends ResolversParent
 export type ZkAppCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ZkAppCategory'] = ResolversParentTypes['ZkAppCategory']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  topIcons?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

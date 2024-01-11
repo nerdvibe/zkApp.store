@@ -5,7 +5,7 @@ import FollowButton from "../components/FollowButton";
 import { useState } from "react";
 import EmptyStateCard from "@/components/EmptyStateCard";
 import {
-  useSearchCategoriesQuery,
+  useZkAppCategoriesBySlugQuery,
   useZkAppsByCategoryQuery,
 } from "@/gql/generated";
 
@@ -15,9 +15,9 @@ export default function Category() {
   const onFollowClick = () => {
     setFollowing(!following);
   };
-  const { data: categoryData } = useSearchCategoriesQuery({
+  const { data: categoryData } = useZkAppCategoriesBySlugQuery({
     variables: {
-      text: id,
+      slug: id,
     },
   });
   const { data, loading } = useZkAppsByCategoryQuery({
@@ -43,11 +43,11 @@ export default function Category() {
   return (
     <div className="flex flex-col gap-4 my-11 md:mx-8">
       <h1 className="text-5xl text-white font-bold">
-        # {categoryData?.zkAppCategoriesSearch[0]?.name}
+        # {categoryData?.zkAppCategoriesBySlug[0]?.name}
       </h1>
       <div className="flex text-white justify-between">
         <p className="text-xl">
-          {categoryData?.zkAppCategoriesSearch[0]?.zkAppCount} zkApp
+          {categoryData?.zkAppCategoriesBySlug[0]?.zkAppCount} zkApp
         </p>
         <FollowButton onClick={onFollowClick} following={following} />
       </div>
