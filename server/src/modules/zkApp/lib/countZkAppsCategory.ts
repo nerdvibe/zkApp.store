@@ -25,6 +25,7 @@ export const countZkAppsCategory = async (): Promise<void> => {
       acc[item.categorySlug] = item.count;
       return acc;
     }, {});
+    const categoriesWithZKApps = [];
 
     for (const category of Object.keys(categoryCountObject)) {
       await ZkAppCategoriesRepo.updateOne(
@@ -33,7 +34,11 @@ export const countZkAppsCategory = async (): Promise<void> => {
         },
         { zkAppCount: categoryCountObject[category] }
       );
+      categoriesWithZKApps.push(categoryCountObject[category]._id)
     }
+    await ZkAppCategoriesRepo.updateMany({_id: {$nin: categoriesWithZKApps}}, {$set: {
+      zkAppCount: "0"
+    }})
   } catch (err) {
     log.error(`Error during aggregation: ${err}`);
   }

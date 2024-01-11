@@ -21,30 +21,34 @@ export interface ZkAppObject {
   deleted?: boolean;
 }
 
-const zkAppSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true, index: true },
-  slug: { type: String, required: true, unique: true, index: true },
-  subtitle: { type: String },
-  owner: { type: String, required: true },
-  body: { type: String },
-  reviewScore: { type: Number, max: 5 },
-  reviewCount: {type: Number, default: 0},
-  currentVersion: { type: String, required: true },
-  url: { type: String, required: true },
-  discordUrl: { type: String },
-  githubUrl: { type: String },
-  categorySlug: { type: String, required: true },
-  icon: { type: String },
-  bannerImage: { type: String },
-  // DESC. Top == most featured
-  featured: { type: Number, default: undefined },
-  // DESC. Top == most featured
-  trending: { type: Number, default: undefined },
-  deleted: { type: Boolean },
-}, {timestamps: true});
+const zkAppSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, unique: true, index: true },
+    slug: { type: String, required: true, unique: true, index: true },
+    subtitle: { type: String },
+    owner: { type: String, required: true },
+    body: { type: String },
+    reviewScore: { type: Number, max: 5 },
+    reviewCount: { type: Number, default: 0 },
+    currentVersion: { type: String, required: true },
+    url: { type: String, required: true },
+    discordUrl: { type: String },
+    githubUrl: { type: String },
+    categorySlug: { type: String, required: true },
+    icon: { type: String, index: true },
+    bannerImage: { type: String },
+    // DESC. Top == most featured
+    featured: { type: Number, default: undefined },
+    // DESC. Top == most featured
+    trending: { type: Number, default: undefined },
+    deleted: { type: Boolean, index: true },
+  },
+  { timestamps: true }
+);
 
-zkAppSchema.index({ name: 'text', });
+zkAppSchema.index({ name: "text" });
 
 export const ZkAppRepo = mongoose.model("ZkApp", zkAppSchema);
 
-export type ZkAppDoc = mongoose.InferSchemaType<typeof zkAppSchema> & mongoose.Document;
+export type ZkAppDoc = mongoose.InferSchemaType<typeof zkAppSchema> &
+  mongoose.Document;
