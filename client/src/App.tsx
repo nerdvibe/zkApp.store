@@ -41,7 +41,9 @@ function App() {
             style={{ padding: "16px 24px", color: "#44596e" }}
             className="max-w-[1400px] w-full"
           >
-            <AppRoutes />
+            <div className=" min-h-[90vh]">
+              <AppRoutes />
+            </div>
             <Footer />
           </div>
         </div>

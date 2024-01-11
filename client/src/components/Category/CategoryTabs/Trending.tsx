@@ -13,15 +13,15 @@ export default function Trending({
 }) {
   const navigate = useNavigate();
 
-  if(loading) {
-    return(
+  if (loading) {
+    return (
       <div className="flex flex-wrap w-full overflow-x-scroll py-5 gap-4 justify-center">
         <Spinner label="Loading ZkApps" />
       </div>
-    )
+    );
   }
 
-  if (!apps || apps.length === 0) {
+  if (!apps || (apps.length === 0 && !loading)) {
     return (
       <div className="flex flex-wrap w-full overflow-x-scroll py-5 gap-4 justify-center">
         <EmptyStateCard

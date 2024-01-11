@@ -6,7 +6,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const X_URL = "https://x.com";
-const GITHUB_URL = "https://github.com";
 
 interface IProps {
   github?: string | null;
@@ -42,7 +41,7 @@ export default function SocialButtonsShare({
       )}
       {github && (
         <FontAwesomeIcon
-          onClick={() => openLink(`${GITHUB_URL}/${github}`)}
+          onClick={() => openLink(github)}
           className="cursor-pointer opacity-50 hover:opacity-100 duration-300"
           size="2xl"
           icon={faGithub}

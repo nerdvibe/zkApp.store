@@ -20,6 +20,8 @@ import Lottie from "react-lottie-player";
 import verified from "@/assets/animations/verified.json";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
+import EmptyStateCard from "@/components/EmptyStateCard";
+import catAnimation from "@/assets/animations/cat.json";
 
 enum TABS {
   PROFILE = "PROFILE",
@@ -149,6 +151,14 @@ export default function Settings() {
           <div className="flex p-4 w-full">
             {selectedValue === TABS.PROFILE && <Profile />}
             {selectedValue === TABS.SETTING && <Security />}
+            {selectedValue === TABS.DELETE && (
+              <EmptyStateCard
+                title="Coming soon"
+                description="Stay tuned"
+                image={catAnimation}
+                speed={1}
+              />
+            )}
           </div>
         </div>
       </div>

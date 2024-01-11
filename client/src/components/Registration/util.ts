@@ -9,7 +9,7 @@ export const initialRegistrationForm = {
 export const initialWhoamiForm = {
   bio: "",
   discordUrl: "",
-  githubUsername: "",
+  githubUrl: "",
   xUsername: "",
   file: undefined,
 };

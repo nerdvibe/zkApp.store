@@ -48,7 +48,11 @@ export default function Profile() {
   ];
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <div className="w-full flex justify-center items-center min-h-[500px]">
+        <Spinner label="Loading user profile" />;
+      </div>
+    );
   }
 
   if (!loading && !data?.user) {
@@ -97,9 +101,7 @@ export default function Profile() {
             <p className="text-white text-lg">
               {data?.user?.followerCount || 0} Followers
             </p>
-            <p className="text-white text-lg">
-              {data?.user?.bio}
-            </p>
+            <p className="text-white text-lg">{data?.user?.bio}</p>
           </div>
         </div>
         <div className="flex flex-col items-center gap-4 my-4">

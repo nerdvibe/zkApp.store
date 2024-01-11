@@ -32,19 +32,14 @@ export default function ProfileUpdate() {
     return isTouched;
   }, [values, currentUser]);
 
-  const onSubmit = async ({
-    bio,
-    xUsername,
-    githubUsername,
-    discordUrl,
-  }: IUser) => {
+  const onSubmit = async ({ bio, xUsername, githubUrl, discordUrl }: IUser) => {
     if (touched()) {
       const { data, errors } = await updateUser({
         variables: {
           userEdit: {
             xUsername: xUsername || undefined,
             discordUrl: discordUrl || undefined,
-            githubUrl: githubUsername || undefined,
+            githubUrl: githubUrl || undefined,
             bio,
           },
         },
@@ -93,14 +88,14 @@ export default function ProfileUpdate() {
         />
         <DarkInput
           startContent={<FontAwesomeIcon icon={faUser} />}
-          label="Github username"
+          label="Github link"
           variant="bordered"
-          placeholder="Github username"
+          placeholder="Github link"
           type={"text"}
-          name="githubUsername"
+          name="githubUrl"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.githubUsername}
+          value={values.githubUrl}
         />
         <DarkInput
           startContent={<FontAwesomeIcon icon={faUser} />}

@@ -5,7 +5,7 @@ export interface IUser {
   id?: number;
   username?: string;
   xUsername?: string;
-  githubUsername?: string;
+  githubUrl?: string;
   discordUrl?: string;
   bio?: string;
   email: string;
