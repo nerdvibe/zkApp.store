@@ -1,0 +1,92 @@
+@import url("./styles/override.css");
+
+button {
+  transition: .3s;
+}
+
+.auth-card {
+  background-color: #1D1932;
+}
+
+.light .auth-card {
+  background-color: #f7f5fe;
+}
+
+.text-white-f,
+.light .text-white-f {
+  color: #f7f5fe;
+}
+
+.text-white-60-f,
+.light .text-white-60-f {
+  color: #f7f5fe;
+  opacity: .6;
+}
+
+label {
+  color: #fff !important;
+}
+
+.light label {
+  color: #000 !important;
+}
+
+.light .sidebar-icon {
+  filter: invert(1);
+}
+
+.light .invert-color {
+  filter: invert(1);
+}
+
+.wmde-markdown>* {
+  word-wrap: break-word;
+}
+
+.responsive-border {
+  border-color: #ffffff9b
+}
+
+.light .responsive-border {
+  border-color: #0000009b
+}
+
+.wmde-markdown-color {
+  color: #ffffff9b
+}
+
+.light .wmde-markdown-color>* {
+  color: #0000009b
+}
+
+.light .wmde-markdown pre {
+  background-color: #ffffff9b
+}
+
+.force-white-text {
+  color: #fff !important;
+}
+
+.light .force-white-text {
+  color: #fff !important;
+}
+
+.force-black-text {
+  color: #000 !important;
+}
+
+.light .force-black-text {
+  color: #000 !important;
+}
+
+.news-card{
+  background-color: rgb(30, 41, 59);
+}
+
+.light .news-card{
+  background-color: rgb(30,41,59);
+}
+
+.light .news-card-hover{
+  background-color: black;
+}

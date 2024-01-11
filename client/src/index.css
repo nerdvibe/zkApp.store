@@ -1,0 +1,331 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.dark,
+html.purple-dark,
+html.light,
+body,
+#root,
+#root>div {
+  height: 100%;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #6f4ff2 #ffffff00;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 2px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff00;
+  border-radius: 30px;
+  /* margin: 10px 0px; */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #6f4ff27700;
+  border-radius: 30px;
+  transition: 0.5s
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #6f4ff2;
+  border-radius: 30px;
+  transition: 0.5s
+}
+
+a.link {
+  color: #6f4ff2;
+}
+
+/* Cookie banner */
+.cookie-banner-container {
+  position: fixed;
+  bottom: 50px;
+  right: 2em;
+  display: flex;
+  opacity: 0;
+  z-index: 30;
+  animation: fadeInAnimationDelayed ease 8s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.fade-out {
+  animation: fadeOutAnimation ease 0.3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  opacity: 1;
+}
+
+.alt-message {
+  animation: fadeInAnimation ease 0.8s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  min-width: 220px;
+  min-height: 120px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.alt-message>p {
+  text-align: center;
+}
+
+
+
+.thought {
+  display: flex;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 30px;
+  min-width: 40px;
+  max-width: 315px;
+  min-height: 40px;
+  margin: 20px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  right: 12px;
+  bottom: 25px;
+  -webkit-box-shadow: 0px 0px 14px -4px #fff;
+  box-shadow: 0px 0px 14px -4px #fff;
+}
+
+.thought:before,
+.thought:after {
+  content: "";
+  background-color: #fff;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  z-index: -1;
+}
+
+.thought:after {
+  bottom: 0px;
+  right: 26px;
+  width: 30px;
+  height: 30px;
+  box-shadow: 40px -24px 0 0 #fff, 65px -5px 0 -5px #fff, 85px 10px 0 -10px #fff;
+}
+
+.cookie-robot {
+  align-self: flex-end;
+  bottom: -67px;
+  position: relative;
+  width: fit-content;
+  z-index: 10;
+  /* right: 0;
+  position: fixed;
+  bottom: 130px; */
+}
+
+.ship {
+  position: initial;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 3rem;
+  height: 3rem;
+  margin: auto;
+  animation: move 2s linear infinite alternate;
+}
+
+.body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #e3e3e3;
+  box-shadow: inset 0 -5px 5px rgba(22, 48, 64, 0.5);
+  z-index: 1000;
+}
+
+.eyes {
+  width: 1rem;
+  position: relative;
+  top: 1.5rem;
+  left: 1rem;
+  animation: eyes 2s ease-in-out infinite alternate;
+}
+
+.eye_1,
+.eye_2 {
+  position: absolute;
+  display: block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background-color: #163040;
+  animation: eye 2s ease-in-out infinite alternate;
+}
+
+.eye_2 {
+  right: 0;
+}
+
+.foot_1,
+.foot_2,
+.foot_3 {
+  position: absolute;
+  top: 1.5rem;
+  width: 0.4rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(rgba(227, 227, 227, 0.6), rgba(227, 227, 227, 0.3));
+  opacity: 0.5;
+}
+
+.foot_1 {
+  transform: rotate(25deg);
+}
+
+.foot_2 {
+  top: 2rem;
+  width: 0.37rem;
+  left: 1.315rem;
+  background: linear-gradient(rgba(227, 227, 227, 0.7) 75%, rgba(227, 227, 227, 0.3));
+  opacity: 0.8;
+}
+
+.foot_3 {
+  transform: rotate(-25deg);
+  right: 0;
+  background: linear-gradient(rgba(227, 227, 227, 0.6), rgba(227, 227, 227, 0.3));
+}
+
+.vawes {
+  position: relative;
+  top: -2rem;
+  left: -2rem;
+  width: 7rem;
+  height: 7rem;
+  fill: none;
+}
+
+.wave_1,
+.wave_2 {
+  stroke: rgba(227, 227, 227, 0.7);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 2;
+  animation: wave 2s infinite linear;
+  opacity: 0;
+  transform-origin: center;
+  animation-delay: 0.1s;
+}
+
+.wave_2 {
+  animation-delay: 1s;
+}
+
+@keyframes wave {
+  from {
+    transform: scale(0.45) rotate(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes move {
+  from {
+    transform: rotate(-10deg);
+  }
+
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes bg {
+  to {
+    background-position: center 20rem;
+  }
+}
+
+@keyframes eyes {
+  from {
+    transform: translateX(-0.4rem)
+  }
+
+  to {
+    transform: translateX(0.4rem)
+  }
+}
+
+@keyframes eye {
+  40% {
+    transform: scaleY(1)
+  }
+
+  50% {
+    transform: scaleY(0)
+  }
+
+  60% {
+    transform: scaleY(1)
+  }
+}
+
+.top45 {
+  margin-top: 45px;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    z-index: 1033;
+  }
+}
+
+@keyframes fadeInAnimationDelayed {
+  0% {
+    opacity: 0;
+  }
+
+  90% {
+    z-index: -1;
+    display: flex;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    z-index: 1033;
+  }
+}
+
+@keyframes fadeOutAnimation {
+  0% {
+    z-index: 1033;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+* {
+  scroll-behavior: smooth;
+}

@@ -1,0 +1,102 @@
+query userDetails {
+  selfUser {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
+
+mutation signup(
+  $email: String!
+  $password: String!
+  $username: String!
+  $isDeveloper: Boolean!
+  $discordUrl: String
+  $githubUsername: String
+  $xUsername: String
+  $file: File
+) {
+  signup(
+    user: {
+      email: $email
+      password: $password
+      username: $username
+      isDeveloper: $isDeveloper
+      discordUrl: $discordUrl
+      githubUsername: $githubUsername
+      xUsername: $xUsername
+      profilePicture: $file
+    }
+  ) {
+    accessToken
+    refreshToken
+  }
+}
+
+mutation login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    accessToken
+    refreshToken
+  }
+}
+
+mutation refreshToken($refreshToken: String!) {
+  refreshToken(refreshToken: $refreshToken) {
+    accessToken
+    refreshToken
+  }
+}
+
+mutation logout {
+  logout {
+    message
+  }
+}
+
+mutation requestResetPassword($email: String!) {
+  requestResetPassword(email: $email) {
+    message
+  }
+}
+
+mutation updateResetPassword($resetToken: String!, $newPassword: String!) {
+  updateResetPassword(resetToken: $resetToken, newPassword: $newPassword) {
+    message
+  }
+}
+
+mutation verifyEmail($emailVerificationToken: String!) {
+  verifyEmail(emailVerificationToken: $emailVerificationToken) {
+    message
+  }
+}
+
+mutation updatePassword($newPassword: String!, $oldPassword: String!) {
+  updatePassword(newPassword: $newPassword, oldPassword: $oldPassword) {
+    message
+  }
+}
+
+query userData {
+  selfUser {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    bio
+    githubUrl
+    profilePicture
+    bannerPicture
+  }
+}

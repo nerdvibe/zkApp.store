@@ -1,0 +1,216 @@
+mutation createZkApp($zkApp: CreateZkApp!) {
+  createZkApp(zkApp: $zkApp) {
+    name
+    slug
+  }
+}
+
+query appData($slug: String!) {
+  zkApp(slug: $slug) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+
+mutation updateZkApp($zkApp: updateZkApp!) {
+  updateZkApp(zkApp: $zkApp) {
+    slug
+    body
+    currentVersion
+    name
+    subtitle
+    category {
+      name
+    }
+    url
+  }
+}
+
+mutation deleteApp($id: String!) {
+  deleteZkApp(id: $id)
+}
+
+query zkAppsByUser($userId: String!) {
+  zkAppsByUser(userId: $userId) {
+    id
+    name
+    slug
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+    }
+    icon
+    bannerImage
+  }
+}
+
+query userWithZkApps($username: String, $id: String) {
+  user(id: $id, username: $username) {
+    username
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
+    id
+    bio
+    zkApps {
+      id
+      name
+      slug
+      subtitle
+      body
+      reviewScore
+      reviewCount
+      currentVersion
+      url
+      discordUrl
+      githubUrl
+      icon
+      bannerImage
+    }
+  }
+}
+
+query trendingApps {
+  zkApps(sortByTrending: true, limit: 5) {
+    id
+    name
+    slug
+    subtitle
+    owner
+    ownerUsername
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    icon
+    category {
+      name
+    }
+  }
+}
+
+query searchZkApp($name: String!) {
+  searchZkAppByName(name: $name) {
+    id
+    name
+    slug
+    subtitle
+    icon
+  }
+}
+
+query featuredZkApps {
+  zkApps(sortByFeatured: true) {
+    id
+    name
+    slug
+    subtitle
+    owner
+    ownerUsername
+    reviewScore
+    reviewCount
+    currentVersion
+    icon
+    category {
+      name
+      slug
+    }
+    featured
+  }
+}
+
+mutation checkSlug($slug: String!) {
+  checkSlug(slug: $slug)
+}
+
+query zkAppsBySlug($slugs: [String]) {
+  zkApps(slugs: $slugs) {
+    id
+    name
+    slug
+    subtitle
+    ownerUsername
+    currentVersion
+    icon
+    category {
+      name
+      slug
+    }
+  }
+}
+
+mutation updateZkAppIcon($file: File, $id: String!) {
+  updateZkApp(zkApp: { icon: $file, id: $id }) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+
+mutation updateZkAppBanner($file: File, $id: String!) {
+  updateZkApp(zkApp: { bannerImage: $file, id: $id }) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}

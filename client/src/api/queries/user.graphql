@@ -1,0 +1,52 @@
+mutation updateUserDetails($userEdit: UpdateUserInput) {
+  updateUser(userEdit: $userEdit) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    profilePicture
+    bannerPicture
+  }
+}
+
+query userImage($id: String!) {
+  user(id: $id) {
+    profilePicture
+  }
+}
+
+mutation uploadUserImage($file: File) {
+  updateUser(userEdit: { profilePicture: $file }) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
+
+mutation uploadUserBanner($file: File) {
+  updateUser(userEdit: { bannerPicture: $file }) {
+    id
+    email
+    username
+    emailVerified
+    followerCount
+    xUsername
+    discordUrl
+    githubUrl
+    bio
+    profilePicture
+    bannerPicture
+  }
+}
