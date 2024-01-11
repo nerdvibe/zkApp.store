@@ -15,18 +15,23 @@ export default function Category() {
   const onFollowClick = () => {
     setFollowing(!following);
   };
-  const { data: categoryData } = useZkAppCategoriesBySlugQuery({
-    variables: {
-      slug: id,
-    },
-  });
-  const { data, loading } = useZkAppsByCategoryQuery({
+  const { data: categoryData, loading: categoryDataLoading } =
+    useZkAppCategoriesBySlugQuery({
+      variables: {
+        slug: id,
+      },
+    });
+  const { data, loading, called } = useZkAppsByCategoryQuery({
     variables: {
       categorySlug: id,
     },
   });
 
-  if (!data && !loading) {
+  if (loading || categoryDataLoading) {
+    return <></>;
+  }
+
+  if (called && !data && !loading) {
     return <EmptyStateCard title="Category not found" />;
   }
 
@@ -34,7 +39,12 @@ export default function Category() {
     {
       key: "Trending",
       title: "Trending",
-      component: <Trending apps={data?.zkAppsByCategory} />,
+      component: (
+        <Trending
+          apps={data?.zkAppsByCategory}
+          loading={loading || categoryDataLoading}
+        />
+      ),
     },
     // { key: "MostUsed", title: "Most used", component: <MostUsed /> },
     // { key: "News", title: "News", component: <MostUsed /> },
@@ -43,11 +53,11 @@ export default function Category() {
   return (
     <div className="flex flex-col gap-4 my-11 md:mx-8">
       <h1 className="text-5xl text-white font-bold">
-        # {categoryData?.zkAppCategoriesBySlug[0]?.name}
+        # {categoryData?.zkAppCategoriesBySlug?.name}
       </h1>
       <div className="flex text-white justify-between">
         <p className="text-xl">
-          {categoryData?.zkAppCategoriesBySlug[0]?.zkAppCount} zkApp
+          {categoryData?.zkAppCategoriesBySlug?.zkAppCount} zkApp
         </p>
         <FollowButton onClick={onFollowClick} following={following} />
       </div>

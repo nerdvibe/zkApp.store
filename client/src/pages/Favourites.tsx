@@ -6,14 +6,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
 import { useZkAppsBySlugLazyQuery } from "@/gql/generated";
-import { Button } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { clearFavourites } from "@/store/favourites";
 
 export default function Favourites() {
   const [zkApps, setZkApps] = useState([]);
-  const [fetchZkApps] = useZkAppsBySlugLazyQuery();
+  const [fetchZkApps, { called }] = useZkAppsBySlugLazyQuery();
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const products = useSelector(
@@ -36,6 +37,7 @@ export default function Favourites() {
       if (data) {
         setZkApps([...data?.zkApps]);
       }
+      setLoading(false);
     }
   };
 
@@ -43,6 +45,14 @@ export default function Favourites() {
     dispatch(clearFavourites());
     setZkApps([]);
   };
+
+  if (!called || loading) {
+    return (
+      <div className="min-h-[300px] flex justify-center items-center w-full">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4 my-11 md:mx-8">

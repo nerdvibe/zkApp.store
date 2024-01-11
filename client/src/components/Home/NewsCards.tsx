@@ -20,16 +20,17 @@ export default function NewsCards() {
   }
   return (
     <div className="flex gap-4 justify-center">
-      {loading && (
+      {loading ? (
         <div className="min-h-[300px] flex justify-center items-center w-full">
           <Spinner />
         </div>
+      ) : (
+        <ScrollShadow className="flex flex-row gap-4">
+          {renderNews.map((el: IBlurredCardProps) => (
+            <BlurredCard {...el} key={el.title} />
+          ))}
+        </ScrollShadow>
       )}
-      <ScrollShadow className="flex flex-row gap-4">
-        {renderNews.map((el: IBlurredCardProps) => (
-          <BlurredCard {...el} key={el.title} />
-        ))}
-      </ScrollShadow>
       <NewsModal />
     </div>
   );

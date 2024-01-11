@@ -28,25 +28,41 @@ export default function CategoryCard({ id, name, slug, topIcons }: Props) {
             <CategoriesPlaceholder slug={slug} />
           ) : (
             <>
-              <Image
-                removeWrapper
-                // TODO: Fix alt text
-                alt="Relaxing app background"
-                className="w-[45%] object-cover top-5 h-[200px]"
-                src={topIcons[0] || `https://picsum.photos/seed/${slug}-1/400/400`}
-              />
+              {topIcons[1] ? (
+                <Image
+                  removeWrapper
+                  // TODO: Fix alt text
+                  alt="Relaxing app background"
+                  className="w-[45%] object-cover top-5 h-[200px]"
+                  src={
+                    topIcons[1] ||
+                    `https://picsum.photos/seed/${slug}-1/400/400`
+                  }
+                />
+              ) : (
+                <div className="h-[180px] w-[45%] relative top-[20px] rounded-lg border-dashed border-2 text-white responsive-border" />
+              )}
               <Image
                 removeWrapper
                 alt="Relaxing app background"
                 className="w-[50%] z-[11] left-[25%] object-cover absolute h-[200px]"
-                src={topIcons[1] || `https://picsum.photos/seed/${slug}-2/400/400`}
+                src={
+                  topIcons[0] || `https://picsum.photos/seed/${slug}-2/400/400`
+                }
               />
-              <Image
-                removeWrapper
-                className="w-[45%] object-cover top-5 h-[200px]"
-                alt="Relaxing app background"
-                src={topIcons[2] || `https://picsum.photos/seed/${slug}-3/400/400`}
-              />
+              {topIcons[2] ? (
+                <Image
+                  removeWrapper
+                  className="w-[45%] object-cover top-5 h-[200px]"
+                  alt="Relaxing app background"
+                  src={
+                    topIcons[2] ||
+                    `https://picsum.photos/seed/${slug}-3/400/400`
+                  }
+                />
+              ) : (
+                <div className="h-[180px] w-[45%] relative top-[20px] rounded-lg border-dashed border-2 text-white responsive-border" />
+              )}
             </>
           )}
         </div>
