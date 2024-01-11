@@ -57,7 +57,7 @@ export const Query = {
   zkAppCategoriesBySlug: async (
     parent: any,
     args: QueryZkAppCategoriesBySlugArgs
-  ): Promise<Partial<ZkAppCategoriesDoc[]>> => {
+  ): Promise<Partial<ZkAppCategoriesDoc | null>> => {
     if (
       !isValidString(args.slug) ||
       !isValidNumber(args.limit, true) ||
@@ -66,7 +66,7 @@ export const Query = {
       throw new Error("Unknown param");
     }
 
-    const categories = await ZkAppCategoriesRepo.find({
+    const categories = await ZkAppCategoriesRepo.findOne({
       slug: args.slug,
       deleted: { $exists: false },
     })
