@@ -18,10 +18,6 @@ export const zkAppCategoriesPickTopIcons = async (): Promise<void> => {
       .sort({ featured: "desc" })
       .limit(5);
 
-    console.log(zkApps);
-    if (!zkApps.length) {
-      continue;
-    }
     const topIcons = zkApps
       .map((zkApp) => zkApp.icon)
       .filter((value) => value !== undefined);

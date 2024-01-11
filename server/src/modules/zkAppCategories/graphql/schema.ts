@@ -9,5 +9,6 @@ export const schema = `
   type Query {
     zkAppCategoriesSearch(text: String!, limit: Int, skip: Int): [ZkAppCategory] @rateLimit(limit: 15, duration: 10)
     zkAppCategories(limit: Int, skip: Int): [ZkAppCategory] @rateLimit(limit: 15, duration: 10)
+    zkAppCategoriesBySlug(slug: String!, limit: Int, skip: Int): [ZkAppCategory] @rateLimit(limit: 15, duration: 10)
   }
 `;

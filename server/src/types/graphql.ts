@@ -146,6 +146,7 @@ export type Query = {
   usersSortedByFollowers?: Maybe<Array<Maybe<User>>>;
   zkApp?: Maybe<ZkApp>;
   zkAppCategories?: Maybe<Array<Maybe<ZkAppCategory>>>;
+  zkAppCategoriesBySlug?: Maybe<Array<Maybe<ZkAppCategory>>>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
   zkApps?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByCategory?: Maybe<Array<Maybe<ZkApp>>>;
@@ -184,6 +185,13 @@ export type QueryZkAppArgs = {
 export type QueryZkAppCategoriesArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryZkAppCategoriesBySlugArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  slug: Scalars['String']['input'];
 };
 
 
@@ -523,6 +531,7 @@ export type QueryResolvers<ContextType = ModuleContext, ParentType extends Resol
   usersSortedByFollowers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
   zkAppCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, Partial<QueryZkAppCategoriesArgs>>;
+  zkAppCategoriesBySlug?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesBySlugArgs, 'slug'>>;
   zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
   zkApps?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, Partial<QueryZkAppsArgs>>;
   zkAppsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByCategoryArgs, 'categorySlug'>>;

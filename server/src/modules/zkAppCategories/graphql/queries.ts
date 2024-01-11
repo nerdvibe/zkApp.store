@@ -1,4 +1,5 @@
 import {
+  QueryZkAppCategoriesBySlugArgs,
   type QueryZkAppCategoriesArgs,
   type QueryZkAppCategoriesSearchArgs,
 } from "@interfaces/graphql";
@@ -25,7 +26,7 @@ export const Query = {
     }
 
     const categories = await ZkAppCategoriesRepo.find({
-      name: { $regex: args.text, $options: 'i' },
+      name: { $regex: args.text, $options: "i" },
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
@@ -42,6 +43,27 @@ export const Query = {
     }
 
     const categories = await ZkAppCategoriesRepo.find({
+      deleted: { $exists: false },
+    })
+      .skip(args.skip ?? 0)
+      .limit(args.limit ?? DEFAULT_LIMIT);
+
+    return categories;
+  },
+  zkAppCategoriesBySlug: async (
+    parent: any,
+    args: QueryZkAppCategoriesBySlugArgs
+  ): Promise<Partial<ZkAppCategoriesDoc[]>> => {
+    if (
+      !isValidString(args.slug) ||
+      !isValidNumber(args.limit, true) ||
+      !isValidNumber(args.skip, true)
+    ) {
+      throw new Error("Unknown param");
+    }
+
+    const categories = await ZkAppCategoriesRepo.find({
+      slug: args.slug,
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
