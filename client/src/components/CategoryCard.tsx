@@ -5,12 +5,12 @@ import CategoriesPlaceholder from "./Category/CategoryTabs/CategoriesPlaceholder
 
 interface Props {
   id: number;
-  thumbnails?: string[];
+  topIcons?: string[];
   name: string;
   slug: string;
 }
 
-export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
+export default function CategoryCard({ id, name, slug, topIcons }: Props) {
   const navigate = useNavigate();
   const onCardClick = () => {
     navigate(`${routes.CATEGORY}/${slug}`);
@@ -24,7 +24,7 @@ export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
         key={id}
       >
         <div className="flex gap-[10%]">
-          {!thumbnails ? (
+          {!topIcons ? (
             <CategoriesPlaceholder slug={slug} />
           ) : (
             <>
@@ -33,19 +33,19 @@ export default function CategoryCard({ id, name, slug, thumbnails }: Props) {
                 // TODO: Fix alt text
                 alt="Relaxing app background"
                 className="w-[45%] object-cover top-5 h-[200px]"
-                src={thumbnails[0]}
+                src={topIcons[0] || `https://picsum.photos/seed/${slug}-1/400/400`}
               />
               <Image
                 removeWrapper
                 alt="Relaxing app background"
                 className="w-[50%] z-[11] left-[25%] object-cover absolute h-[200px]"
-                src={thumbnails[1]}
+                src={topIcons[1] || `https://picsum.photos/seed/${slug}-2/400/400`}
               />
               <Image
                 removeWrapper
                 className="w-[45%] object-cover top-5 h-[200px]"
                 alt="Relaxing app background"
-                src={thumbnails[2]}
+                src={topIcons[2] || `https://picsum.photos/seed/${slug}-3/400/400`}
               />
             </>
           )}
