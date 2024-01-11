@@ -45,7 +45,9 @@ export default function CustomSidebar() {
               src={!state.collapsed ? Logo : LogoSmall}
               alt="ZkApp.store logo"
               radius="none"
-              className={`px-4 ${!state.collapsed ? "w-[190px]" : "w-[100px] "}`}
+              className={`px-4 ${
+                !state.collapsed ? "w-[190px]" : "w-[100px] "
+              }`}
             />
           </div>
 

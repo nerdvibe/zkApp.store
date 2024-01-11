@@ -18,6 +18,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import PendingVerification from "./pages/PendingVerification";
 import Categories from "./pages/Categories";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import AllZkApps from "./pages/AllZkApps";
 
 export const AppRoutes = () => {
   const isAuthenticated = useSelector((state: RootState) => {
@@ -92,6 +93,7 @@ export const AppRoutes = () => {
       <Route path={`${ROUTES.CATEGORIES}`} element={<Categories />} />
       <Route path={`${ROUTES.PRIVACY}`} element={<PrivacyPolicy />} />
       <Route path={`${ROUTES.NEWS}/:id`} element={<Home />} />
+      <Route path={`${ROUTES.ALL_APPS}`} element={<AllZkApps />} />
       <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
     </Routes>
   );

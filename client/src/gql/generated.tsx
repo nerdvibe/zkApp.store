@@ -138,9 +138,9 @@ export type News = {
 
 export type Query = {
   __typename?: 'Query';
+  _?: Maybe<Scalars['String']['output']>;
   getLastNews?: Maybe<Array<Maybe<News>>>;
   getNews?: Maybe<News>;
-  publicInfo?: Maybe<Scalars['String']['output']>;
   searchZkAppByName?: Maybe<Array<Maybe<ZkApp>>>;
   selfUser?: Maybe<SelfUser>;
   user?: Maybe<UserWithZkApp>;
@@ -148,7 +148,7 @@ export type Query = {
   usersSortedByFollowers?: Maybe<Array<Maybe<User>>>;
   zkApp?: Maybe<ZkApp>;
   zkAppCategories?: Maybe<Array<Maybe<ZkAppCategory>>>;
-  zkAppCategoriesBySlug?: Maybe<Array<Maybe<ZkAppCategory>>>;
+  zkAppCategoriesBySlug?: Maybe<ZkAppCategory>;
   zkAppCategoriesSearch?: Maybe<Array<Maybe<ZkAppCategory>>>;
   zkApps?: Maybe<Array<Maybe<ZkApp>>>;
   zkAppsByCategory?: Maybe<Array<Maybe<ZkApp>>>;
@@ -330,13 +330,14 @@ export type ZkAppCategoryZkApp = {
   __typename?: 'ZkAppCategoryZkApp';
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-  zkAppCount?: Maybe<Scalars['String']['output']>;
+  zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ZkAppUser = {
   __typename?: 'ZkAppUser';
   bannerImage?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<ZkAppUserCategory>;
   categorySlug?: Maybe<Scalars['String']['output']>;
   currentVersion: Scalars['String']['output'];
   discordUrl?: Maybe<Scalars['String']['output']>;
@@ -350,6 +351,13 @@ export type ZkAppUser = {
   slug: Scalars['String']['output'];
   subtitle?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
+};
+
+export type ZkAppUserCategory = {
+  __typename?: 'ZkAppUserCategory';
+  name?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+  zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type UpdateZkApp = {
@@ -390,7 +398,7 @@ export type ZkAppCategoriesBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ZkAppCategoriesBySlugQuery = { __typename?: 'Query', zkAppCategoriesBySlug?: Array<{ __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null, topIcons?: Array<string | null> | null } | null> | null };
+export type ZkAppCategoriesBySlugQuery = { __typename?: 'Query', zkAppCategoriesBySlug?: { __typename?: 'ZkAppCategory', name: string, slug: string, zkAppCount?: number | null, topIcons?: Array<string | null> | null } | null };
 
 export type AllZkAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -559,7 +567,7 @@ export type UserWithZkAppsQueryVariables = Exact<{
 }>;
 
 
-export type UserWithZkAppsQuery = { __typename?: 'Query', user?: { __typename?: 'UserWithZkApp', username: string, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null, id?: string | null, bio?: string | null, zkApps?: Array<{ __typename?: 'ZkAppUser', id?: string | null, name: string, slug: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null } | null> | null } | null };
+export type UserWithZkAppsQuery = { __typename?: 'Query', user?: { __typename?: 'UserWithZkApp', username: string, followerCount?: number | null, xUsername?: string | null, discordUrl?: string | null, githubUrl?: string | null, profilePicture?: string | null, bannerPicture?: string | null, id?: string | null, bio?: string | null, zkApps?: Array<{ __typename?: 'ZkAppUser', id?: string | null, name: string, slug: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppUserCategory', name?: string | null } | null } | null> | null } | null };
 
 export type TrendingAppsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -607,6 +615,13 @@ export type UpdateZkAppBannerMutationVariables = Exact<{
 
 
 export type UpdateZkAppBannerMutation = { __typename?: 'Mutation', updateZkApp: { __typename?: 'ZkApp', slug: string, name: string, owner: string, ownerUsername?: string | null, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } };
+
+export type AllZkAppsQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type AllZkAppsQuery = { __typename?: 'Query', zkApps?: Array<{ __typename?: 'ZkApp', slug: string, name: string, owner: string, ownerUsername?: string | null, id: string, subtitle?: string | null, body?: string | null, reviewScore?: number | null, reviewCount?: number | null, currentVersion: string, url: string, discordUrl?: string | null, githubUrl?: string | null, icon?: string | null, bannerImage?: string | null, category?: { __typename?: 'ZkAppCategoryZkApp', name?: string | null, slug?: string | null } | null } | null> | null };
 
 
 export const HomepageCategoriesDocument = gql`
@@ -1747,6 +1762,9 @@ export const UserWithZkAppsDocument = gql`
       githubUrl
       icon
       bannerImage
+      category {
+        name
+      }
     }
   }
 }
@@ -2120,6 +2138,64 @@ export function useUpdateZkAppBannerMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateZkAppBannerMutationHookResult = ReturnType<typeof useUpdateZkAppBannerMutation>;
 export type UpdateZkAppBannerMutationResult = Apollo.MutationResult<UpdateZkAppBannerMutation>;
 export type UpdateZkAppBannerMutationOptions = Apollo.BaseMutationOptions<UpdateZkAppBannerMutation, UpdateZkAppBannerMutationVariables>;
+export const AllZkAppsDocument = gql`
+    query allZkApps($skip: Int) {
+  zkApps(skip: $skip, limit: 24) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+    `;
+
+/**
+ * __useAllZkAppsQuery__
+ *
+ * To run a query within a React component, call `useAllZkAppsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllZkAppsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllZkAppsQuery({
+ *   variables: {
+ *      skip: // value for 'skip'
+ *   },
+ * });
+ */
+export function useAllZkAppsQuery(baseOptions?: Apollo.QueryHookOptions<AllZkAppsQuery, AllZkAppsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllZkAppsQuery, AllZkAppsQueryVariables>(AllZkAppsDocument, options);
+      }
+export function useAllZkAppsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllZkAppsQuery, AllZkAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllZkAppsQuery, AllZkAppsQueryVariables>(AllZkAppsDocument, options);
+        }
+export function useAllZkAppsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AllZkAppsQuery, AllZkAppsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AllZkAppsQuery, AllZkAppsQueryVariables>(AllZkAppsDocument, options);
+        }
+export type AllZkAppsQueryHookResult = ReturnType<typeof useAllZkAppsQuery>;
+export type AllZkAppsLazyQueryHookResult = ReturnType<typeof useAllZkAppsLazyQuery>;
+export type AllZkAppsSuspenseQueryHookResult = ReturnType<typeof useAllZkAppsSuspenseQuery>;
+export type AllZkAppsQueryResult = Apollo.QueryResult<AllZkAppsQuery, AllZkAppsQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -2211,6 +2287,7 @@ export type ResolversTypes = {
   ZkAppCategory: ResolverTypeWrapper<ZkAppCategory>;
   ZkAppCategoryZkApp: ResolverTypeWrapper<ZkAppCategoryZkApp>;
   ZkAppUser: ResolverTypeWrapper<ZkAppUser>;
+  ZkAppUserCategory: ResolverTypeWrapper<ZkAppUserCategory>;
   updateZkApp: UpdateZkApp;
 };
 
@@ -2236,6 +2313,7 @@ export type ResolversParentTypes = {
   ZkAppCategory: ZkAppCategory;
   ZkAppCategoryZkApp: ZkAppCategoryZkApp;
   ZkAppUser: ZkAppUser;
+  ZkAppUserCategory: ZkAppUserCategory;
   updateZkApp: UpdateZkApp;
 };
 
@@ -2277,9 +2355,9 @@ export type NewsResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   getLastNews?: Resolver<Maybe<Array<Maybe<ResolversTypes['News']>>>, ParentType, ContextType>;
   getNews?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType, RequireFields<QueryGetNewsArgs, 'slug'>>;
-  publicInfo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   searchZkAppByName?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QuerySearchZkAppByNameArgs, 'name'>>;
   selfUser?: Resolver<Maybe<ResolversTypes['SelfUser']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['UserWithZkApp']>, ParentType, ContextType, Partial<QueryUserArgs>>;
@@ -2287,7 +2365,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   usersSortedByFollowers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   zkApp?: Resolver<Maybe<ResolversTypes['ZkApp']>, ParentType, ContextType, RequireFields<QueryZkAppArgs, 'slug'>>;
   zkAppCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, Partial<QueryZkAppCategoriesArgs>>;
-  zkAppCategoriesBySlug?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesBySlugArgs, 'slug'>>;
+  zkAppCategoriesBySlug?: Resolver<Maybe<ResolversTypes['ZkAppCategory']>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesBySlugArgs, 'slug'>>;
   zkAppCategoriesSearch?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkAppCategory']>>>, ParentType, ContextType, RequireFields<QueryZkAppCategoriesSearchArgs, 'text'>>;
   zkApps?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, Partial<QueryZkAppsArgs>>;
   zkAppsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['ZkApp']>>>, ParentType, ContextType, RequireFields<QueryZkAppsByCategoryArgs, 'categorySlug'>>;
@@ -2376,13 +2454,14 @@ export type ZkAppCategoryResolvers<ContextType = any, ParentType extends Resolve
 export type ZkAppCategoryZkAppResolvers<ContextType = any, ParentType extends ResolversParentTypes['ZkAppCategoryZkApp'] = ResolversParentTypes['ZkAppCategoryZkApp']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  zkAppCount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ZkAppUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['ZkAppUser'] = ResolversParentTypes['ZkAppUser']> = {
   bannerImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['ZkAppUserCategory']>, ParentType, ContextType>;
   categorySlug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currentVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discordUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2396,6 +2475,13 @@ export type ZkAppUserResolvers<ContextType = any, ParentType extends ResolversPa
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ZkAppUserCategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ZkAppUserCategory'] = ResolversParentTypes['ZkAppUserCategory']> = {
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2413,5 +2499,6 @@ export type Resolvers<ContextType = any> = {
   ZkAppCategory?: ZkAppCategoryResolvers<ContextType>;
   ZkAppCategoryZkApp?: ZkAppCategoryZkAppResolvers<ContextType>;
   ZkAppUser?: ZkAppUserResolvers<ContextType>;
+  ZkAppUserCategory?: ZkAppUserCategoryResolvers<ContextType>;
 };
 

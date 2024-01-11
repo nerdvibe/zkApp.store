@@ -29,8 +29,10 @@ export default function EditableBanner({
 }: any) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
-  const [updateZkAppBanner] = useUpdateZkAppBannerMutation();
-  const [updateUserDataBanner] = useUploadUserBannerMutation();
+  const [updateZkAppBanner, { loading: appLoading }] =
+    useUpdateZkAppBannerMutation();
+  const [updateUserDataBanner, { loading: profileLoading }] =
+    useUploadUserBannerMutation();
   const [file, setFile] = useState();
   const [showChangeBannerModal, setShowChangeBannerModal] = useState(false);
   const [b64File, setB64File] = useState("");
@@ -73,7 +75,7 @@ export default function EditableBanner({
             },
           }),
           {
-            loading: "Uploading image",
+            loading: "Saving image",
             success: <b>ZkApp updated!</b>,
             error: (err) => <b>{err.message}</b>,
           }
@@ -86,7 +88,7 @@ export default function EditableBanner({
             },
           }),
           {
-            loading: "Uploading image",
+            loading: "Saving image",
             success: <b>Banner picture updated!</b>,
             error: (err) => <b>{err.message}</b>,
           }
@@ -176,6 +178,7 @@ export default function EditableBanner({
                 handleChange={handleFileUpload}
                 name="file"
                 types={fileTypes}
+                maxSize={2}
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
               />
@@ -187,7 +190,15 @@ export default function EditableBanner({
                 >
                   Cancel
                 </Button>
-                <Button color="primary" onPress={uploadImage}>
+                <Button
+                  color={
+                    !profileLoading && !appLoading && file
+                      ? "primary"
+                      : "default"
+                  }
+                  disabled={profileLoading || appLoading || !file}
+                  onPress={uploadImage}
+                >
                   Save
                 </Button>
               </div>

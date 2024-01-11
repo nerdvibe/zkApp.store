@@ -2,7 +2,7 @@ export default {
   LANDING: "/",
   HOME: "/home",
   FAVOURITES: "/favourites",
-  PRODUCT: "/app",
+  PRODUCT: "/zkapp",
   CATEGORY: "/category",
   LOGIN: "/login",
   REGISTER: "/register",
@@ -16,4 +16,5 @@ export default {
   CATEGORIES: "/categories",
   PRIVACY: "/privacy-policy",
   NEWS: "/news",
+  ALL_APPS: "/all-zkapps",
 };

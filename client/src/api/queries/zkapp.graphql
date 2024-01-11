@@ -93,6 +93,9 @@ query userWithZkApps($username: String, $id: String) {
       githubUrl
       icon
       bannerImage
+      category {
+        name
+      }
     }
   }
 }
@@ -193,6 +196,30 @@ mutation updateZkAppIcon($file: File, $id: String!) {
 
 mutation updateZkAppBanner($file: File, $id: String!) {
   updateZkApp(zkApp: { bannerImage: $file, id: $id }) {
+    slug
+    name
+    owner
+    ownerUsername
+    id
+    subtitle
+    body
+    reviewScore
+    reviewCount
+    currentVersion
+    url
+    discordUrl
+    githubUrl
+    category {
+      name
+      slug
+    }
+    icon
+    bannerImage
+  }
+}
+
+query allZkApps($skip: Int) {
+  zkApps(skip: $skip, limit: 24) {
     slug
     name
     owner

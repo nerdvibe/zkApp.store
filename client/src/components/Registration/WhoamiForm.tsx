@@ -101,6 +101,7 @@ export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
                 handleChange={handleFileUpload}
                 name="file"
                 types={fileTypes}
+                maxSize={2}
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
               />

@@ -32,8 +32,10 @@ export default function EditableAvatar({
 }: any) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
-  const [updateZkAppIcon] = useUpdateZkAppIconMutation();
-  const [uploadImageMutation] = useUploadUserImageMutation();
+  const [updateZkAppIcon, { loading: appLoading }] =
+    useUpdateZkAppIconMutation();
+  const [uploadImageMutation, { loading: profileLoading }] =
+    useUploadUserImageMutation();
   const [file, setFile] = useState();
   const [b64File, setB64File] = useState("");
   const [showChangeIconModal, setShowChangeIconModal] = useState(false);
@@ -77,7 +79,7 @@ export default function EditableAvatar({
             },
           }),
           {
-            loading: "Uploading image",
+            loading: "Saving image",
             success: <b>ZkApp updated!</b>,
             error: (err) => <b>{err.message}</b>,
           }
@@ -90,7 +92,7 @@ export default function EditableAvatar({
             },
           }),
           {
-            loading: "Uploading image",
+            loading: "Saving image",
             success: <b>Profile picture updated!</b>,
             error: (err) => <b>{err.message}</b>,
           }
@@ -98,6 +100,7 @@ export default function EditableAvatar({
       }
       if (result?.data && !result?.errors) {
         refetch();
+        setFile(undefined);
         setShowChangeIconModal(false);
       }
     }
@@ -188,6 +191,7 @@ export default function EditableAvatar({
                 handleChange={handleFileUpload}
                 name="file"
                 types={fileTypes}
+                maxSize={2}
                 classes="drag-and-drop w-full min-h-[80px]"
                 label="Drop your profile picture here"
               />
@@ -200,7 +204,15 @@ export default function EditableAvatar({
                 >
                   Cancel
                 </Button>
-                <Button color="primary" onPress={uploadImage}>
+                <Button
+                  color={
+                    !profileLoading && !appLoading && file
+                      ? "primary"
+                      : "default"
+                  }
+                  onPress={uploadImage}
+                  disabled={profileLoading || appLoading || !file}
+                >
                   Save
                 </Button>
               </div>
