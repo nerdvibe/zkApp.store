@@ -36,7 +36,9 @@ const zkAppSchema = new mongoose.Schema({
   categorySlug: { type: String, required: true },
   icon: { type: String },
   bannerImage: { type: String },
+  // DESC. Top == most featured
   featured: { type: Number, default: undefined },
+  // DESC. Top == most featured
   trending: { type: Number, default: undefined },
   deleted: { type: Boolean },
 }, {timestamps: true});

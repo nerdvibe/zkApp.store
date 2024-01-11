@@ -3,6 +3,7 @@ export const schema = `
     name: String!
     slug:  String!
     zkAppCount: Int
+    topIcons: [String]
   }
 
   type Query {

@@ -312,6 +312,7 @@ export type ZkAppCategory = {
   __typename?: 'ZkAppCategory';
   name: Scalars['String']['output'];
   slug: Scalars['String']['output'];
+  topIcons?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   zkAppCount?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -602,6 +603,7 @@ export type ZkAppResolvers<ContextType = ModuleContext, ParentType extends Resol
 export type ZkAppCategoryResolvers<ContextType = ModuleContext, ParentType extends ResolversParentTypes['ZkAppCategory'] = ResolversParentTypes['ZkAppCategory']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  topIcons?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   zkAppCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -5,6 +5,9 @@ const zkAppCategoriesSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true, index: true },
   zkAppCount: { type: String, required: true, default: 0 },
   deleted: { type: Boolean },
+  topIcons: [{
+    type: String
+}]
 }, {timestamps: true});
 
 zkAppCategoriesSchema.index({ name: 'text', });
