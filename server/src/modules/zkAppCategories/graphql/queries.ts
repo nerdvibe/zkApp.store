@@ -27,11 +27,12 @@ export const Query = {
 
     const categories = await ZkAppCategoriesRepo.find({
       name: { $regex: args.text, $options: "i" },
-      zkAppCount: {$gt: 0},
+      zkAppCount: { $gt: 0 },
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
-      .limit(args.limit ?? DEFAULT_LIMIT);
+      .limit(args.limit ?? DEFAULT_LIMIT)
+      .sort({ zkAppCount: "desc" });
 
     return categories;
   },
@@ -44,11 +45,12 @@ export const Query = {
     }
 
     const categories = await ZkAppCategoriesRepo.find({
-      zkAppCount: {$gt: 0},
+      zkAppCount: { $gt: 0 },
       deleted: { $exists: false },
     })
       .skip(args.skip ?? 0)
-      .limit(args.limit ?? DEFAULT_LIMIT);
+      .limit(args.limit ?? DEFAULT_LIMIT)
+      .sort({ zkAppCount: "desc" });
 
     return categories;
   },
