@@ -1,8 +1,9 @@
 {
-  "name": "zkapp-bun",
-  "private": true,
-  "version": "0.0.0",
+  "name": "zkappstore-client",
+  "version": "1.0.0",
+  "author": "WeStake.Club (https://westake.club)",
   "type": "module",
+  "license":"GPL-3.0-or-later",
   "scripts": {
     "dev": "yarn generate && vite --host",
     "build": "tsc && vite build",
