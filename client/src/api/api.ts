@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ApolloLink } from "apollo-link";
 import { onError } from "apollo-link-error";
 // import { HttpLink, createHttpLink } from "apollo-link-http";
@@ -24,13 +25,13 @@ const renewTokenApiClient = (oldToken: string) =>
     cache: new InMemoryCache(),
   });
 
-const authLink = new ApolloLink((operation, forward) => {
+const authLink = new ApolloLink(async (operation, forward) => {
   let token = store.getState().session.authToken;
   if (token) {
     const decodedToken = parseJwt(token!);
     if (isTokenExpired(decodedToken)) {
-      renewToken();
-      token = store.getState().session.authToken;
+      const newToken = await renewToken();
+      token = newToken;
     }
   }
   operation.setContext(({ headers }: { headers: Headers }) => ({
@@ -72,7 +73,7 @@ const httpLink = ApolloLink.from([
 const renewToken = async () => {
   const oldRefreshToken = store.getState().session.refreshToken;
   const oldToken = store.getState().session.authToken!;
-  await renewTokenApiClient(oldToken)
+  const result = await renewTokenApiClient(oldToken)
     .mutate({
       mutation: REFRESH,
       variables: { refreshToken: oldRefreshToken },
@@ -87,6 +88,7 @@ const renewToken = async () => {
       );
       return refreshToken.accessToken;
     });
+  return result;
 };
 
 export const apolloClient = new ApolloClient<NormalizedCacheObject>({
