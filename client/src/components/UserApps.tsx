@@ -17,7 +17,7 @@ export default function UserApp({ apps }: IUserApps) {
     <div className="flex justify-center w-full gap-4 flex-wrap">
       <EmptyStateCard add />
       {apps.map((app) => (
-        <CustomCard {...app} onClick={() => onClick(app.slug)} />
+        <CustomCard {...app} key={app.slug} onClick={() => onClick(app.slug)} />
       ))}
     </div>
   );

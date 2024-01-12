@@ -56,6 +56,7 @@ export default function Register() {
           xUsername: xUsername || undefined,
           file,
         },
+        fetchPolicy: "no-cache",
       });
       if (result.data) {
         dispatch(showEmailVerification());
@@ -68,6 +69,7 @@ export default function Register() {
             login({
               authToken: result?.data?.signup?.accessToken,
               refreshToken: result?.data?.signup?.refreshToken,
+              user: {},
             })
           );
         }, 500);

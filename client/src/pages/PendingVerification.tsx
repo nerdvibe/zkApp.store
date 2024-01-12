@@ -3,10 +3,11 @@ import Lottie from "react-lottie-player";
 import emailSent from "@/assets/animations/email-sent.json";
 import { useDispatch, useSelector } from "react-redux";
 import { disableEmailVerification } from "../store/registration";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
 import routes from "../routes";
+import { setUserInfo } from "@/store/session";
 
 export default function PendingVerification() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function PendingVerification() {
     if (!showEmailVerification) {
       navigate(routes.DASHBOARD);
     }
+    dispatch(setUserInfo({}));
     return disablePage;
   }, []);
 

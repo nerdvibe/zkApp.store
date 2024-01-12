@@ -17,7 +17,7 @@ export default function CategoryCard({ id, name, slug, topIcons }: Props) {
   };
 
   return (
-    <div onClick={onCardClick}>
+    <div onClick={onCardClick} key={slug}>
       <Card
         isFooterBlurred
         className="col-span-12 sm:col-span-7 bg-[none] cursor-pointer hover:-translate-y-3 duration-250 relative select-none min-w-[350px] min-h-[200px] max-w-[300px]"

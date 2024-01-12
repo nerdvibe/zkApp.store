@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useVerifyEmailMutation } from "../gql/generated";
+import { useUserDataLazyQuery, useVerifyEmailMutation } from "../gql/generated";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Card, CardBody } from "@nextui-org/react";
@@ -8,6 +8,8 @@ import paperPlane from "@/assets/animations/paper-plane.json";
 import emailConfirmed from "@/assets/animations/email-confirmed.json";
 import warning from "@/assets/animations/warning.json";
 import routes from "../routes";
+import { setUserInfo } from "@/store/session";
+import { useDispatch } from "react-redux";
 
 export default function VerifyEmail() {
   const [loader, setLoader] = useState(true);
@@ -15,6 +17,8 @@ export default function VerifyEmail() {
   const { verifyEmailToken } = useParams();
   const [verifyEmail, { called, loading, error, data }] =
     useVerifyEmailMutation();
+  const dispatch = useDispatch();
+  const [fetchUserData] = useUserDataLazyQuery();
 
   useEffect(() => {
     if (verifyEmailToken && !called) {
@@ -22,6 +26,11 @@ export default function VerifyEmail() {
         variables: {
           emailVerificationToken: verifyEmailToken,
         },
+      }).then(async () => {
+        const userData = await fetchUserData();
+        if (userData?.data?.selfUser) {
+          dispatch(setUserInfo({ user: userData.data?.selfUser }));
+        }
       });
     }
   }, []);
@@ -103,7 +112,7 @@ export default function VerifyEmail() {
                     Your email has been verified
                   </p>
                   <p className="text-lg text-white ">
-                    <Link className="text-primary" to={routes.DASHBOARD}>
+                    <Link className="text-primary" to={routes.HOME}>
                       Click here
                     </Link>{" "}
                     to go to the homepage

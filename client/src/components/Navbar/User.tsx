@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import routes from "../../routes";
 import { logout, setUserInfo } from "../../store/session";
 import { useLogoutMutation, useUserDataQuery } from "../../gql/generated";
@@ -17,23 +17,38 @@ import UserIcon from "../User/UserIcon";
 import { useEffect } from "react";
 
 export default function User() {
+  const location = useLocation();
+  const { pathname } = location;
   const isAuthenticated = useSelector(
     (state: RootState) => state.session.logged
   );
 
-  const { data: userData } = useUserDataQuery({
+  const { data: userData, refetch } = useUserDataQuery({
     skip: !isAuthenticated,
+    fetchPolicy: "no-cache",
   });
   const user = useSelector((state: RootState) => state.session.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [logoutSession] = useLogoutMutation();
+  const [logoutSession, { client }] = useLogoutMutation();
 
   useEffect(() => {
-    if (userData) {
+    if (
+      userData?.selfUser?.username &&
+      !pathname.includes(routes.PENDING_VERIFICATION)
+    ) {
       dispatch(setUserInfo({ user: userData.selfUser }));
     }
+    if (pathname.includes(routes.PENDING_VERIFICATION)) {
+      dispatch(setUserInfo({}));
+    }
   }, [userData]);
+
+  useEffect(() => {
+    if (!userData && user?.username) {
+      refetch();
+    }
+  }, [userData, user]);
 
   const logoutHandler = async () => {
     try {
@@ -42,6 +57,7 @@ export default function User() {
     } catch (error) {
       toast.error("There was an error while logging out");
     } finally {
+      client.resetStore();
       dispatch(setUserInfo({}));
       dispatch(logout());
       navigate(routes.LANDING);
@@ -68,12 +84,12 @@ export default function User() {
           size="sm"
           src={user?.profilePicture}
           fallback={
-            <UserIcon value={user?.username || user?.email || ""} size={30} />
+            <UserIcon value={user?.username || user?.email || ""} size={"30"} />
           }
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        {userData && (
+        {user?.username && userData?.selfUser?.username && (
           <DropdownItem
             key="profile"
             className="h-14 gap-2"
@@ -83,13 +99,11 @@ export default function User() {
             <p className="font-semibold">{user?.username || user?.email}</p>
           </DropdownItem>
         )}
-        {userData && (
+        {user?.username && userData?.selfUser?.username && (
           <DropdownItem key="settings" onClick={goToSettings}>
             My Settings
           </DropdownItem>
         )}
-        {/* <DropdownItem key="analytics">Analytics</DropdownItem>
-        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
         <DropdownItem key="logout" color="danger" onClick={logoutHandler}>
           Log Out
         </DropdownItem>

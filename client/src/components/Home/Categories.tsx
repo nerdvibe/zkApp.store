@@ -49,7 +49,7 @@ export default function Categories() {
           className="w-full flex gap-4 left-0 p-4 min-h-[240px] items-end"
         >
           {data?.zkAppCategories?.map((category) => (
-            <CategoryCard {...category} key={category.id} />
+            <CategoryCard {...category} key={category.slug} />
           ))}
         </ScrollShadow>
         <div className="w-full flex justify-between relative -top-[150px]">

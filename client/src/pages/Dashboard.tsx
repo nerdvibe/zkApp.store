@@ -1,13 +1,12 @@
 import { Spinner, Tab, Tabs } from "@nextui-org/react";
 import UserApps from "../components/UserApps";
-import PublishUpdate from "../components/PublishUpdate";
 import EmptyState from "../components/Dashboard/EmptyState";
-import Analytics from "@/components/Dashboard/Analytics/Analytics";
 import PublishAppModal from "@/components/PublishAppModal";
 import { useUserWithZkAppsLazyQuery } from "@/gql/generated";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
+import EmptyStateCard from "@/components/EmptyStateCard";
 
 export interface UserApps {
   id: string;
@@ -58,6 +57,17 @@ export default function Dashboard() {
     // },
   ];
   const nApps = data?.user?.zkApps?.length || 0;
+
+  if (!currentUser?.id) {
+    return (
+      <div className="w-full flex justify-center items-center">
+        <EmptyStateCard
+          title="Verify your email first"
+          description="Come back later"
+        />
+      </div>
+    );
+  }
 
   if (!data || loading) {
     return <Spinner />;

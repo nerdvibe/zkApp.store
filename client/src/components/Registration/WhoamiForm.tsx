@@ -7,6 +7,7 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FileUploader } from "react-drag-drop-files";
 import "./style.css";
 import { useState } from "react";
+import { fileTypes } from "../Product/EditableAvatar";
 
 export interface IWhoamiForm {
   bio: string;
@@ -21,8 +22,6 @@ interface IWhoamiFormProps {
   goBack: () => void;
 }
 
-export const fileTypes = ["JPG", "PNG", "GIF"];
-
 export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
   const [file, setFile] = useState(null);
   const handleFileUpload = (file) => {
@@ -34,7 +33,7 @@ export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
       <div>
         <p>Tell a bit about yourself</p>
       </div>
-      <div className="flex flex-col items-center justify-stretch gap-8">
+      <div className="flex flex-col items-center justify-stretch gap-8 overflow-x-hidden">
         <Formik
           initialValues={initialWhoamiForm}
           onSubmit={(values, { setSubmitting }) => {

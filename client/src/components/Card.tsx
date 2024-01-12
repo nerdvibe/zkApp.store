@@ -18,7 +18,6 @@ interface CustomCardProps {
   reviewScore?: number;
   currentVersion?: string;
   id?: number;
-  key?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   buttonColor?:
     | "success"
@@ -37,7 +36,6 @@ export default function CustomCard({
   category,
   reviewScore,
   currentVersion,
-  key,
   buttonColor,
   onClick,
   icon,
@@ -50,7 +48,7 @@ export default function CustomCard({
   return (
     <Card
       className="py-4 min-w-[250px] max-w-[350px] cursor-pointer"
-      key={key}
+      key={slug}
       onMouseUp={onCardClick}
     >
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start w-full z-0">
@@ -69,7 +67,9 @@ export default function CustomCard({
       </CardHeader>
       <CardBody className="overflow-visible py-2 gap-2 justify-between">
         <div className="flex flex-col">
-          <p className="font-bold  break-words max-w-[220px]">{name || "ZkApp Name"}</p>
+          <p className="font-bold  break-words max-w-[220px]">
+            {name || "ZkApp Name"}
+          </p>
           <small className="text-default-400">
             #{category?.name || "Uncategorized"}
           </small>

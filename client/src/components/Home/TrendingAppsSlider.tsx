@@ -64,6 +64,7 @@ export default function TrendingAppsSlider() {
               {data?.zkApps?.map((element) => (
                 <CustomCard
                   {...element}
+                  key={element?.slug}
                   onClick={() => onClick(element?.slug)}
                 />
               ))}

@@ -76,6 +76,7 @@ export default function Favourites() {
         {zkApps?.map((zkApp) => (
           <CustomCard
             {...zkApp}
+            key={zkApp.slug}
             onClick={() => navigate(`${routes.PRODUCT}/${zkApp.slug}`)}
           />
         ))}

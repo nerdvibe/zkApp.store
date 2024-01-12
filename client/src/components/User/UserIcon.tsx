@@ -5,7 +5,7 @@ export default function UserIcon({
   size,
 }: {
   value: string;
-  size?: number;
+  size?: string;
 }) {
-  return <Jdenticon value={value} size={size || 100} />;
+  return <Jdenticon value={value} size={size || "100"} />;
 }

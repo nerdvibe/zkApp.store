@@ -23,7 +23,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loginUser] = useLoginMutation();
   const [showModal, setShowModal] = useState(false);
-  const [fetchUserData] = useUserDataLazyQuery();
+  const [fetchUserData] = useUserDataLazyQuery({
+    fetchPolicy: "no-cache",
+  });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const loginHandler = async () => {
@@ -33,6 +35,7 @@ export default function Login() {
           email,
           password,
         },
+        fetchPolicy: "no-cache",
       });
       if (result.data) {
         dispatch(
@@ -43,7 +46,7 @@ export default function Login() {
         );
         toast.success("Logged-in");
         dispatch(toggleLoader({ show: true }));
-        const userData = await fetchUserData();
+        const userData = await fetchUserData({ fetchPolicy: "no-cache" });
         if (userData?.data?.selfUser) {
           dispatch(setUserInfo({ user: userData.data?.selfUser }));
         }

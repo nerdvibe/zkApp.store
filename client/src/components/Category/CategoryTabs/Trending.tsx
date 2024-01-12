@@ -37,6 +37,7 @@ export default function Trending({
       {apps?.map((product) => (
         <CustomCard
           {...product}
+          key={product.slug}
           onClick={() => navigate(`${routes.PRODUCT}/${product.slug}`)}
         />
       ))}

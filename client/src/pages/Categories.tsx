@@ -17,7 +17,7 @@ export default function Categories() {
         ) : (
           <div className="flex gap-4 flex-wrap flex-row justify-center">
             {data.zkAppCategories.map((category) => (
-              <CategoryCard {...category} />
+              <CategoryCard {...category} key={category?.slug} />
             ))}
           </div>
         )}

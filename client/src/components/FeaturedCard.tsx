@@ -6,7 +6,6 @@ interface Props {
   name?: string;
   subtitle?: string;
   slug?: string;
-  key?: string;
   icon?: string;
 }
 
@@ -16,12 +15,11 @@ export default function FeaturedCard({
   name,
   subtitle,
   slug,
-  key,
   icon,
 }: Props) {
   return (
     <Card
-      key={key}
+      key={slug}
       className={`pb-4 w-[80%]  ${
         white && "bg-slate-200"
       } w-[200px] max-w-[320px] min-w-[200px] ${

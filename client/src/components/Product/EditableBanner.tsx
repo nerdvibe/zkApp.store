@@ -1,7 +1,5 @@
 import {
-  useUpdateUserDetailsMutation,
   useUpdateZkAppBannerMutation,
-  useUpdateZkAppMutation,
   useUploadUserBannerMutation,
 } from "@/gql/generated";
 import { RootState } from "@/store/store";
@@ -19,7 +17,7 @@ import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
-const fileTypes = ["JPG", "PNG", "GIF"];
+import { fileTypes } from "./EditableAvatar";
 
 export default function EditableBanner({
   bannerImage,
@@ -58,9 +56,11 @@ export default function EditableBanner({
   };
 
   useEffect(() => {
-    getBase64(file).then((b64) => {
-      setB64File(b64);
-    });
+    if (file) {
+      getBase64(file).then((b64) => {
+        setB64File(b64);
+      });
+    }
   }, [file]);
 
   const uploadImage = async () => {

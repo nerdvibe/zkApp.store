@@ -82,7 +82,9 @@ export default function UserSearch({
                   name={app?.username}
                   size="sm"
                   src={app?.profilePicture}
-                  fallback={<UserIcon value={app?.username || ""} size={30} />}
+                  fallback={
+                    <UserIcon value={app?.username || ""} size={"30"} />
+                  }
                 />
               }
             >

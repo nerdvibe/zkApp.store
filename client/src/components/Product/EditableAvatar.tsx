@@ -1,7 +1,5 @@
 import {
-  useUpdateUserDetailsMutation,
   useUpdateZkAppIconMutation,
-  useUpdateZkAppMutation,
   useUploadUserImageMutation,
 } from "@/gql/generated";
 import { RootState } from "@/store/store";
@@ -21,7 +19,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import UserIcon from "../User/UserIcon";
-const fileTypes = ["JPG", "PNG", "GIF"];
+export const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
 
 export default function EditableAvatar({
   icon,
@@ -62,9 +60,11 @@ export default function EditableAvatar({
   };
 
   useEffect(() => {
-    getBase64(file).then((b64) => {
-      setB64File(b64);
-    });
+    if (file) {
+      getBase64(file).then((b64) => {
+        setB64File(b64);
+      });
+    }
   }, [file]);
 
   const uploadImage = async () => {
@@ -225,7 +225,7 @@ export default function EditableAvatar({
     <Avatar
       src={icon}
       className="w-[100px] h-[100px] object-cover"
-      fallback={<UserIcon value={name || ""} size={100} />}
+      fallback={<UserIcon value={name || ""} size={"100"} />}
     />
   ) : (
     <Avatar
