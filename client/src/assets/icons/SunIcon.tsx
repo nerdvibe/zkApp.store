@@ -1,4 +1,4 @@
-export const SunIcon = (props) => (
+export const SunIcon = ({ className }: { className?: string }) => (
   <svg
     aria-hidden="true"
     focusable="false"
@@ -6,7 +6,7 @@ export const SunIcon = (props) => (
     role="presentation"
     viewBox="0 0 24 24"
     width="1em"
-    {...props}
+    className={className}
   >
     <g fill="currentColor">
       <path d="M19 12a7 7 0 11-7-7 7 7 0 017 7z" />
