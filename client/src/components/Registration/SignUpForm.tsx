@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { initialRegistrationForm, validateRegistration } from "./util";
 import DarkInput from "../DarkInput";
 import { EyeSlashFilledIcon } from "@/assets/icons/EyeSlashed";
@@ -62,7 +62,6 @@ export default function SignUpForm({
             values,
             handleSubmit,
             isValid,
-            dirty,
             setValues,
           }) => (
             <form

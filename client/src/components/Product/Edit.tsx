@@ -1,4 +1,5 @@
 import {
+  AppDataQuery,
   useAllZkAppCategoriesQuery,
   useDeleteAppMutation,
   useUpdateZkAppMutation,
@@ -16,7 +17,7 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../ConfirmationModal";
 import { toast } from "react-hot-toast";
@@ -25,7 +26,12 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import routes from "@/routes";
 
-export default function Edit({ refetchData, data }: any) {
+interface Props {
+  refetchData: () => void;
+  data?: AppDataQuery | null;
+}
+
+export default function Edit({ refetchData, data }: Props) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [title, setTitle] = useState(data?.zkApp?.name || "");
   const [shortDescription, setShortDescription] = useState(
@@ -55,7 +61,7 @@ export default function Edit({ refetchData, data }: any) {
     const { data: result } = await toast.promise(
       deleteAppMutation({
         variables: {
-          id: data?.zkApp?.id,
+          id: data?.zkApp?.id as string,
         },
       }),
       {
@@ -70,7 +76,7 @@ export default function Edit({ refetchData, data }: any) {
       setTimeout(() => {
         setShowDeleteModal(false);
         navigate(routes.DASHBOARD);
-      }, [1500]);
+      }, 1500);
     }
   };
 
@@ -106,14 +112,17 @@ export default function Edit({ refetchData, data }: any) {
   };
 
   const deleteEdit = () => {
-    const { currentVersion, name, category, subtitle, url } = data?.zkApp;
-    setVersion(currentVersion);
-    setTitle(name);
-    setCategory(category);
-    setShortDescription(subtitle);
-    setLink(url);
-    refetchData();
-    dispatch(toggleEditProductModal({ active: false }));
+    if (data?.zkApp) {
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      const { currentVersion, name, category, subtitle, url } = data?.zkApp;
+      setVersion(currentVersion);
+      setTitle(name);
+      setCategory(category?.slug as string);
+      setShortDescription(subtitle as string);
+      setLink(url);
+      refetchData();
+      dispatch(toggleEditProductModal({ active: false }));
+    }
   };
 
   return (
@@ -175,7 +184,7 @@ export default function Edit({ refetchData, data }: any) {
                     setVersion(val.currentTarget.value);
                   }}
                 />
-                {categories && (
+                {categories && categories?.zkAppCategories && (
                   <Select
                     label="Category"
                     variant="bordered"
@@ -187,8 +196,11 @@ export default function Edit({ refetchData, data }: any) {
                     selectedKeys={category}
                   >
                     {categories?.zkAppCategories?.map((category) => (
-                      <SelectItem key={category.slug} value={category.slug}>
-                        {category.name}
+                      <SelectItem
+                        key={category?.slug as string}
+                        value={category?.slug}
+                      >
+                        {category?.name}
                       </SelectItem>
                     ))}
                   </Select>

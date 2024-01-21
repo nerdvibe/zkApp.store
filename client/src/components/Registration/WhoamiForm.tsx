@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Formik } from "formik";
 import DarkInput from "../DarkInput";
 import { Button } from "@nextui-org/react";
@@ -14,7 +15,7 @@ export interface IWhoamiForm {
   xUsername: string;
   githubUsername: string;
   discordUrl: string;
-  file: any;
+  file: File;
 }
 
 interface IWhoamiFormProps {
@@ -23,8 +24,8 @@ interface IWhoamiFormProps {
 }
 
 export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
-  const [file, setFile] = useState(null);
-  const handleFileUpload = (file) => {
+  const [file, setFile] = useState<File>();
+  const handleFileUpload = (file: File) => {
     setFile(file);
   };
   return (
@@ -37,7 +38,7 @@ export default function WhoamiForm({ onSubmit, goBack }: IWhoamiFormProps) {
         <Formik
           initialValues={initialWhoamiForm}
           onSubmit={(values, { setSubmitting }) => {
-            onSubmit({ ...values, file: file });
+            onSubmit({ ...values, file: file as File } as IWhoamiForm);
             setSubmitting(false);
           }}
         >

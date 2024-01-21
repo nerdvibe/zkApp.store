@@ -19,26 +19,34 @@ import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { fileTypes } from "./EditableAvatar";
 
+interface Props {
+  bannerImage?: string;
+  name?: string;
+  isEditable?: boolean;
+  refetch?: () => void;
+  isUser?: boolean;
+}
+
 export default function EditableBanner({
   bannerImage,
   isEditable,
   refetch,
   isUser,
-}: any) {
+}: Props) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
   const [updateZkAppBanner, { loading: appLoading }] =
     useUpdateZkAppBannerMutation();
   const [updateUserDataBanner, { loading: profileLoading }] =
     useUploadUserBannerMutation();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<File>();
   const [showChangeBannerModal, setShowChangeBannerModal] = useState(false);
   const [b64File, setB64File] = useState("");
-  const handleFileUpload = async (file) => {
+  const handleFileUpload = async (file: File) => {
     setFile(file);
   };
 
-  const getBase64 = async (file) => {
+  const getBase64 = async (file: File) => {
     return await new Promise((resolve) => {
       let baseURL = "";
       // Make new FileReader
@@ -48,7 +56,7 @@ export default function EditableBanner({
       // on reader load somthing...
       reader.onload = () => {
         // Make a fileInfo Object
-        baseURL = reader.result;
+        baseURL = reader.result as string;
         console.log(baseURL);
         resolve(baseURL);
       };
@@ -58,7 +66,7 @@ export default function EditableBanner({
   useEffect(() => {
     if (file) {
       getBase64(file).then((b64) => {
-        setB64File(b64);
+        setB64File(b64 as string);
       });
     }
   }, [file]);
@@ -95,7 +103,9 @@ export default function EditableBanner({
         );
       }
       if (result?.data && !result?.errors) {
-        refetch();
+        if (refetch) {
+          refetch();
+        }
         setShowChangeBannerModal(false);
       }
     }

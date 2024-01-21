@@ -1,10 +1,10 @@
 import routes from "@/routes";
-import CustomCard from "../Card";
+import CustomCard, { CustomCardProps } from "../Card";
 import { useNavigate } from "react-router-dom";
 import EmptyStateCard from "../EmptyStateCard";
 import satellite from "@/assets/animations/satellite.json";
 
-export default function UserApps({ apps }: { apps: any[] }) {
+export default function UserApps({ apps }: { apps: CustomCardProps[] }) {
   const navigate = useNavigate();
   if (!apps || apps.length === 0) {
     return (

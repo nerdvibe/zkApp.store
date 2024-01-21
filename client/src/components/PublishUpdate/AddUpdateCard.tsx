@@ -7,8 +7,6 @@ import {
   Divider,
   Skeleton,
 } from "@nextui-org/react";
-import { useState } from "react";
-import UpdateModal from "./UpdateModal";
 
 export default function AddUpdateCard({
   setShowModal,

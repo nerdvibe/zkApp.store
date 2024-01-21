@@ -13,6 +13,20 @@ export const initialPublishAppForm = {
   githubUrl: "",
 };
 
+interface IValidatePublishApp {
+  name?: string;
+  slug?: string;
+  version?: string;
+  url?: string;
+}
+
+interface IValidatePublishAppValues {
+  name: string;
+  slug: string;
+  version: string;
+  url: string;
+}
+
 export const newAppFormSchema = {
   main: [
     {
@@ -86,8 +100,8 @@ export const newAppFormSchema = {
   ],
 };
 
-export const validatePublishApp = (values: any) => {
-  const errors = {};
+export const validatePublishApp = (values: IValidatePublishAppValues) => {
+  const errors: IValidatePublishApp = {};
   if (!values.name) {
     errors.name = "Required";
   }

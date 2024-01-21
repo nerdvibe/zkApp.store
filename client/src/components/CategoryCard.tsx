@@ -4,10 +4,10 @@ import routes from "../routes";
 import CategoriesPlaceholder from "./Category/CategoryTabs/CategoriesPlaceholder";
 
 interface Props {
-  id: number;
-  topIcons?: string[];
-  name: string;
-  slug: string;
+  id?: number;
+  topIcons?: (string | null)[] | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 
 export default function CategoryCard({ id, name, slug, topIcons }: Props) {
@@ -25,7 +25,7 @@ export default function CategoryCard({ id, name, slug, topIcons }: Props) {
       >
         <div className="flex gap-[10%]">
           {!topIcons ? (
-            <CategoriesPlaceholder slug={slug} />
+            <CategoriesPlaceholder slug={slug as string} />
           ) : (
             <>
               {topIcons[1] ? (

@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import CustomCard from "./Card";
+import CustomCard, { CustomCardProps } from "./Card";
 import routes from "@/routes";
-import { UserApps } from "@/pages/Dashboard";
 import EmptyStateCard from "./Dashboard/EmptyStateCard";
 
 interface IUserApps {
-  apps: UserApps[];
+  apps: CustomCardProps[];
 }
 
 export default function UserApp({ apps }: IUserApps) {
@@ -17,7 +16,11 @@ export default function UserApp({ apps }: IUserApps) {
     <div className="flex justify-center w-full gap-4 flex-wrap">
       <EmptyStateCard add />
       {apps.map((app) => (
-        <CustomCard {...app} key={app.slug} onClick={() => onClick(app.slug)} />
+        <CustomCard
+          {...app}
+          key={app.slug}
+          onClick={() => onClick(app.slug!)}
+        />
       ))}
     </div>
   );

@@ -10,7 +10,7 @@ interface IComment {
   preview?: string;
   text?: string;
   score?: number;
-  index?: number;
+  index: number;
   date?: string;
   User?: {
     username?: string;

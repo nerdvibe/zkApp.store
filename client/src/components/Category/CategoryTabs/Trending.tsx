@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import CustomCard from "../../Card";
+import CustomCard, { CustomCardProps } from "../../Card";
 import routes from "@/routes";
 import EmptyStateCard from "@/components/EmptyStateCard";
 import { Spinner } from "@nextui-org/react";
@@ -8,7 +8,7 @@ export default function Trending({
   apps,
   loading,
 }: {
-  apps: any[];
+  apps: CustomCardProps[];
   loading: boolean;
 }) {
   const navigate = useNavigate();

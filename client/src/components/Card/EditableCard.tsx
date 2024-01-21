@@ -3,7 +3,7 @@ import { RootState } from "@/store/store";
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { faPencil, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, CardBody, toggle } from "@nextui-org/react";
+import { Button, Card, CardBody } from "@nextui-org/react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -117,7 +117,7 @@ export default function EditableCard({
           {editMode ? (
             <MDEditor
               value={value}
-              onChange={setValue}
+              onChange={(value?: string) => setValue(value || "")}
               style={{
                 whiteSpace: "pre-wrap",
                 background: "none",

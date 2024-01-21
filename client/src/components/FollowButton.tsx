@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalContent } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import Lottie from "react-lottie-player";
 import bell from "@/assets/animations/bell.json";
 import { useState } from "react";
@@ -9,7 +9,7 @@ interface IProps {
   onClick?: () => void;
 }
 
-export default function FollowButton({ following, onClick }: IProps) {
+export default function FollowButton({ following }: IProps) {
   const [showModal, setShowModal] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
   return (

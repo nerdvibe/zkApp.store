@@ -18,6 +18,14 @@ interface IProps {
   parentLoading?: boolean;
 }
 
+interface IUserSearch {
+  __typename?: "User" | undefined;
+  username: string;
+  followerCount?: number | null | undefined;
+  profilePicture?: string | null | undefined;
+  id?: string | null | undefined;
+}
+
 export default function UserSearch({
   debouncedSearchTerm,
   openResult,
@@ -26,7 +34,7 @@ export default function UserSearch({
   parentLoading,
 }: IProps) {
   const [searchUsers] = useSearchUserLazyQuery();
-  const [fetchedUsers, setFetchedUsers] = useState([]);
+  const [fetchedUsers, setFetchedUsers] = useState<IUserSearch[]>([]);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -38,7 +46,7 @@ export default function UserSearch({
         })
           .then((data) => {
             if (data?.data?.userSearch) {
-              setFetchedUsers(data?.data?.userSearch);
+              setFetchedUsers(data?.data?.userSearch as IUserSearch[]);
             }
           })
           .finally(() => {
@@ -72,7 +80,7 @@ export default function UserSearch({
             <ListboxItem
               key={app?.username}
               description={`${app?.followerCount} Followers`}
-              onClick={() => openResult(routes.PROFILE, app?.id)}
+              onClick={() => openResult(routes.PROFILE, app?.id as string)}
               startContent={
                 <Avatar
                   isBordered
@@ -81,7 +89,7 @@ export default function UserSearch({
                   color="default"
                   name={app?.username}
                   size="sm"
-                  src={app?.profilePicture}
+                  src={app?.profilePicture as string}
                   fallback={
                     <UserIcon value={app?.username || ""} size={"30"} />
                   }

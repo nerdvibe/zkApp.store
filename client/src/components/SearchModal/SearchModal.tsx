@@ -29,10 +29,9 @@ export default function SearchModal() {
   const [completedCalls, setCompletedCalls] = useState(0);
   const { showModal, text } = useSelector((state: RootState) => state.search);
   const debouncedSearchTerm = useDebounce<string>(inputValue, 500);
-  // TODO: Add query
 
   const onKeyPress = () => {
-    dispatch(toggleModal({}));
+    dispatch(toggleModal());
   };
 
   useKeyPress({ keys: ["k"], ctrl: true, callback: onKeyPress });
@@ -69,7 +68,7 @@ export default function SearchModal() {
 
   const openResult = (route: string, id?: string) => {
     navigate(`${route}/${id}`);
-    dispatch(toggleModal({}));
+    dispatch(toggleModal());
   };
 
   return (
@@ -77,7 +76,7 @@ export default function SearchModal() {
       backdrop={"blur"}
       isOpen={showModal}
       onClose={() => {
-        dispatch(toggleModal({}));
+        dispatch(toggleModal());
       }}
       className="max-w-[900px] p-0"
       hideCloseButton

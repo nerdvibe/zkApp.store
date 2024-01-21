@@ -5,6 +5,20 @@ export const initialRegistrationForm = {
   confirmPassword: "",
   isDeveloper: false,
 };
+interface IInitialRegistrationForm {
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  isDeveloper?: boolean;
+}
+interface IErrors {
+  email?: string;
+  username?: string;
+  password?: string;
+  confirmPassword?: string;
+  isDeveloper?: boolean;
+}
 
 export const initialWhoamiForm = {
   bio: "",
@@ -14,8 +28,8 @@ export const initialWhoamiForm = {
   file: undefined,
 };
 
-export const validateRegistration = (values: any) => {
-  const errors = {};
+export const validateRegistration = (values: IInitialRegistrationForm) => {
+  const errors: IErrors = {};
   if (!values.email) {
     errors.email = "Required";
   } else if (!EMAIL_REGEX.test(values.email)) {

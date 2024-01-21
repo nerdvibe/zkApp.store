@@ -10,14 +10,16 @@ import {
 import { MouseEventHandler } from "react";
 import { useDispatch } from "react-redux";
 
-interface CustomCardProps {
-  name?: string;
-  subtitle?: string;
-  slug?: string;
-  category?: string;
-  reviewScore?: number;
-  currentVersion?: string;
-  id?: number;
+export interface CustomCardProps {
+  name?: string | null | undefined;
+  subtitle?: string | null | undefined;
+  slug?: string | null | undefined;
+  category?: {
+    name?: string | null | undefined;
+  };
+  reviewScore?: number | null | undefined;
+  currentVersion?: string | null | undefined;
+  id?: number | null | undefined;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   buttonColor?:
     | "success"
@@ -34,7 +36,6 @@ export default function CustomCard({
   subtitle,
   slug,
   category,
-  reviewScore,
   currentVersion,
   buttonColor,
   onClick,

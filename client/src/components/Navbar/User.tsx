@@ -89,7 +89,7 @@ export default function User() {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
-        {user?.username && userData?.selfUser?.username && (
+        {user?.username && userData?.selfUser?.username ? (
           <DropdownItem
             key="profile"
             className="h-14 gap-2"
@@ -98,11 +98,15 @@ export default function User() {
             <p className="font-semibold">Signed in as</p>
             <p className="font-semibold">{user?.username || user?.email}</p>
           </DropdownItem>
+        ) : (
+          <></>
         )}
-        {user?.username && userData?.selfUser?.username && (
+        {user?.username && userData?.selfUser?.username ? (
           <DropdownItem key="settings" onClick={goToSettings}>
             My Settings
           </DropdownItem>
+        ) : (
+          <></>
         )}
         <DropdownItem key="logout" color="danger" onClick={logoutHandler}>
           Log Out

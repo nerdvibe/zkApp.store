@@ -19,16 +19,19 @@ export default function ProfileUpdate() {
     useFormik({
       initialValues: currentUser || initialWhoamiForm,
       onSubmit: (values, { setSubmitting }) => {
-        onSubmit(values);
+        onSubmit(values as IUser);
         setSubmitting(false);
       },
     });
 
   const touched = useCallback(() => {
     let isTouched = false;
-    Object.keys(currentUser).map((index) => {
-      isTouched = isTouched || currentUser[index] !== values[index];
-    });
+    if (currentUser) {
+      Object.keys(currentUser).map((index) => {
+        // @ts-expect-error
+        isTouched = isTouched || currentUser[index] !== values[index];
+      });
+    }
     return isTouched;
   }, [values, currentUser]);
 

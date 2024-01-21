@@ -21,28 +21,36 @@ import { useSelector } from "react-redux";
 import UserIcon from "../User/UserIcon";
 export const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
 
+interface Props {
+  icon?: string;
+  name?: string;
+  isEditable?: boolean;
+  refetch?: () => void;
+  isUser?: boolean;
+}
+
 export default function EditableAvatar({
   icon,
   name,
   isEditable,
   refetch,
   isUser,
-}: any) {
+}: Props) {
   const [showEditButton, setShowEditButton] = useState(false);
   const app = useSelector((state: RootState) => state.product.selectedApp);
   const [updateZkAppIcon, { loading: appLoading }] =
     useUpdateZkAppIconMutation();
   const [uploadImageMutation, { loading: profileLoading }] =
     useUploadUserImageMutation();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<File>();
   const [b64File, setB64File] = useState("");
   const [showChangeIconModal, setShowChangeIconModal] = useState(false);
 
-  const handleFileUpload = async (rawFile) => {
-    setFile(rawFile);
+  const handleFileUpload = async (rawFile: File) => {
+    setFile(rawFile as File);
   };
 
-  const getBase64 = async (file) => {
+  const getBase64 = async (file: File) => {
     return await new Promise((resolve) => {
       let baseURL = "";
       // Make new FileReader
@@ -52,7 +60,7 @@ export default function EditableAvatar({
       // on reader load somthing...
       reader.onload = () => {
         // Make a fileInfo Object
-        baseURL = reader.result;
+        baseURL = reader.result as string;
         console.log(baseURL);
         resolve(baseURL);
       };
@@ -62,7 +70,7 @@ export default function EditableAvatar({
   useEffect(() => {
     if (file) {
       getBase64(file).then((b64) => {
-        setB64File(b64);
+        setB64File(b64 as string);
       });
     }
   }, [file]);
@@ -99,7 +107,9 @@ export default function EditableAvatar({
         );
       }
       if (result?.data && !result?.errors) {
-        refetch();
+        if (refetch) {
+          refetch();
+        }
         setFile(undefined);
         setShowChangeIconModal(false);
       }

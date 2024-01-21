@@ -1,4 +1,4 @@
-import { Button, Spinner, Tab, Tabs } from "@nextui-org/react";
+import { Spinner, Tab, Tabs } from "@nextui-org/react";
 import SocialButtonsShare from "./SocialButtonsShare";
 import UserApps from "./User/UserApps";
 import UserUpdates from "./User/UserUpdates";
@@ -13,13 +13,11 @@ import { useUserWithZkAppsLazyQuery } from "@/gql/generated";
 import EditableBanner from "./Product/EditableBanner";
 import EditableAvatar from "./Product/EditableAvatar";
 import FollowButton from "./FollowButton";
+import { CustomCardProps } from "./Card";
 
 export default function Profile() {
   const { id: urlId } = useParams();
   const currentUser = useSelector((state: RootState) => state.session.user);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.session.logged
-  );
   const isCurrentUser = currentUser?.id === urlId;
   const [fetchUserData, { data, loading, refetch }] =
     useUserWithZkAppsLazyQuery({
@@ -42,7 +40,7 @@ export default function Profile() {
     {
       key: "zkapps",
       title: "zkApps",
-      component: <UserApps apps={data?.user?.zkApps} />,
+      component: <UserApps apps={data?.user?.zkApps as CustomCardProps[]} />,
     },
     { key: "updates", title: "Updates", component: <UserUpdates /> },
   ];
@@ -68,7 +66,7 @@ export default function Profile() {
     <div className="w-full flex flex-col gap-8">
       <div className="w-full object-cover flex">
         <EditableBanner
-          bannerImage={data?.user?.bannerPicture}
+          bannerImage={data?.user?.bannerPicture as string}
           isEditable={isCurrentUser}
           isUser
           refetch={refetch}
@@ -77,7 +75,7 @@ export default function Profile() {
       <div className="flex flex-col md:flex-row gap-4 justify-between px-8">
         <div className="flex flex-col md:flex-row items-center gap-4">
           <EditableAvatar
-            icon={data?.user?.profilePicture}
+            icon={data?.user?.profilePicture as string}
             name={data?.user?.username}
             isEditable={isCurrentUser}
             isUser

@@ -1,6 +1,12 @@
 import { cn } from "@nextui-org/react";
 
-export const IconWrapper = ({ children, className }) => (
+export const IconWrapper = ({
+  children,
+  className,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}) => (
   <div
     className={cn(
       className,

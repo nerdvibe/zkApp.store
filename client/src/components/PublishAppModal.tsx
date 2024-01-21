@@ -33,8 +33,7 @@ export default function PublishAppModal() {
               <div className="hidden md:block">
                 <CustomCard
                   {...newAppDetails}
-                  title={newAppDetails.name}
-                  shortDescription={newAppDetails.subtitle}
+                  category={{ name: newAppDetails.category }}
                   buttonColor="primary"
                 />
               </div>

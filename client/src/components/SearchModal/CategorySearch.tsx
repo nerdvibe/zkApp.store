@@ -12,6 +12,14 @@ interface IProps {
   parentLoading?: boolean;
 }
 
+interface ISearchQueryApp {
+  id?: number;
+  topIcons?: (string | null)[] | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  zkAppCount?: number | undefined;
+}
+
 export default function CategorySearch({
   debouncedSearchTerm,
   openResult,
@@ -21,7 +29,9 @@ export default function CategorySearch({
 }: IProps) {
   const [searchCategory] = useSearchCategoriesLazyQuery();
 
-  const [fetchedCategories, setFetchedCategories] = useState([]);
+  const [fetchedCategories, setFetchedCategories] = useState<ISearchQueryApp[]>(
+    []
+  );
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -33,7 +43,9 @@ export default function CategorySearch({
         })
           .then((data) => {
             if (data?.data?.zkAppCategoriesSearch) {
-              setFetchedCategories(data?.data?.zkAppCategoriesSearch);
+              setFetchedCategories(
+                data?.data?.zkAppCategoriesSearch as ISearchQueryApp[]
+              );
             }
           })
           .finally(() => {
@@ -65,7 +77,7 @@ export default function CategorySearch({
         {fetchedCategories?.length ? (
           fetchedCategories?.map((app) => (
             <ListboxItem
-              key={app?.name}
+              key={app?.name as string}
               description={`${app?.zkAppCount} zkApps`}
               onClick={() => openResult(routes.CATEGORY, app?.slug)}
               startContent={
@@ -73,7 +85,7 @@ export default function CategorySearch({
                   // TODO: Add thumbnail
                   src={
                     app?.topIcons && app?.topIcons.length > 0
-                      ? app?.topIcons[0]
+                      ? (app?.topIcons[0] as string)
                       : "https://nextui.org/images/card-example-6.jpeg"
                   }
                   className="w-[50px] h-[50px] object-cover"

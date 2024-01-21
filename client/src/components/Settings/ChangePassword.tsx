@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Divider } from "@nextui-org/react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import DarkInput from "../DarkInput";
 import { EyeSlashFilledIcon } from "@/assets/icons/EyeSlashed";
 import { EyeFilledIcon } from "@/assets/icons/EyeFilled";
@@ -20,6 +20,7 @@ export default function ChangePassword() {
     confirm: false,
   });
   const toggleVisibility = (field: string) =>
+    // @ts-expect-error
     setIsVisible({ ...isVisible, [field]: !isVisible[field] });
 
   const updatePassword = async () => {
@@ -82,7 +83,9 @@ export default function ChangePassword() {
         <DarkInput
           label="Old password"
           variant="bordered"
-          onChange={(e) => setOldPassword(e.currentTarget.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setOldPassword(e.currentTarget.value)
+          }
           endContent={
             <button
               className="focus:outline-none"
@@ -102,7 +105,9 @@ export default function ChangePassword() {
         <DarkInput
           label="New password"
           variant="bordered"
-          onChange={(e) => setNewPassword(e.currentTarget.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setNewPassword(e.currentTarget.value)
+          }
           endContent={
             <button
               className="focus:outline-none"
@@ -122,7 +127,9 @@ export default function ChangePassword() {
         <DarkInput
           label="Confirm new password"
           variant="bordered"
-          onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setConfirmPassword(e.currentTarget.value)
+          }
           endContent={
             <button
               className="focus:outline-none"

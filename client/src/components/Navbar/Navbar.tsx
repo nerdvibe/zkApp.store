@@ -27,7 +27,7 @@ export default function CustomNavbar() {
   const keypressAction = () => {
     if (searchbarFocused) {
       dispatch(searchApp({ value: searchText }));
-      dispatch(toggleModal({}));
+      dispatch(toggleModal());
     }
   };
 

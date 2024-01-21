@@ -1,5 +1,5 @@
 import { ScrollShadow, Spinner, Tab, Tabs } from "@nextui-org/react";
-import CustomCard from "../Card";
+import CustomCard, { CustomCardProps } from "../Card";
 import { useNavigate } from "react-router-dom";
 import routes from "../../routes";
 import { useTrendingAppsQuery } from "@/gql/generated";
@@ -8,13 +8,13 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
 export default function TrendingAppsSlider() {
-  const { data,loading } = useTrendingAppsQuery();
+  const { data, loading } = useTrendingAppsQuery();
   const navigate = useNavigate();
   const onClick = (id: string) => {
     navigate(`${routes.PRODUCT}/${id}`);
   };
 
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToPosition = (position: number) => {
     // Check if the ref is available
@@ -63,9 +63,9 @@ export default function TrendingAppsSlider() {
             >
               {data?.zkApps?.map((element) => (
                 <CustomCard
-                  {...element}
+                  {...(element as unknown as CustomCardProps)}
                   key={element?.slug}
-                  onClick={() => onClick(element?.slug)}
+                  onClick={() => onClick(element?.slug as string)}
                 />
               ))}
             </ScrollShadow>

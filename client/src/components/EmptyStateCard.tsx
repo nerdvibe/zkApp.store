@@ -1,12 +1,11 @@
 import { Card, CardBody } from "@nextui-org/react";
 import Lottie from "react-lottie-player";
 import ufo from "@/assets/animations/ufo.json";
-import { Player } from "@lottiefiles/react-lottie-player";
 
 interface Props {
   title?: string;
   description?: string;
-  image?: any;
+  image?: unknown;
   speed?: number;
 }
 

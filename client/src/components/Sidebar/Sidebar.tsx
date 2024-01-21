@@ -69,14 +69,13 @@ export default function CustomSidebar() {
             }}
           >
             {SIDEBAR_TABS.map(
-              ({ key, label, icon, suffix, link, disabled, onClick }) => (
+              ({ key, label, icon, suffix, link, disabled }) => (
                 <MenuItem
                   key={key}
                   icon={icon}
                   suffix={suffix}
                   component={link && <NavLink to={link} />}
                   disabled={disabled}
-                  onClick={() => (onClick ? onClick() : null)}
                 >
                   {label}
                 </MenuItem>

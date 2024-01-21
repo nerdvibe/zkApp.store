@@ -2,7 +2,17 @@ import { Textarea } from "@nextui-org/react";
 import DarkInput from "../DarkInput";
 import { newAppFormSchema } from "./util";
 import MDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+
+interface Props {
+  handleFormUpdate: (name: string, value: string) => void;
+  handleBlur: (event: unknown) => void;
+  handleChange: (event: unknown) => void;
+  values: {
+    [key: string]: string;
+  };
+  setFieldValue: (name: string, value: string) => void;
+}
 
 export default function AdditionalData({
   handleFormUpdate,
@@ -10,7 +20,7 @@ export default function AdditionalData({
   handleChange,
   values,
   setFieldValue,
-}: any) {
+}: Props) {
   const [body, setBody] = useState("");
   return (
     <div className="px-4 pb-6 flex flex-col gap-4">
@@ -23,7 +33,7 @@ export default function AdditionalData({
               labelPlacement="outside"
               placeholder={placeholder}
               name={name}
-              onChange={(event) => {
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 handleFormUpdate(name, event.currentTarget.value);
                 handleChange(event);
               }}
@@ -41,7 +51,7 @@ export default function AdditionalData({
               placeholder={placeholder}
               value={values[name]}
               onBlur={handleBlur}
-              onChange={(event) => {
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 handleFormUpdate(name, event.currentTarget.value);
                 handleChange(event);
               }}
@@ -58,9 +68,9 @@ export default function AdditionalData({
                 value={body}
                 style={{ whiteSpace: "pre-wrap", background: "none" }}
                 onChange={(value) => {
-                  setBody(value);
-                  handleFormUpdate(name, value);
-                  setFieldValue(name, value);
+                  setBody(value!);
+                  handleFormUpdate(name, value!);
+                  setFieldValue(name, value!);
                 }}
               />
             </div>

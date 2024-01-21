@@ -12,6 +12,15 @@ interface IProps {
   parentLoading?: boolean;
 }
 
+interface IZkAppsSearch {
+  __typename?: "ZkApp" | undefined;
+  id: string;
+  name: string;
+  slug: string;
+  subtitle?: string | null | undefined;
+  icon?: string | null | undefined;
+}
+
 export default function ZkAppSearch({
   debouncedSearchTerm,
   openResult,
@@ -21,7 +30,7 @@ export default function ZkAppSearch({
 }: IProps) {
   const [searchCategory] = useSearchZkAppLazyQuery();
 
-  const [fetchedZkApps, setFetchedZkApps] = useState([]);
+  const [fetchedZkApps, setFetchedZkApps] = useState<IZkAppsSearch[]>([]);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -33,7 +42,9 @@ export default function ZkAppSearch({
         })
           .then((data) => {
             if (data?.data?.searchZkAppByName) {
-              setFetchedZkApps(data?.data?.searchZkAppByName);
+              setFetchedZkApps(
+                data?.data?.searchZkAppByName as IZkAppsSearch[]
+              );
             }
           })
           .finally(() => {

@@ -8,9 +8,9 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 export default function Categories() {
   const { data, loading } = useHomepageCategoriesQuery();
 
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const scrollToPosition = (position) => {
+  const scrollToPosition = (position: number) => {
     // Check if the ref is available
     if (scrollContainerRef.current) {
       // Scroll the div to the specified position
@@ -49,7 +49,7 @@ export default function Categories() {
           className="w-full flex gap-4 left-0 p-4 min-h-[240px] items-end"
         >
           {data?.zkAppCategories?.map((category) => (
-            <CategoryCard {...category} key={category.slug} />
+            <CategoryCard {...category} key={category?.slug} />
           ))}
         </ScrollShadow>
         <div className="w-full flex justify-between relative -top-[150px]">

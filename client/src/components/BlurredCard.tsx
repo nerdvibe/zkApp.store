@@ -1,25 +1,25 @@
 import { showModal } from "@/store/newsModal";
 import { Card, CardFooter, CardHeader, Image } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
+import { INews } from "./Home/NewsCards";
 
 export interface IBlurredCardProps {
-  category: string;
+  __typename?: "News" | undefined;
   title: string;
   body: string;
-  textPreview: string;
-  ctaLink?: string;
-  secondaryButtonLabel: string;
   banner: string;
+  textPreview: string;
+  slug: string;
+  ctaLink?: string | null | undefined;
 }
 
 export default function BlurredCard({
-  category,
   body,
   title,
   textPreview,
   ctaLink,
   banner,
-}: IBlurredCardProps) {
+}: INews) {
   const dispatch = useDispatch();
   const openModal = () =>
     dispatch(
@@ -27,7 +27,7 @@ export default function BlurredCard({
         title,
         body,
         banner,
-        ctaLink
+        ctaLink,
       })
     );
   return (
@@ -37,9 +37,6 @@ export default function BlurredCard({
       onClick={openModal}
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
-        <p className="text-tiny text-white-60-f font-bold">
-          {category}
-        </p>
         <h4 className="text-white-f font-medium text-xl">{title}</h4>
       </CardHeader>
       <Image
