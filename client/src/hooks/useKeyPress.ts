@@ -25,7 +25,8 @@ export const useKeyPress = ({
 
   // handle what happens on key press
   const handleKeyPress = useCallback(
-    (event: KeyboardEvent) => {
+    (e: Event) => {
+      const event = e as KeyboardEvent;
       if (ctrl) {
         if (
           (event.altKey === true || event.metaKey === true) &&

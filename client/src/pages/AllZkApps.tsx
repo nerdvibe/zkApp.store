@@ -1,4 +1,4 @@
-import CustomCard from "@/components/Card";
+import CustomCard, { CustomCardProps } from "@/components/Card";
 import { useAllZkAppsQuery } from "@/gql/generated";
 import routes from "@/routes";
 import { Button, Spinner } from "@nextui-org/react";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AllZkApps() {
   const [skip, setSkip] = useState(0);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<CustomCardProps[]>([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const {
@@ -20,9 +20,12 @@ export default function AllZkApps() {
     },
   });
   useEffect(() => {
-    if (zkAppData?.zkApps?.length > 0) {
+    if (zkAppData?.zkApps && zkAppData?.zkApps?.length > 0) {
       setTimeout(() => {
-        setData([...data, ...zkAppData?.zkApps]);
+        setData([
+          ...data,
+          ...(zkAppData?.zkApps as unknown as CustomCardProps[]),
+        ]);
         setLoading(false);
       }, 350);
     }
@@ -48,10 +51,10 @@ export default function AllZkApps() {
         <h1 className="text-4xl text-white font-bold">{"> All zkApps"}</h1>
       </div>
       <div className="flex justify-center items-center flex-wrap gap-4 min-h-[1000px]">
-        {data?.map((zkApp) => (
+        {data?.map((zkApp: CustomCardProps) => (
           <CustomCard
             {...zkApp}
-            key={zkApp.slug}
+            key={zkApp.slug as string}
             onClick={() => navigate(`${routes.PRODUCT}/${zkApp.slug}`)}
           />
         ))}
@@ -60,7 +63,7 @@ export default function AllZkApps() {
         <Button
           color={loading ? "default" : "primary"}
           onClick={fetchData}
-          disabled={zkAppData?.zkApps?.length === 0 || loading}
+          disabled={loading}
         >
           {loading ? (
             <Spinner

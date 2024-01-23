@@ -8,6 +8,7 @@ import {
   useZkAppCategoriesBySlugQuery,
   useZkAppsByCategoryQuery,
 } from "@/gql/generated";
+import { CustomCardProps } from "@/components/Card";
 
 export default function Category() {
   const { id } = useParams();
@@ -18,12 +19,12 @@ export default function Category() {
   const { data: categoryData, loading: categoryDataLoading } =
     useZkAppCategoriesBySlugQuery({
       variables: {
-        slug: id,
+        slug: id as string,
       },
     });
   const { data, loading, called } = useZkAppsByCategoryQuery({
     variables: {
-      categorySlug: id,
+      categorySlug: id as string,
     },
   });
 
@@ -41,7 +42,7 @@ export default function Category() {
       title: "Trending",
       component: (
         <Trending
-          apps={data?.zkAppsByCategory}
+          apps={data?.zkAppsByCategory as unknown as CustomCardProps[]}
           loading={loading || categoryDataLoading}
         />
       ),

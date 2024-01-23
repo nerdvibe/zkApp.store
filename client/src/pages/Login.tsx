@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, Checkbox } from "@nextui-org/react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { EyeFilledIcon } from "../assets/icons/EyeFilled";
 import { EyeSlashFilledIcon } from "../assets/icons/EyeSlashed";
 import DarkInput from "../components/DarkInput";
@@ -57,7 +57,8 @@ export default function Login() {
         return;
       }
     } catch (error) {
-      toast.error(error.message || "Wrong email or password");
+      // @ts-expect-error
+      toast.error((error?.message as string) || "Wrong email or password");
     }
   };
 
@@ -82,7 +83,9 @@ export default function Login() {
             <div className="flex flex-col items-center justify-stretch gap-8">
               <DarkInput
                 value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.currentTarget.value)
+                }
                 type="email"
                 label="Email"
                 variant="bordered"
@@ -90,7 +93,9 @@ export default function Login() {
               <DarkInput
                 label="Password"
                 variant="bordered"
-                onChange={(e) => setPassword(e.currentTarget.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPassword(e.currentTarget.value)
+                }
                 endContent={
                   <button
                     className="focus:outline-none"

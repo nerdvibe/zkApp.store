@@ -77,7 +77,8 @@ export default function Register() {
       }
     } catch (error) {
       toast.error(
-        error.message || "There was an error, please again retry later."
+        // @ts-expect-error
+        error?.message || "There was an error, please again retry later."
       );
     }
   };

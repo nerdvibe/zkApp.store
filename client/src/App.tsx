@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import GlobalLoader from "./components/GlobalLoader";
 import CustomNavbar from "./components/Navbar/Navbar";
@@ -14,13 +14,25 @@ import Footer from "./components/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
+  const [dataFromWindow, setDataFromWindow] = useState("No data received");
   useTokenExpirationChecker(1);
   useEffect(() => {
     dispatch(toggleLoader({ show: true }));
     setTimeout(() => {
       dispatch(toggleLoader({ show: false }));
     }, 1500);
+    setTimeout(() => {
+      alert(
+        `Data received from the main window: ${
+          // @ts-ignore
+          window?.text || "No data received"
+        }`
+      );
+      // @ts-ignore
+      setDataFromWindow(window?.text || "No data received");
+    }, 2000);
   }, []);
+
   return (
     <div
       style={{
@@ -41,6 +53,7 @@ function App() {
             style={{ padding: "16px 24px", color: "#44596e" }}
             className="max-w-[1400px] w-full"
           >
+            <h1 color="white" className="text-5xl text-white font-bold">DATA FROM THE MAIN WINDOW: {dataFromWindow}</h1>
             <div className=" min-h-[90vh]">
               <AppRoutes />
             </div>

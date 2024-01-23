@@ -23,7 +23,6 @@ import { useAppDataQuery } from "@/gql/generated";
 import EditableBanner from "@/components/Product/EditableBanner";
 import EditableAvatar from "@/components/Product/EditableAvatar";
 import EditableCard from "@/components/Card/EditableCard";
-import { toast } from "react-hot-toast";
 import MockedDataBanner from "@/components/MockedDataBanner";
 
 export default function Product() {
@@ -34,7 +33,7 @@ export default function Product() {
 
   const { data, loading, refetch } = useAppDataQuery({
     variables: {
-      slug: id,
+      slug: id!,
     },
   });
 
@@ -69,7 +68,7 @@ export default function Product() {
         />
       ),
     },
-    { key: "reviews", title: "Reviews", component: <Reviews /> },
+    { key: "reviews", title: "Reviews", component: <Reviews reviews={[]} /> },
     {
       key: "stats",
       title: "Stats",
@@ -111,7 +110,7 @@ export default function Product() {
     <div className="w-full flex flex-col gap-4">
       <div className="w-full object-cover flex">
         <EditableBanner
-          bannerImage={data?.zkApp?.bannerImage}
+          bannerImage={data?.zkApp?.bannerImage as string}
           isEditable={editableContent}
           refetch={refetch}
         />

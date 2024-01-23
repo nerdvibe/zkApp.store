@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import CustomCard from "../components/Card";
+import CustomCard, { CustomCardProps } from "../components/Card";
 import EmptyState from "@/components/Favourites/EmptyState";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import { clearFavourites } from "@/store/favourites";
 
 export default function Favourites() {
-  const [zkApps, setZkApps] = useState([]);
+  const [zkApps, setZkApps] = useState<CustomCardProps[]>([]);
   const [fetchZkApps, { called }] = useZkAppsBySlugLazyQuery();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -34,7 +34,8 @@ export default function Favourites() {
           slugs: products,
         },
       });
-      if (data) {
+      if (data?.zkApps && data?.zkApps?.length > 0) {
+        // @ts-expect-error
         setZkApps([...data?.zkApps]);
       }
       setLoading(false);

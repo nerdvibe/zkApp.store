@@ -23,8 +23,13 @@ interface IForm {
   confirmPassword: string;
 }
 
+interface IErrors {
+  password?: string;
+  confirmPassword?: string;
+}
+
 const validateResetAccount = (values: IForm) => {
-  const errors = {};
+  const errors: IErrors = {};
   if (!values.password) {
     errors.password = "Required";
   }
@@ -59,19 +64,21 @@ export default function ResetAccount() {
   }, [data]);
 
   const onSubmit = ({ password }: IForm) => {
-    toast.promise(
-      updatePassword({
-        variables: {
-          resetToken,
-          newPassword: password,
-        },
-      }),
-      {
-        loading: "Updating password...",
-        success: <b>Password updated!</b>,
-        error: <b>Could not reset your password.</b>,
-      }
-    );
+    if (resetToken) {
+      toast.promise(
+        updatePassword({
+          variables: {
+            resetToken,
+            newPassword: password,
+          },
+        }),
+        {
+          loading: "Updating password...",
+          success: <b>Password updated!</b>,
+          error: <b>Could not reset your password.</b>,
+        }
+      );
+    }
   };
 
   return (

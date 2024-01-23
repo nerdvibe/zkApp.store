@@ -29,7 +29,7 @@ export default function LandingHandler() {
     dispatch(
       setUserInfo({
         user: {
-          email: data?.userDetails?.email,
+          email: data?.selfUser?.email,
         },
       })
     );

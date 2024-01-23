@@ -2,7 +2,7 @@ import { Button, Card, CardBody, Spinner } from "@nextui-org/react";
 import AuthenticationImage from "../components/AuthenticationImage";
 import AuthenticationForm from "../components/Registration/AuthenticationForm";
 import DarkInput from "../components/DarkInput";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { EMAIL_REGEX } from "../components/Registration/util";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../api/queries";
@@ -39,7 +39,9 @@ export default function ForgotPassword() {
               variant="bordered"
               className=""
               value={email}
-              onChange={(e) => setEmail(e.currentTarget.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.currentTarget.value)
+              }
             />
             <Button
               color="primary"

@@ -7,10 +7,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import EmptyStateCard from "@/components/EmptyStateCard";
+import { CustomCardProps } from "@/components/Card";
 
 export interface UserApps {
   id: string;
   title: string;
+  slug: string;
   description: string;
   category: string;
   version: string;
@@ -23,7 +25,7 @@ export default function Dashboard() {
 
   const [fetchUserData, { data, loading }] = useUserWithZkAppsLazyQuery({
     variables: {
-      id: currentUser?.id,
+      id: ("" + currentUser?.id) as string,
     },
   });
 
@@ -40,7 +42,9 @@ export default function Dashboard() {
   const tabs = [
     {
       label: "zkApps",
-      component: <UserApps apps={data?.user?.zkApps} />,
+      component: (
+        <UserApps apps={data?.user?.zkApps as unknown as CustomCardProps[]} />
+      ),
     },
     // {
     //   label: "Analytics",
