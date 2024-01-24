@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 
-interface ZkApp {
+export interface ZkApp {
   id: string;
   name: string;
   slug: string;
@@ -10,6 +10,7 @@ interface ZkApp {
   body?: string;
   reviewScore?: number;
   reviewCount?: number;
+  version?: string;
   currentVersion: string;
   url: string;
   discordUrl?: string;

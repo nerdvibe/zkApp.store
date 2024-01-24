@@ -19,7 +19,7 @@ export const searchSlice = createSlice({
     searchApp: (state, { payload }) => {
       state.text = payload.value;
     },
-    toggleModal: (state, { payload }) => {
+    toggleModal: (state) => {
       state.showModal = !state.showModal;
     },
   },

@@ -10,8 +10,10 @@ export interface IUser {
   bio?: string;
   email: string;
   avatar?: string;
-  error?: any;
+  error?: unknown;
   success: boolean;
+  verified?: boolean;
+  profilePicture?: string;
 }
 
 // Define a type for the slice state
