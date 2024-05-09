@@ -41,7 +41,20 @@ export default function AppModal() {
   };
 
   const openApp = () => {
-    window.open(data?.zkApp?.url, "_blank", "noreferrer");
+    window.parent.postMessage({ detail: data?.zkApp?.url }, "*");
+    const event = new CustomEvent("openApp", { detail: data?.zkApp?.url });
+    window.dispatchEvent(event);
+    function inIframe() {
+      try {
+        return window.self !== window.top;
+      } catch (e) {
+        return true;
+      }
+    }
+
+    if (!inIframe()) {
+      window.open(data?.zkApp?.url, "_blank", "noreferrer");
+    }
   };
 
   return (
